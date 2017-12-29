@@ -1,0 +1,5 @@
+The script run_rests.py will attempt to load some sample data using the different readers. This will check that the required dependencies are all available. Parallel File I/O is also tested.
+
+Invoke with:
+
+python2.7 run_tests.py
