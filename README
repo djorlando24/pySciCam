@@ -4,7 +4,7 @@ Class to read images from high speed and scientific cameras in Python
     @copyright (c) 2017 LTRAC
     @license GPL-3.0+
     @version 0.1.0
-    @date 29/12/2017
+    @date 30/12/2017
     
     Laboratory for Turbulence Research in Aerospace & Combustion (LTRAC)
     Monash University, Australia

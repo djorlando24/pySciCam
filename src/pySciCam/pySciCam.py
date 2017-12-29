@@ -12,6 +12,14 @@
     Laboratory for Turbulence Research in Aerospace & Combustion (LTRAC)
     Monash University, Australia
     
+    pySciCam is an attempt to build an easy to use, all in one solutiuon to allow
+    researchers to convert their scientific camera's binary data file or unusual
+    solution to allow researchers to quickly convert their camera's binary files or
+    unusual / native TIFF and bitmap formats into NumPy arrays in a single line of code.
+    It achieves this by using cython (C) modules for fast reading of RAW blobs, and
+    parallelized ImageMagick / Pillow for standardised formats like TIFF. Movie support
+    via ffmpeg library is also included.
+    
     Current support for:
         - 8, 12, 16, 32 & 64-bit RGB or Mono TIFF using PythonMagick (most cameras)
         - 12 & 16 bit packed RAW (Chronos monochrome cameras)
