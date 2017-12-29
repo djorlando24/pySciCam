@@ -8,6 +8,26 @@ Class to read images from high speed and scientific cameras in Python
     
     Laboratory for Turbulence Research in Aerospace & Combustion (LTRAC)
     Monash University, Australia
+
+    Many scientific cameras have 10 or 12 bit sensors. Most camera APIs/software require
+    the user to choose between 8 or 16 bit depth when saving to an easily-readable format
+    such as TIFF. Saving a 10-bit depth pixel value into a 16-bit unsigned int can rapidly
+    blow out the file size, leading to wasted storage space and much slower rates of file
+    transfer off the camera and onto a local drive ( a major laboratory bottleneck! )  
+
+    Most cameras have an ability to save data to raw binary or to unusual, compact file
+    formats such as 12-bit TIFF. This is by far the fastest way of getting lots of data
+    off a camera, as no bits are wasted. I've had trouble finding software that can read 
+    these files, and most graphics packages (even ImageJ!) struggle to correctly read
+    files like 16/32 bit RGB TIFF for example. This Python package solves that problem.
+    
+    pySciCam is an attempt to build an easy to use, all in one solutiuon to allow
+    researchers to convert their scientific camera's binary data file or unusual 
+    solution to allow researchers to quickly convert their camera's binary files or
+    unusual / native TIFF and bitmap formats into NumPy arrays in a single line of code.
+    It achieves this by using cython (C) modules for fast reading of RAW blobs, and
+    parallelized ImageMagick / Pillow for standardised formats like TIFF. Movie support
+    via ffmpeg library is also included.
     
     Current support for:
         - 8, 12, 16, 32 & 64-bit RGB or Mono TIFF using PythonMagick (most cameras)
