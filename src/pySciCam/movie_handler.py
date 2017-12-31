@@ -7,7 +7,7 @@
     @copyright (c) 2017 LTRAC
     @license GPL-3.0+
     @version 0.1.0
-    @date 30/12/2017
+    @date 31/12/2017
     
     Please see help(pySciCam) for more information.
 """
@@ -31,8 +31,7 @@ def load_movie(ImageSequence,filename,frames=None,monochrome=False,dtype=None):
     try:
         import imageio
     except ImportError:
-        print "Cannot open movie: imageio not installed."
-        exit()
+        raise ImportError("Cannot open movie: imageio not installed.")
     try:
         import tqdm
         it_fun = lambda a,b: tqdm.tqdm(range(a,b))
@@ -43,8 +42,8 @@ def load_movie(ImageSequence,filename,frames=None,monochrome=False,dtype=None):
     try:
         vid = imageio.get_reader(filename,'ffmpeg')
     except ImportError:
-        print "Cannot open movie: ffmpeg not installed."
-        exit()
+        raise ImportError("Cannot open movie: ffmpeg not installed.")
+    
 
     # Copy metadata of video into ImageSequence
     for k in vid.get_meta_data().keys():

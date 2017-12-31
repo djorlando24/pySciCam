@@ -7,7 +7,7 @@
     @copyright (c) 2017 LTRAC
     @license GPL-3.0+
     @version 0.1.0
-    @date 30/12/2017
+    @date 31/12/2017
     
     Please see help(pySciCam) for more information.
 """
@@ -21,7 +21,8 @@ __copyright__="Copyright (c) 2017 LTRAC"
 raw_formats=['.raw','.b16','.b16dat']
 
 # Valid values for rawtype kwarg.
-raw_types = ['b16','b16dat','chronos14_12bit_noheader','chronos14_16bit_noheader']
+raw_types = ['b16','b16dat',\
+             'chronos14_gray_12bit_noheader','chronos14_gray_16bit_noheader']
 
 import numpy as np
 
@@ -49,27 +50,27 @@ def load_raw(ImageSequence,all_images,rawtype=None,width=None,height=None,\
     """
     
     if rawtype is None:
-        print "Specify RAW format. Allowed choices:\n\trawtype = %s" % raw_types
-        exit()
+        raise ValueError("Specify RAW format. Allowed choices:\n\trawtype = %s" % raw_types)
+    
     else:
         rawtype = rawtype.lower().strip()
     
     # Chronos camera formats
-    if rawtype == 'chronos14_12bit_noheader':
+    if rawtype == 'chronos14_gray_12bit_noheader':
         print 'Chronos 12-bit RAW'
         import chronos14_raw as ch
         if (width is None) or (height is None):
             raise ValueError("Specify height and width") # no header data
-        ImageSequence.arr = ch.read_chronos_raw(all_images[0],width,height,\
+        ImageSequence.arr = ch.read_chronos_grayscale_raw(all_images[0],width,height,\
                                        frames,bits_per_pixel=12)
         ImageSequence.src_bpp = 12
     
-    elif rawtype == 'chronos14_16bit_noheader':
+    elif rawtype == 'chronos14_gray_16bit_noheader':
         print 'Chronos 16-bit RAW'
         import chronos14_raw as ch
         if (width is None) or (height is None):
             raise ValueError("Specify height and width") # no header data
-        ImageSequence.arr = ch.read_chronos_raw(all_images[0],width,height,
+        ImageSequence.arr = ch.read_chronos_grayscale_raw(all_images[0],width,height,
                                        frames,bits_per_pixel=16)
         ImageSequence.src_bpp = 16
 
@@ -91,7 +92,7 @@ def load_raw(ImageSequence,all_images,rawtype=None,width=None,height=None,\
                     print "Error specifying frame range for b16 sequence."
                     print "There are only %i frames available." % len(all_images)
                     print "Frames are numbered starting from zero regardless of filename!"
-                    exit()
+                    raise IndexError
         
             from joblib import Parallel, delayed
             list_of_images = Parallel(n_jobs=ImageSequence.IO_threads,verbose=ImageSequence.Joblib_Verbosity)(delayed(b16_raw.b16_reader)(filename,b16_doubleExposure,quiet=1) for filename in image_subset)
@@ -105,8 +106,8 @@ def load_raw(ImageSequence,all_images,rawtype=None,width=None,height=None,\
     #
 
     else:
-        print "Unknown RAW format `%s'. Allowed choices:\n\trawtype = %s" % (rawtype,raw_types)
-        exit()
+        raise ValueError("Unknown RAW format `%s'. Allowed choices:\n\trawtype = %s" % (rawtype,raw_types))
+    
     
     ImageSequence.width = ImageSequence.arr.shape[0]
     ImageSequence.height = ImageSequence.arr.shape[1]

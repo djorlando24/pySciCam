@@ -1663,18 +1663,18 @@ static const char __pyx_k_RuntimeError[] = "RuntimeError";
 static const char __pyx_k_bits_per_pixel[] = "bits_per_pixel";
 static const char __pyx_k_bytes_per_pixel[] = "bytes_per_pixel";
 static const char __pyx_k_remainder_bytes[] = "remainder_bytes";
-static const char __pyx_k_read_chronos_raw[] = "read_chronos_raw";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_filename_byte_string[] = "filename_byte_string";
 static const char __pyx_k_Read_1f_MiB_in_1f_sec[] = "Read %.1f MiB in %.1f sec";
 static const char __pyx_k_Reading_frames_i_to_i[] = "Reading frames %i to %i";
 static const char __pyx_k_Copyright_c_2017_LTRAC[] = "Copyright (c) 2017 LTRAC";
 static const char __pyx_k_pySciCam_chronos14_raw[] = "pySciCam.chronos14_raw";
+static const char __pyx_k_read_chronos_grayscale_raw[] = "read_chronos_grayscale_raw";
 static const char __pyx_k_ndarray_is_not_C_contiguous[] = "ndarray is not C contiguous";
 static const char __pyx_k_File_contains_i_frames_i_x_i[] = "File contains %i frames (%i x %i)";
 static const char __pyx_k_src_pySciCam_chronos14_raw_pyx[] = "src/pySciCam/chronos14_raw.pyx";
 static const char __pyx_k_File_has_no_frames_at_specified[] = "File has no frames at specified resolution";
-static const char __pyx_k_Read_monochrome_12_bit_and_16_b[] = "\n    Read monochrome 12-bit and 16-bit RAW files from Chronos 1.4 cameras.\n    Chronos 1.4 software 0.2.3 beta.\n\n    @author Daniel Duke <daniel.duke@monash.edu>\n    @copyright (c) 2017 LTRAC\n    @license GPL-3.0+\n    @version 0.1.0\n    @date 30/12/2017\n\n    Currently, software 0.2.3 beta is supported (little-endian, no header frame).\n\n    Please see help(pySciCam) for more information.\n";
+static const char __pyx_k_Read_monochrome_12_bit_and_16_b[] = "\n    Read monochrome 12-bit and 16-bit RAW files from Chronos 1.4 cameras.\n    Chronos 1.4 software 0.2.3 beta.\n\n    @author Daniel Duke <daniel.duke@monash.edu>\n    @copyright (c) 2017 LTRAC\n    @license GPL-3.0+\n    @version 0.1.0\n    @date 31/12/2017\n\n    Currently, software 0.2.3 beta is supported (little-endian, no header frame).\n\n    Please see help(pySciCam) for more information.\n";
 static const char __pyx_k_numpy_core_multiarray_failed_to[] = "numpy.core.multiarray failed to import";
 static const char __pyx_k_unknown_dtype_code_in_numpy_pxd[] = "unknown dtype code in numpy.pxd (%d)";
 static const char __pyx_k_Daniel_Duke_daniel_duke_monash_e[] = "Daniel Duke <daniel.duke@monash.edu>";
@@ -1747,7 +1747,7 @@ static PyObject *__pyx_n_s_print;
 static PyObject *__pyx_n_s_pySciCam_chronos14_raw;
 static PyObject *__pyx_n_s_quiet;
 static PyObject *__pyx_n_s_range;
-static PyObject *__pyx_n_s_read_chronos_raw;
+static PyObject *__pyx_n_s_read_chronos_grayscale_raw;
 static PyObject *__pyx_n_s_remainder_bytes;
 static PyObject *__pyx_n_s_reshape;
 static PyObject *__pyx_kp_s_src_pySciCam_chronos14_raw_pyx;
@@ -1761,7 +1761,7 @@ static PyObject *__pyx_n_s_version;
 static PyObject *__pyx_n_s_width;
 static PyObject *__pyx_n_s_xrange;
 static PyObject *__pyx_n_s_zeros;
-static PyObject *__pyx_pf_8pySciCam_13chronos14_raw_read_chronos_raw(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_filename, int __pyx_v_width, int __pyx_v_height, PyObject *__pyx_v_frames, int __pyx_v_bits_per_pixel, int __pyx_v_quiet); /* proto */
+static PyObject *__pyx_pf_8pySciCam_13chronos14_raw_read_chronos_grayscale_raw(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_filename, int __pyx_v_width, int __pyx_v_height, PyObject *__pyx_v_frames, int __pyx_v_bits_per_pixel, int __pyx_v_quiet); /* proto */
 static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info); /* proto */
 static PyObject *__pyx_int_0;
@@ -1784,15 +1784,15 @@ static PyObject *__pyx_codeobj__15;
 /* "pySciCam/chronos14_raw.pyx":42
  * @cython.wraparound(False)
  * @cython.nonecheck(False)
- * def read_chronos_raw(filename, int width, int height, tuple frames=None, int bits_per_pixel=12, int quiet = 0):             # <<<<<<<<<<<<<<
+ * def read_chronos_grayscale_raw(filename, int width, int height, tuple frames=None, int bits_per_pixel=12, int quiet = 0):             # <<<<<<<<<<<<<<
  * 
  *     cdef long t0 = time.time()
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8pySciCam_13chronos14_raw_1read_chronos_raw(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_8pySciCam_13chronos14_raw_1read_chronos_raw = {"read_chronos_raw", (PyCFunction)__pyx_pw_8pySciCam_13chronos14_raw_1read_chronos_raw, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_8pySciCam_13chronos14_raw_1read_chronos_raw(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_8pySciCam_13chronos14_raw_1read_chronos_grayscale_raw(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_8pySciCam_13chronos14_raw_1read_chronos_grayscale_raw = {"read_chronos_grayscale_raw", (PyCFunction)__pyx_pw_8pySciCam_13chronos14_raw_1read_chronos_grayscale_raw, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_8pySciCam_13chronos14_raw_1read_chronos_grayscale_raw(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_filename = 0;
   int __pyx_v_width;
   int __pyx_v_height;
@@ -1801,7 +1801,7 @@ static PyObject *__pyx_pw_8pySciCam_13chronos14_raw_1read_chronos_raw(PyObject *
   int __pyx_v_quiet;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("read_chronos_raw (wrapper)", 0);
+  __Pyx_RefNannySetupContext("read_chronos_grayscale_raw (wrapper)", 0);
   {
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_filename,&__pyx_n_s_width,&__pyx_n_s_height,&__pyx_n_s_frames,&__pyx_n_s_bits_per_pixel,&__pyx_n_s_quiet,0};
     PyObject* values[6] = {0,0,0,0,0,0};
@@ -1834,13 +1834,13 @@ static PyObject *__pyx_pw_8pySciCam_13chronos14_raw_1read_chronos_raw(PyObject *
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_width)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("read_chronos_raw", 0, 3, 6, 1); __PYX_ERR(0, 42, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("read_chronos_grayscale_raw", 0, 3, 6, 1); __PYX_ERR(0, 42, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_height)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("read_chronos_raw", 0, 3, 6, 2); __PYX_ERR(0, 42, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("read_chronos_grayscale_raw", 0, 3, 6, 2); __PYX_ERR(0, 42, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
@@ -1862,7 +1862,7 @@ static PyObject *__pyx_pw_8pySciCam_13chronos14_raw_1read_chronos_raw(PyObject *
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "read_chronos_raw") < 0)) __PYX_ERR(0, 42, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "read_chronos_grayscale_raw") < 0)) __PYX_ERR(0, 42, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -1896,14 +1896,14 @@ static PyObject *__pyx_pw_8pySciCam_13chronos14_raw_1read_chronos_raw(PyObject *
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("read_chronos_raw", 0, 3, 6, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 42, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("read_chronos_grayscale_raw", 0, 3, 6, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 42, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pySciCam.chronos14_raw.read_chronos_raw", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pySciCam.chronos14_raw.read_chronos_grayscale_raw", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_frames), (&PyTuple_Type), 1, "frames", 1))) __PYX_ERR(0, 42, __pyx_L1_error)
-  __pyx_r = __pyx_pf_8pySciCam_13chronos14_raw_read_chronos_raw(__pyx_self, __pyx_v_filename, __pyx_v_width, __pyx_v_height, __pyx_v_frames, __pyx_v_bits_per_pixel, __pyx_v_quiet);
+  __pyx_r = __pyx_pf_8pySciCam_13chronos14_raw_read_chronos_grayscale_raw(__pyx_self, __pyx_v_filename, __pyx_v_width, __pyx_v_height, __pyx_v_frames, __pyx_v_bits_per_pixel, __pyx_v_quiet);
 
   /* function exit code */
   goto __pyx_L0;
@@ -1914,7 +1914,7 @@ static PyObject *__pyx_pw_8pySciCam_13chronos14_raw_1read_chronos_raw(PyObject *
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pySciCam_13chronos14_raw_read_chronos_raw(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_filename, int __pyx_v_width, int __pyx_v_height, PyObject *__pyx_v_frames, int __pyx_v_bits_per_pixel, int __pyx_v_quiet) {
+static PyObject *__pyx_pf_8pySciCam_13chronos14_raw_read_chronos_grayscale_raw(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_filename, int __pyx_v_width, int __pyx_v_height, PyObject *__pyx_v_frames, int __pyx_v_bits_per_pixel, int __pyx_v_quiet) {
   long __pyx_v_t0;
   double __pyx_v_bytes_per_pixel;
   long __pyx_v_nbytes;
@@ -1952,14 +1952,14 @@ static PyObject *__pyx_pf_8pySciCam_13chronos14_raw_read_chronos_raw(CYTHON_UNUS
   int __pyx_t_16;
   Py_ssize_t __pyx_t_17;
   Py_ssize_t __pyx_t_18;
-  __Pyx_RefNannySetupContext("read_chronos_raw", 0);
+  __Pyx_RefNannySetupContext("read_chronos_grayscale_raw", 0);
   __pyx_pybuffer_images.pybuffer.buf = NULL;
   __pyx_pybuffer_images.refcount = 0;
   __pyx_pybuffernd_images.data = NULL;
   __pyx_pybuffernd_images.rcbuffer = &__pyx_pybuffer_images;
 
   /* "pySciCam/chronos14_raw.pyx":44
- * def read_chronos_raw(filename, int width, int height, tuple frames=None, int bits_per_pixel=12, int quiet = 0):
+ * def read_chronos_grayscale_raw(filename, int width, int height, tuple frames=None, int bits_per_pixel=12, int quiet = 0):
  * 
  *     cdef long t0 = time.time()             # <<<<<<<<<<<<<<
  *     cdef double bytes_per_pixel = bits_per_pixel/8.0
@@ -2932,7 +2932,7 @@ static PyObject *__pyx_pf_8pySciCam_13chronos14_raw_read_chronos_raw(CYTHON_UNUS
   /* "pySciCam/chronos14_raw.pyx":42
  * @cython.wraparound(False)
  * @cython.nonecheck(False)
- * def read_chronos_raw(filename, int width, int height, tuple frames=None, int bits_per_pixel=12, int quiet = 0):             # <<<<<<<<<<<<<<
+ * def read_chronos_grayscale_raw(filename, int width, int height, tuple frames=None, int bits_per_pixel=12, int quiet = 0):             # <<<<<<<<<<<<<<
  * 
  *     cdef long t0 = time.time()
  */
@@ -2951,7 +2951,7 @@ static PyObject *__pyx_pf_8pySciCam_13chronos14_raw_read_chronos_raw(CYTHON_UNUS
     __Pyx_ErrFetch(&__pyx_type, &__pyx_value, &__pyx_tb);
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_images.rcbuffer->pybuffer);
   __Pyx_ErrRestore(__pyx_type, __pyx_value, __pyx_tb);}
-  __Pyx_AddTraceback("pySciCam.chronos14_raw.read_chronos_raw", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pySciCam.chronos14_raw.read_chronos_grayscale_raw", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   goto __pyx_L2;
   __pyx_L0:;
@@ -5643,7 +5643,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_pySciCam_chronos14_raw, __pyx_k_pySciCam_chronos14_raw, sizeof(__pyx_k_pySciCam_chronos14_raw), 0, 0, 1, 1},
   {&__pyx_n_s_quiet, __pyx_k_quiet, sizeof(__pyx_k_quiet), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
-  {&__pyx_n_s_read_chronos_raw, __pyx_k_read_chronos_raw, sizeof(__pyx_k_read_chronos_raw), 0, 0, 1, 1},
+  {&__pyx_n_s_read_chronos_grayscale_raw, __pyx_k_read_chronos_grayscale_raw, sizeof(__pyx_k_read_chronos_grayscale_raw), 0, 0, 1, 1},
   {&__pyx_n_s_remainder_bytes, __pyx_k_remainder_bytes, sizeof(__pyx_k_remainder_bytes), 0, 0, 1, 1},
   {&__pyx_n_s_reshape, __pyx_k_reshape, sizeof(__pyx_k_reshape), 0, 0, 1, 1},
   {&__pyx_kp_s_src_pySciCam_chronos14_raw_pyx, __pyx_k_src_pySciCam_chronos14_raw_pyx, sizeof(__pyx_k_src_pySciCam_chronos14_raw_pyx), 0, 0, 1, 0},
@@ -5823,14 +5823,14 @@ static int __Pyx_InitCachedConstants(void) {
   /* "pySciCam/chronos14_raw.pyx":42
  * @cython.wraparound(False)
  * @cython.nonecheck(False)
- * def read_chronos_raw(filename, int width, int height, tuple frames=None, int bits_per_pixel=12, int quiet = 0):             # <<<<<<<<<<<<<<
+ * def read_chronos_grayscale_raw(filename, int width, int height, tuple frames=None, int bits_per_pixel=12, int quiet = 0):             # <<<<<<<<<<<<<<
  * 
  *     cdef long t0 = time.time()
  */
   __pyx_tuple__14 = PyTuple_Pack(21, __pyx_n_s_filename, __pyx_n_s_width, __pyx_n_s_height, __pyx_n_s_frames, __pyx_n_s_bits_per_pixel, __pyx_n_s_quiet, __pyx_n_s_t0, __pyx_n_s_bytes_per_pixel, __pyx_n_s_nbytes, __pyx_n_s_nframes, __pyx_n_s_remainder_bytes, __pyx_n_s_start, __pyx_n_s_end, __pyx_n_s_images, __pyx_n_s_i, __pyx_n_s_npixels, __pyx_n_s_filename_byte_string, __pyx_n_s_fname, __pyx_n_s_buffer, __pyx_n_s_mb, __pyx_n_s_cfile); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__14);
   __Pyx_GIVEREF(__pyx_tuple__14);
-  __pyx_codeobj__15 = (PyObject*)__Pyx_PyCode_New(6, 0, 21, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__14, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pySciCam_chronos14_raw_pyx, __pyx_n_s_read_chronos_raw, 42, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__15)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __pyx_codeobj__15 = (PyObject*)__Pyx_PyCode_New(6, 0, 21, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__14, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pySciCam_chronos14_raw_pyx, __pyx_n_s_read_chronos_grayscale_raw, 42, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__15)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -6094,13 +6094,13 @@ static int __pyx_pymod_exec_chronos14_raw(PyObject *__pyx_pyinit_module)
   /* "pySciCam/chronos14_raw.pyx":42
  * @cython.wraparound(False)
  * @cython.nonecheck(False)
- * def read_chronos_raw(filename, int width, int height, tuple frames=None, int bits_per_pixel=12, int quiet = 0):             # <<<<<<<<<<<<<<
+ * def read_chronos_grayscale_raw(filename, int width, int height, tuple frames=None, int bits_per_pixel=12, int quiet = 0):             # <<<<<<<<<<<<<<
  * 
  *     cdef long t0 = time.time()
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_8pySciCam_13chronos14_raw_1read_chronos_raw, NULL, __pyx_n_s_pySciCam_chronos14_raw); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_8pySciCam_13chronos14_raw_1read_chronos_grayscale_raw, NULL, __pyx_n_s_pySciCam_chronos14_raw); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_read_chronos_raw, __pyx_t_2) < 0) __PYX_ERR(0, 42, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_read_chronos_grayscale_raw, __pyx_t_2) < 0) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "pySciCam/chronos14_raw.pyx":1

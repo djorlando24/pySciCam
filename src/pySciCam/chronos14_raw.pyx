@@ -7,7 +7,7 @@
     @copyright (c) 2017 LTRAC
     @license GPL-3.0+
     @version 0.1.0
-    @date 30/12/2017
+    @date 31/12/2017
 
     Currently, software 0.2.3 beta is supported (little-endian, no header frame).
 
@@ -39,7 +39,7 @@ ctypedef np.uint16_t DTYPE_t
 #@cython.boundscheck(False)
 @cython.wraparound(False)
 @cython.nonecheck(False)
-def read_chronos_raw(filename, int width, int height, tuple frames=None, int bits_per_pixel=12, int quiet = 0):
+def read_chronos_grayscale_raw(filename, int width, int height, tuple frames=None, int bits_per_pixel=12, int quiet = 0):
 
     cdef long t0 = time.time()
     cdef double bytes_per_pixel = bits_per_pixel/8.0

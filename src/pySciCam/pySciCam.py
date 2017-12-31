@@ -7,7 +7,7 @@
     @copyright (c) 2017 LTRAC
     @license GPL-3.0+
     @version 0.1.0
-    @date 30/12/2017
+    @date 31/12/2017
     
     Laboratory for Turbulence Research in Aerospace & Combustion (LTRAC)
     Monash University, Australia
@@ -86,7 +86,6 @@
             images. Default is 8. Set to 1 to disable parallel I/O.
     
     Future support planned for:
-    - B16dat files (add subroutine to cython library)
     - Header scanline in Chronos RAW, when firmware supports it.
     - Shimadzu HPV custom format
     - Other Photron raw exporter formats

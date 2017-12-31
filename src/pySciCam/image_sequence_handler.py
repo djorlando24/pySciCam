@@ -7,7 +7,7 @@
     @copyright (c) 2017 LTRAC
     @license GPL-3.0+
     @version 0.1.0
-    @date 30/12/2017
+    @date 31/12/2017
     
     Please see help(pySciCam) for more information.
 """
@@ -138,8 +138,8 @@ def load_image_sequence(ImageSequence,all_images,frames=None,monochrome=False,\
             from PIL import Image
             imageHandler=__pil_load_wrapper__
         except ImportError:
-            print "Pillow library is not installed. Try `pip install pillow'"
-            exit()
+            raise ImportError("Pillow library is not installed. Try `pip install pillow'")
+
 
     # Reduce range of frames?
     if frames is not None:
@@ -154,8 +154,6 @@ def load_image_sequence(ImageSequence,all_images,frames=None,monochrome=False,\
             ImageSequence.mode = I0.mode
             print I0
             I0_dtype = np.array(I0).dtype
-            print I0_dtype
-            exit()
             if dtype is None: ImageSequence.dtype = I0_dtype
             else: ImageSequence.dtype=dtype
             print "\tPIL thinks the bit depth is %s" % I0_dtype
@@ -203,8 +201,7 @@ def load_image_sequence(ImageSequence,all_images,frames=None,monochrome=False,\
             raise IOError("File %s could not be opened." % all_images[0])
         except ValueError:
             # bad bit depth / not supported
-            print "Bit depth %i for source image not currently supported!" % bits
-            exit()
+            raise ValueError("Bit depth %i for source image not currently supported!" % bits)
 
 
     if not monochrome and not 'RGB' in ImageSequence.mode:
