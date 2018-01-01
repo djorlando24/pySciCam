@@ -61,13 +61,6 @@
         frames:
             2-tuple of form (start,end) to trim a range of frames.
         
-        width, height:
-            provide prespecified image dimensions for RAW formats
-            that don't specify it
-                       
-        rawtype:
-            string describing the format of a RAW (binary) file
-        
         dtype:
             force the destination array to a certain data type, for
             example numpy.uint8 or numpy.uint16.
@@ -84,6 +77,21 @@
         IO_threads:
             Number of I/O threads for parallel reading of sets of still
             images. Default is 8. Set to 1 to disable parallel I/O.
+            
+    ADDITIONAL ARGS FOR RAW TYPES:
+    
+        width, height:
+            provide prespecified image dimensions for RAW formats
+            that don't specify it
+            
+        rawtype:
+            string describing the format of a RAW (binary) file
+            
+        b16_doubleExposure:
+            boolean. If PCO B16 image, is it a double exposure?
+            
+        start_offset:
+            integer. Bytes offset for RAW blob with unspecified header size.
     
     Future support planned for:
     - Header scanline in Chronos RAW, when firmware supports it.
@@ -148,9 +156,10 @@ class ImageSequence:
 
     # Read a directory/path or single file, and call appropriate handler for loading images.
     # As a first pass this is done from the file extension(s).
-    # Some handlers require some data that isn't autodetected (dtype, width, height).
+    # Some handlers require some data that isn't autodetected (dtype, width, height, etc).
     def open(self,path,frames=None,monochrome=True,dtype=None,\
-                       width=None,height=None,rawtype=None):
+                       width=None,height=None,rawtype=None,b16_doubleExposure=True,\
+                       start_offset=0):
         
         # Wildcard search
         print "Reading %s" % path
@@ -192,12 +201,13 @@ class ImageSequence:
             #  we can infer it from the extension.
             if self.ext == '.b16': rawtype='b16'
             elif self.ext == '.b16dat': rawtype='b16dat'
-            raw_handler.load_raw(self,all_images,rawtype,width,height,frames,dtype)
+            raw_handler.load_raw(self,all_images,rawtype,width,height,frames,dtype,\
+                                 b16_doubleExposure,start_offset)
 
         else:
             # Sequences of images (ie TIFFs, BMPs)
             image_sequence_handler.load_image_sequence(self,all_images,frames,\
-                                                       monochrome,dtype)
+                            monochrome,dtype)
 
         print "\tData in memory:\t",self.shape()
         print "\tIntensity range:\t",self.arr.min(),"to",self.arr.max(),'\t',self.dtype

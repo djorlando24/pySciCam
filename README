@@ -4,7 +4,7 @@ Class to read images from high speed and scientific cameras in Python
     @copyright (c) 2017 LTRAC
     @license GPL-3.0+
     @version 0.1.0
-    @date 31/12/2017
+    @date 1/1/2018
     
     Laboratory for Turbulence Research in Aerospace & Combustion (LTRAC)
     Monash University, Australia
@@ -70,13 +70,6 @@ Class to read images from high speed and scientific cameras in Python
         frames:
             2-tuple of form (start,end) to trim a range of frames.
         
-        width, height:
-            provide prespecified image dimensions for RAW formats
-            that don't specify it
-                       
-        rawtype:
-            string describing the format of a RAW (binary) file
-        
         dtype:
             force the destination array to a certain data type, for
             example numpy.uint8 or numpy.uint16.
@@ -89,20 +82,33 @@ Class to read images from high speed and scientific cameras in Python
             boolean. If the image set is from a colour camera,
             this will sum all the colour channels together during
             the reading process to reduce the size of the array.
+            
+        IO_threads:
+            Number of I/O threads for parallel reading of sets of still
+            images. Default is 8. Set to 1 to disable parallel I/O.
+            
+    ADDITIONAL ARGS FOR RAW TYPES:
+    
+        width, height:
+            provide prespecified image dimensions for RAW formats
+            that don't specify it
+            
+        rawtype:
+            string describing the format of a RAW (binary) file
+            
+        b16_doubleExposure:
+            boolean. If PCO B16 image, is it a double exposure?
+            
+        start_offset:
+            integer. Bytes offset for RAW blob with unspecified header size.
     
     Future support planned for:
-    - B16dat files (add subroutine to cython library)
     - Header scanline in Chronos RAW, when firmware supports it.
     - Shimadzu HPV custom format
     - Other Photron raw exporter formats
     - Other PCO DIMAX raw exporter formats
     - Motion Pro / Redlake raw formats
     contact me if you have any specific suggestions. Please provide a sample file!
-    
-    TO DO:
-    - Make documentation for class.
-    - Proper header documentation and README, LICENSE etc.
-    - Get distutils working to build as an installable package.
 
     INSTALLATION:
     - Ensure you have a working Python setup. Code has been tested on Python 2.7, not Python 3 yet.

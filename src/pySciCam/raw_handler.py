@@ -7,7 +7,7 @@
     @copyright (c) 2017 LTRAC
     @license GPL-3.0+
     @version 0.1.0
-    @date 31/12/2017
+    @date 1/1/2018
     
     Please see help(pySciCam) for more information.
 """
@@ -27,7 +27,7 @@ raw_types = ['b16','b16dat',\
 import numpy as np
 
 def load_raw(ImageSequence,all_images,rawtype=None,width=None,height=None,\
-             frames=None,dtype=None,b16_doubleExposure=True):
+             frames=None,dtype=None,b16_doubleExposure=True,start_offset=0):
     """
     Read RAW files.
     Args:
@@ -47,6 +47,10 @@ def load_raw(ImageSequence,all_images,rawtype=None,width=None,height=None,\
         
         b16_doubleExposure: For PCO B16 images, are they double exposed (ie PIV)?
                 Ignored for non-B16 formats
+                
+        start_offset: starting byte offset for RAW blobs (in case of unexpected header
+                data or write error.) Ignored for B16, which has a header length internal
+                variable.
     """
     
     if rawtype is None:
@@ -62,7 +66,7 @@ def load_raw(ImageSequence,all_images,rawtype=None,width=None,height=None,\
         if (width is None) or (height is None):
             raise ValueError("Specify height and width") # no header data
         ImageSequence.arr = ch.read_chronos_grayscale_raw(all_images[0],width,height,\
-                                       frames,bits_per_pixel=12)
+                                       frames,bits_per_pixel=12,start_offset=start_offset)
         ImageSequence.src_bpp = 12
     
     elif rawtype == 'chronos14_gray_16bit_noheader':
@@ -71,7 +75,7 @@ def load_raw(ImageSequence,all_images,rawtype=None,width=None,height=None,\
         if (width is None) or (height is None):
             raise ValueError("Specify height and width") # no header data
         ImageSequence.arr = ch.read_chronos_grayscale_raw(all_images[0],width,height,
-                                       frames,bits_per_pixel=16)
+                                       frames,bits_per_pixel=16,start_offset=start_offset)
         ImageSequence.src_bpp = 16
 
     # PCO B16 formats

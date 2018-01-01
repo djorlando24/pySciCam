@@ -7,7 +7,7 @@
     @copyright (c) 2017 LTRAC
     @license GPL-3.0+
     @version 0.1.0
-    @date 31/12/2017
+    @date 1/1/2018
 
     Currently, software 0.2.3 beta is supported (little-endian, no header frame).
 
@@ -26,7 +26,7 @@ import time
 cimport cython
 cimport numpy as np
 from libc.math cimport floor, ceil
-from libc.stdio cimport FILE, fopen, fclose, fread, fseek, SEEK_END, SEEK_SET
+from libc.stdio cimport FILE, fopen, fclose, fread, fseek, SEEK_END, SEEK_SET, SEEK_CUR
 from libc.stdlib cimport malloc, free
 cdef FILE * cfile
 
@@ -39,7 +39,7 @@ ctypedef np.uint16_t DTYPE_t
 #@cython.boundscheck(False)
 @cython.wraparound(False)
 @cython.nonecheck(False)
-def read_chronos_grayscale_raw(filename, int width, int height, tuple frames=None, int bits_per_pixel=12, int quiet = 0):
+def read_chronos_grayscale_raw(filename, int width, int height, tuple frames=None, int bits_per_pixel=12, int start_offset = 0, int quiet = 0):
 
     cdef long t0 = time.time()
     cdef double bytes_per_pixel = bits_per_pixel/8.0
@@ -57,22 +57,30 @@ def read_chronos_grayscale_raw(filename, int width, int height, tuple frames=Non
 
     if nframes < 1 : raise IOError("File has no frames at specified resolution")
 
+    # check start_offset
+    if start_offset < 0:
+        raise ValueError("start_offset cannot be negative")
+    elif start_offset > nbytes:
+        raise ValueError("start_offset is beyond end of file")
+    if (quiet == 0) and (start_offset > 0):
+        print 'Offset by %i bytes' % start_offset
+
     if quiet == 0: print "File contains %i frames (%i x %i)" % (nframes,width,height)
     cdef int remainder_bytes = np.mod(nbytes,bytes_per_pixel*width*height)
     if remainder_bytes > 0:
         print "Incomplete file truncated - %i bytes at end of file ignored" % remainder_bytes
 
     # Limit number of frames loaded from file (good for testing)
-    cdef int start = 0 # bytes
+    cdef int start = start_offset # bytes
     cdef int end = nbytes
     if frames is not None:
         if frames[1] > 0:
-            start = int(height*width*bytes_per_pixel*frames[0])
-            end = int(height*width*bytes_per_pixel*frames[1])
+            start = start_offset + int(height*width*bytes_per_pixel*frames[0])
+            end = start_offset + int(height*width*bytes_per_pixel*frames[1])
         if start > nbytes:
             raise ValueError("frame range: Cannot start reading beyond end of file!")
         if end > nbytes:
-            print "Warning: requested number of frames too large, truncating"
+            print "Warning: requested read past EOF, truncating"
             end = nbytes
         if quiet == 0: print "Reading frames %i to %i" % frames
         nframes = frames[1]-frames[0]
@@ -94,8 +102,25 @@ def read_chronos_grayscale_raw(filename, int width, int height, tuple frames=Non
             for i in xrange(0,len(images),2):
                 fread (&buffer, 1, 3, cfile)
                 mb = <int>buffer
+
+                # Read two pixels from three bytes
                 images[i]   = <DTYPE_t>(((mb & 0xFF) << 4) | ((mb & 0xF000) >> 12)  )
                 images[i+1] = <DTYPE_t>(((mb & 0xFF0000) >> 16) | (mb & 0xF00) )
+
+                # Alternate encoding schemes
+                #images[i]   = <DTYPE_t>(mb & 0xFFF)
+                #images[i+1] = <DTYPE_t>(((mb&0xF00000)>>20)|((mb&0x0F0000)>>12)|((mb&0x00F000)>>4))
+
+                #images[i] = <DTYPE_t>(((mb&0xF) << 8)|((mb&0xF0))|((mb&0xF00) >> 8))
+                #images[i+1]   = <DTYPE_t>((mb & 0xFFF000)>>12)
+
+                # Debugging - show buffer
+                #print '%i %06x %03x %03x' % (i, mb & 0xFFFFFF, images[i], images[i+1])
+                #if i >= 1033000:
+                #    fclose(cfile)
+                #    exit()
+                # End debugging block
+
         elif bits_per_pixel==16: # loop every 2 bytes, write 1 pixel
             for i in xrange(0,len(images)):
                 fread (&buffer, 1, 2, cfile)
