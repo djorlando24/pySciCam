@@ -6,8 +6,8 @@
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2017 LTRAC
     @license GPL-3.0+
-    @version 0.1.0
-    @date 31/12/2017
+    @version 0.1.2
+    @date 07/04/2018
     
     Laboratory for Turbulence Research in Aerospace & Combustion (LTRAC)
     Monash University, Australia
@@ -96,7 +96,7 @@
     Future support planned for:
     - Header scanline in Chronos RAW, when firmware supports it.
     - Shimadzu HPV custom format
-    - Other Photron raw exporter formats
+    - Photron raw exporter formats
     - Other PCO DIMAX raw exporter formats
     - Motion Pro / Redlake raw formats
     contact me if you have any specific suggestions. Please provide a sample file!
@@ -109,9 +109,9 @@
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.1.0"
+__version__="0.1.2"
 __license__="GPL-3.0+"
-__copyright__="Copyright (c) 2017 LTRAC"
+__copyright__="Copyright (c) 2018 LTRAC"
 
 import os, glob, sys, time
 from natsort import natsorted
@@ -246,3 +246,25 @@ class ImageSequence:
             return self.arr.shape
         else:
             return None
+
+    # Perform Bayer decoding on colour data loaded from RAW format
+    def bayerDecode(self):
+        print 'Bayer decoding...'
+        s=self.shape()
+        
+        # naive reshaping
+        #self.arr = self.arr.reshape(s[0]/3,3,s[1],s[2])
+        
+        newarr = np.zeros((s[0],3,s[1],s[2]),dtype=self.arr.dtype)
+        for i in range(s[0]):
+            for j in range(0,s[1],2):
+                for k in range(0,s[2],2):
+                    
+                    # RG
+                    # GB bayer blocks
+                    newarr[i,0,j:j+2,k:k+2] = self.arr[i,j,k] # red values
+                    newarr[i,1,j:j+2,k:k+2] = self.arr[i,j+1,k] + self.arr[i,j,k+1] # green values
+                    newarr[i,2,j:j+2,k:k+2] = self.arr[i,j+1,k+1] # blue values
+    
+        self.arr= newarr
+        return

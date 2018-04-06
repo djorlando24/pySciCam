@@ -6,23 +6,25 @@
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2017 LTRAC
     @license GPL-3.0+
-    @version 0.1.0
-    @date 1/1/2018
+    @version 0.1.1
+    @date 07/04/2018
     
     Please see help(pySciCam) for more information.
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.1.0"
+__version__="0.1.1"
 __license__="GPL-3.0+"
-__copyright__="Copyright (c) 2017 LTRAC"
+__copyright__="Copyright (c) 2018 LTRAC"
 
 # Known RAW file extensions supported
 raw_formats=['.raw','.b16','.b16dat']
 
 # Valid values for rawtype kwarg.
 raw_types = ['b16','b16dat',\
-             'chronos14_gray_12bit_noheader','chronos14_gray_16bit_noheader']
+             'chronos14_mono_12bit_noheader','chronos14_mono_16bit_noheader',\
+             'chronos14_color_12bit_noheader','chronos14_color_16bit_noheader',\
+             'photron_color_12bit_mraw_bayer','photron_color_12bit_mraw']
 
 import numpy as np
 
@@ -60,23 +62,38 @@ def load_raw(ImageSequence,all_images,rawtype=None,width=None,height=None,\
         rawtype = rawtype.lower().strip()
     
     # Chronos camera formats
-    if rawtype == 'chronos14_gray_12bit_noheader':
-        print 'Chronos 12-bit RAW'
-        import chronos14_raw as ch
+    if rawtype == 'chronos14_mono_12bit_noheader' or rawtype == 'chronos14_color_12bit_noheader':
+        print 'Chronos mono 12-bit RAW'
+        import chronos14_mono_raw as ch
         if (width is None) or (height is None):
             raise ValueError("Specify height and width") # no header data
-        ImageSequence.arr = ch.read_chronos_grayscale_raw(all_images[0],width,height,\
+        ImageSequence.arr = ch.read_chronos_mono_raw(all_images[0],width,height,\
                                        frames,bits_per_pixel=12,start_offset=start_offset)
         ImageSequence.src_bpp = 12
+
+        if 'color' in rawtype.lower(): ImageSequence.bayerDecode()
     
-    elif rawtype == 'chronos14_gray_16bit_noheader':
-        print 'Chronos 16-bit RAW'
-        import chronos14_raw as ch
+    elif rawtype == 'chronos14_mono_16bit_noheader' or rawtype == 'chronos14_color_16bit_noheader':
+        print 'Chronos mono 16-bit RAW'
+        import chronos14_mono_raw as ch
         if (width is None) or (height is None):
             raise ValueError("Specify height and width") # no header data
-        ImageSequence.arr = ch.read_chronos_grayscale_raw(all_images[0],width,height,
+        ImageSequence.arr = ch.read_chronos_mono_raw(all_images[0],width,height,
                                        frames,bits_per_pixel=16,start_offset=start_offset)
         ImageSequence.src_bpp = 16
+
+        if 'color' in rawtype.lower(): ImageSequence.bayerDecode()
+
+    # Photron camera formats
+    elif rawtype == 'photron_color_12bit_mraw_bayer':
+        print 'PFV 12-bit MRAW (Bayer Save On)'
+        ImageSequence.src_bpp = 12
+        raise ValueError(rawtype)
+
+    elif rawtype == 'photron_color_12bit_mraw':
+        print 'PFV 12-bit MRAW (Bayer Save Off)'
+        ImageSequence.src_bpp = 12
+        raise ValueError(rawtype)
 
     # PCO B16 formats
     elif rawtype == 'b16' or rawtype == 'b16dat':

@@ -27,8 +27,8 @@ long_description = """Scientific and High speed camera file importer for Python.
 
 cython_modules = [
     Extension(
-        "pySciCam.chronos14_raw",
-        ["src/pySciCam/chronos14_raw.pyx"],
+        "pySciCam.chronos14_mono_raw",
+        ["src/pySciCam/chronos14_mono_raw.pyx"],
     ),
     Extension(
         "pySciCam.b16_raw",

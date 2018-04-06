@@ -3,10 +3,10 @@
     Read monochrome 16-bit raw data from PCO scientific cameras into NumPy arrays.
 
     @author Daniel Duke <daniel.duke@monash.edu>
-    @copyright (c) 2017 LTRAC
+    @copyright (c) 2018 LTRAC
     @license GPL-3.0+
-    @version 0.1.0
-    @date 30/12/2017
+    @version 0.1.2
+    @date 07/04/2018
 
     support single & double exposed B16 (single image pair) and B16dat (multiple pairs).
 
@@ -16,7 +16,7 @@
 from __future__ import division
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.1.0"
+__version__="0.1.2"
 __license__="GPL-3.0+"
 __copyright__="Copyright (c) 2017 LTRAC"
 

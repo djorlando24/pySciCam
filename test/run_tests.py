@@ -8,8 +8,8 @@
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2017 LTRAC
     @license GPL-3.0+
-    @version 0.1.0
-    @date 30/12/2017
+    @version 0.1.2
+    @date 06/04/2018
     
     Laboratory for Turbulence Research in Aerospace & Combustion (LTRAC)
     Monash University, Australia
@@ -30,16 +30,18 @@ import matplotlib.pyplot as plt
 def raw_tests():
     """ Try each RAW format handler and attempt to load a frame
     """
-
-    fig=plt.figure()
-    plt.subplots_adjust(wspace=0.2,hspace=0.5)
+    #types = pySciCam.raw_handler.raw_types
+    types = [ t for t in pySciCam.raw_handler.raw_types if 'chronos' in t ]
+    
+    fig=plt.figure(figsize=(15,8))
+    plt.subplots_adjust(wspace=0.1,hspace=0.2)
     plt.suptitle("RAW format tests")
     i=1
     passed=0
-    nh, nv = plot_arrangement(len(pySciCam.raw_handler.raw_types))
+    nh, nv = plot_arrangement(len(types))
     
-    for rawtype in pySciCam.raw_handler.raw_types:
-    
+    for rawtype in types:
+        
         print "\n*** %s RAW FORMAT ***" % rawtype
         if rawtype is 'b16': filename='sample.b16'
         elif rawtype is 'b16dat': filename='sample.b16dat'
@@ -50,31 +52,44 @@ def raw_tests():
             plt.title(filename)
             
             # Attempt to load test data. The height and width parameters are
-            # ignored when not required, they apply to the chronos_raw formats.
+            # ignored when not required, they apply to the chronos_raw formats only.
             data = pySciCam.ImageSequence(filename,rawtype=rawtype,\
-                                          height=1024,width=1280)
+                                          height=1024,width=1280,frames=(0,3))
             
             # B16 images have huge dynamic range. Clip the range so we can
             # clearly see if something has been loaded.
             if 'b16' in rawtype:
                 data.arr[data.arr>3e3]=3e3
                 data.arr[data.arr<1e3]=1e3
-            
-            if len(data.shape()) == 2: oneFrame = data.arr
-            elif len(data.shape()) == 3: oneFrame = data.arr[0,:,:]
-            elif len(data.shape()) == 4: oneFrame = data.arr[0,0,:,:]
-            else: print "I don't know what to do with an array of shape %s" % data.shape
-            
-            plotHandle=ax.imshow(oneFrame)
-            plt.colorbar(plotHandle)
+           
+            # For grayscale images, take first frame.
+            if not 'color' in rawtype.lower():
+                if len(data.shape()) == 2: oneFrame = data.arr
+                elif len(data.shape()) == 3: oneFrame = data.arr[0,:,:]
+                elif len(data.shape()) == 4: oneFrame = data.arr[0,0,:,:]
+                else: print "I don't know what to do with a grayscale array of shape %s" % data.shape
+                plotHandle=ax.imshow(oneFrame)
+                plt.colorbar(plotHandle)
+            else:
+                if len(data.shape()) == 3: oneFrame = data.arr.swapaxes(0,2).swapaxes(0,1)
+                elif len(data.shape()) == 4: oneFrame = data.arr[0,...].swapaxes(0,2).swapaxes(0,1)
+                else: print "I don't know what to do with a color array of shape %s" % data.shape
+                # make to float with range of values 0 to 1
+                oneFrame = oneFrame.astype(np.float32)
+                oneFrame -= np.nanmin(oneFrame)
+                oneFrame /= np.nanmax(oneFrame)
+                for ch in range(3): oneFrame[...,ch] /= np.nanmax(oneFrame[...,ch])
+                #oneFrame = oneFrame.astype(np.uint8)
+                plotHandle=ax.imshow(oneFrame)
+
             passed+=1
         
         except IOError as e:
             print e
             plt.text(0.1,0.5,"Test failed - I/O error")
             
-        except:
-            plt.text(0.1,0.5,"Test failed")
+        #except:
+        #    plt.text(0.1,0.5,"Test failed")
         
         i+=1
     
@@ -191,9 +206,11 @@ def plot_arrangement(n):
 if __name__=='__main__':
     """ Run the tests when the run_tests.py script is invoked from command line """
     
-    p1,n1 = image_sequence_tests()
-    p2,n2 = movie_tests()
+    #p1,n1 = image_sequence_tests()
+    #p2,n2 = movie_tests()
     p3,n3 = raw_tests()
+    plt.show();exit()
+    
     print '*'*80
     print "Passed %i of %i tests with serial I/O\nClose windows to continue\n" % (p1+p2+p3,n1+n2+n3)
     
