@@ -78,7 +78,7 @@ def raw_tests():
                 oneFrame = oneFrame.astype(np.float32)
                 oneFrame -= np.nanmin(oneFrame)
                 oneFrame /= np.nanmax(oneFrame)
-                for ch in range(3): oneFrame[...,ch] /= np.nanmax(oneFrame[...,ch])
+                #for ch in range(3): oneFrame[...,ch] /= np.nanmax(oneFrame[...,ch])
                 #oneFrame = oneFrame.astype(np.uint8)
                 plotHandle=ax.imshow(oneFrame)
 
