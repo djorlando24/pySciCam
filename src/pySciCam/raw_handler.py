@@ -6,7 +6,7 @@
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2017 LTRAC
     @license GPL-3.0+
-    @version 0.1.1
+    @version 0.1.2
     @date 07/04/2018
     
     Please see help(pySciCam) for more information.
@@ -70,7 +70,7 @@ def load_raw(ImageSequence,all_images,rawtype=None,width=None,height=None,\
         ImageSequence.arr = ch.read_chronos_mono_raw(all_images[0],width,height,\
                                        frames,bits_per_pixel=12,start_offset=start_offset)
         ImageSequence.src_bpp = 12
-
+        ImageSequence.dtype = ImageSequence.arr.dtype
         if 'color' in rawtype.lower(): ImageSequence.bayerDecode()
     
     elif rawtype == 'chronos14_mono_16bit_noheader' or rawtype == 'chronos14_color_16bit_noheader':
@@ -81,7 +81,7 @@ def load_raw(ImageSequence,all_images,rawtype=None,width=None,height=None,\
         ImageSequence.arr = ch.read_chronos_mono_raw(all_images[0],width,height,
                                        frames,bits_per_pixel=16,start_offset=start_offset)
         ImageSequence.src_bpp = 16
-
+        ImageSequence.dtype = ImageSequence.arr.dtype
         if 'color' in rawtype.lower(): ImageSequence.bayerDecode()
 
     # Photron camera formats

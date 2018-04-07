@@ -13,9 +13,9 @@
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.1.0"
+__version__="0.1.2"
 __license__="GPL-3.0+"
-__copyright__="Copyright (c) 2017 LTRAC"
+__copyright__="Copyright (c) 2018 LTRAC"
 
 
 from distutils.core import setup
@@ -36,6 +36,10 @@ cython_modules = [
     )
 ]
 
+c_libraries = [
+    Extension("libbayer", sources = ["src/bayer/bayer.c"])
+]
+
 setup(name="pySciCam",
       version="0.1.0",
       description="Scientific and High speed camera file importer for Python.",
@@ -47,6 +51,6 @@ setup(name="pySciCam",
       package_dir={'': 'src'},
       url='daniel-duke.net',
       install_requires=['numpy','tqdm','natsort','joblib','glob'],
-      ext_modules=cythonize(cython_modules),
+      ext_modules=cythonize(cython_modules) + c_libraries,
       include_dirs=[numpy.get_include()]
 )

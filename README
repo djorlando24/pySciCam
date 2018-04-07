@@ -1,10 +1,10 @@
 Class to read images from high speed and scientific cameras in Python
     
     @author Daniel Duke <daniel.duke@monash.edu>
-    @copyright (c) 2017 LTRAC
+    @copyright (c) 2018 LTRAC
     @license GPL-3.0+
-    @version 0.1.0
-    @date 1/1/2018
+    @version 0.1.2
+    @date 7/4/2018
     
     Laboratory for Turbulence Research in Aerospace & Combustion (LTRAC)
     Monash University, Australia
@@ -113,6 +113,7 @@ Class to read images from high speed and scientific cameras in Python
     INSTALLATION:
     - Ensure you have a working Python setup. Code has been tested on Python 2.7, not Python 3 yet.
       You may wish to set up a development environment (I like conda)
+    - Ensure you have a working C compiler (i.e. gcc) to build the extensions.
     - Install mandatory python modules using either easy_install, pip, or conda
 	numpy, tqdm, natsort, joblib
     - Install optional python modules to provide further compatibility/enhancement
