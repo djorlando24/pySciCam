@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 """
-    Read monochrome 12-bit and 16-bit RAW files from Chronos 1.4 cameras.
+    Read 12-bit and 16-bit RAW files from Chronos 1.4 cameras.
     Chronos 1.4 software 0.2.3 beta.
 
     @author Daniel Duke <daniel.duke@monash.edu>
@@ -10,7 +10,7 @@
     @date 06/04/2018
 
     Currently, software 0.2.3 beta is supported (little-endian, no header frame).
-    Support for color formats is forthcoming.
+    Support for color formats requires Bayer decoding post-loading.
     Some problems remain with files saved at reduced resolution.
 
     Please see help(pySciCam) for more information.

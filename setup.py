@@ -33,6 +33,10 @@ cython_modules = [
     Extension(
         "pySciCam.b16_raw",
         ["src/pySciCam/b16_raw.pyx"],
+    ),
+    Extension(
+        "pySciCam.photron_mraw",
+        ["src/pySciCam/photron_mraw.pyx"],
     )
 ]
 

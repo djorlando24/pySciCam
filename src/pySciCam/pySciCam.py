@@ -1,16 +1,28 @@
 #!/usr/bin/env python2.7
 # -*- coding: UTF-8 -*-
 """
-    Class to read images from high speed and scientific cameras in Python
-    
+Class to read images from high speed and scientific cameras in Python
+
     @author Daniel Duke <daniel.duke@monash.edu>
-    @copyright (c) 2017 LTRAC
+    @copyright (c) 2018 LTRAC
     @license GPL-3.0+
     @version 0.1.2
-    @date 08/04/2018
+    @date 8/4/2018
     
     Laboratory for Turbulence Research in Aerospace & Combustion (LTRAC)
     Monash University, Australia
+
+    Many scientific cameras have 10 or 12 bit sensors. Most camera APIs/software require
+    the user to choose between 8 or 16 bit depth when saving to an easily-readable format
+    such as TIFF. Saving a 10-bit depth pixel value into a 16-bit unsigned int can rapidly
+    blow out the file size, leading to wasted storage space and much slower rates of file
+    transfer off the camera and onto a local drive ( a major laboratory bottleneck! )
+
+    Most cameras have an ability to save data to raw binary or to unusual, compact file
+    formats such as 12-bit TIFF. This is by far the fastest way of getting lots of data
+    off a camera, as no bits are wasted. I've had trouble finding software that can read
+    these files, and most graphics packages (even ImageJ!) struggle to correctly read
+    files like 16/32 bit RGB TIFF for example. This Python package solves that problem.
     
     pySciCam is an attempt to build an easy to use, all in one solutiuon to allow
     researchers to convert their scientific camera's binary data file or unusual
@@ -23,6 +35,7 @@
     Current support for:
         - 8, 12, 16, 32 & 64-bit RGB or Mono TIFF using PythonMagick (most cameras)
         - 12 & 16 bit packed RAW (Chronos monochrome and color cameras)
+    - Photron MRAW formats (mono, color Bayer and RGB encoding)
         - Any greyscale movies supported by the ffmpeg library
         - PCO B16 scientific data format for double-exposed (PIV) images
         - 8 & 16 bit RGB TIFF using Pillow library (Most colour cameras)
@@ -94,18 +107,11 @@
             integer. Bytes offset for RAW blob with unspecified header size.
     
     Future support planned for:
-    - Photron raw exporter formats
     - Header scanline in Chronos RAW, when firmware supports it.
     - Shimadzu HPV custom format
+    - Other Photron raw exporter formats
     - Other PCO DIMAX raw exporter formats
     - Motion Pro / Redlake raw formats
-    contact me if you have any specific suggestions. Please provide a sample file!
-    
-    TO DO:
-    - Make documentation for class.
-    - Proper header documentation and README, LICENSE etc.
-    - Get distutils working to build as an installable package.
-    
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"

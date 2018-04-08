@@ -4,7 +4,7 @@ Class to read images from high speed and scientific cameras in Python
     @copyright (c) 2018 LTRAC
     @license GPL-3.0+
     @version 0.1.2
-    @date 7/4/2018
+    @date 8/4/2018
     
     Laboratory for Turbulence Research in Aerospace & Combustion (LTRAC)
     Monash University, Australia
@@ -31,7 +31,8 @@ Class to read images from high speed and scientific cameras in Python
     
     Current support for:
         - 8, 12, 16, 32 & 64-bit RGB or Mono TIFF using PythonMagick (most cameras)
-        - 12 & 16 bit packed RAW (Chronos monochrome cameras)
+        - 12 & 16 bit packed RAW (Chronos monochrome and color cameras)
+	- Photron MRAW formats (mono, color Bayer and RGB encoding)
         - Any greyscale movies supported by the ffmpeg library
         - PCO B16 scientific data format for double-exposed (PIV) images
         - 8 & 16 bit RGB TIFF using Pillow library (Most colour cameras)
@@ -111,11 +112,12 @@ Class to read images from high speed and scientific cameras in Python
     contact me if you have any specific suggestions. Please provide a sample file!
 
     INSTALLATION:
-    - Ensure you have a working Python setup. Code has been tested on Python 2.7, not Python 3 yet.
+    - Ensure you have a working Python setup. 
+      Code has been tested on Python 2.7, not Python 3 yet.
       You may wish to set up a development environment (I like conda)
     - Ensure you have a working C compiler (i.e. gcc) to build the extensions.
     - Install mandatory python modules using either easy_install, pip, or conda
-	numpy, tqdm, natsort, joblib
+	numpy, tqdm, natsort, joblib, itertools
     - Install optional python modules to provide further compatibility/enhancement
         imageio (movie formats)
         pillow (conventional image file formats)

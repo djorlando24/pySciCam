@@ -18,13 +18,17 @@ __license__="GPL-3.0+"
 __copyright__="Copyright (c) 2018 LTRAC"
 
 # Known RAW file extensions supported
-raw_formats=['.raw','.b16','.b16dat']
+raw_formats=['.raw','.mraw','.b16','.b16dat']
 
 # Valid values for rawtype kwarg.
 raw_types = ['b16','b16dat',\
              'chronos14_mono_12bit_noheader','chronos14_mono_16bit_noheader',\
              'chronos14_color_12bit_noheader','chronos14_color_16bit_noheader',\
-             'photron_color_12bit_mraw_bayer','photron_color_12bit_mraw']
+             'photron_mraw_color_12bit_bayer','photron_mraw_color_12bit',\
+             'photron_mraw_mono_12bit','photron_mraw_color_8bit_bayer',\
+             'photron_mraw_color_8bit','photron_mraw_mono_8bit',\
+             'photron_mraw_color_16bit_bayer','photron_mraw_color_16bit',\
+             'photron_mraw_mono_16bit']
 
 import numpy as np
 
@@ -88,16 +92,30 @@ def load_raw(ImageSequence,all_images,rawtype=None,width=None,height=None,\
             ImageSequence.bayerDecode(interpolation_method='DC1394_BAYER_METHOD_BILINEAR',\
                                       camera_filter='DC1394_COLOR_FILTER_GBRG')
 
-    # Photron camera formats
-    elif rawtype == 'photron_color_12bit_mraw_bayer':
-        print 'PFV 12-bit MRAW (Bayer Save On)'
-        ImageSequence.src_bpp = 12
-        raise ValueError(rawtype)
+    # Photron camera MRAW formats
+    elif 'photron_mraw' in rawtype:
+        import photron_mraw
+        
+        if '8bit' in rawtype:
+            print 'PFV 8-bit MRAW'
+            ImageSequence.src_bpp = 8
+        elif '12bit' in rawtype:
+            print 'PFV 12-bit MRAW'
+            ImageSequence.src_bpp = 12
+        elif '16bit' in rawtype:
+            print 'PFV 16-bit MRAW'
+            ImageSequence.src_bpp = 16
 
-    elif rawtype == 'photron_color_12bit_mraw':
-        print 'PFV 12-bit MRAW (Bayer Save Off)'
-        ImageSequence.src_bpp = 12
-        raise ValueError(rawtype)
+        if 'color' in rawtype.lower() and not 'bayer' in rawtype.lower(): rgbmode=1
+        else: rgbmode=0
+
+        ImageSequence.arr = photron_mraw.read_mraw(all_images[0],width,height,rgbmode,\
+                                       frames,bits_per_pixel=ImageSequence.src_bpp,\
+                                       start_offset=start_offset)
+
+        if 'bayer' in rawtype.lower():
+            ImageSequence.bayerDecode(interpolation_method='DC1394_BAYER_METHOD_SIMPLE',\
+                                      camera_filter='DC1394_COLOR_FILTER_GRBG')
 
     # PCO B16 formats
     elif rawtype == 'b16' or rawtype == 'b16dat':

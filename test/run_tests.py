@@ -35,9 +35,10 @@ def raw_tests():
     
     # Restricting types for debugging
     #types = [ t for t in pySciCam.raw_handler.raw_types if 'chronos14_color' in t ]
+    #types = [ t for t in pySciCam.raw_handler.raw_types if 'photron_mraw_color_12' in t ]
     
-    fig=plt.figure(figsize=(15,8))
-    plt.subplots_adjust(wspace=0.5,hspace=0.2)
+    fig=plt.figure(figsize=(15,8.5))
+    plt.subplots_adjust(wspace=0.1,hspace=0.5)
     plt.suptitle("RAW format tests")
     i=1
     passed=0
@@ -48,17 +49,26 @@ def raw_tests():
         print "\n*** %s RAW FORMAT ***" % rawtype
         if rawtype is 'b16': filename='sample.b16'
         elif rawtype is 'b16dat': filename='sample.b16dat'
+        elif 'photron_mraw' in rawtype: filename='%s.mraw' % rawtype
         else: filename='%s.raw' % rawtype
         
         try:
             ax=fig.add_subplot(nv,nh,i)
             plt.title(filename)
             
+            # Use what we know about the test cases to determine width and height
+            # for raw formats that don't specify it.
+            if 'chronos14' in rawtype:
+                height=1024; width=1280
+            elif 'photron' in rawtype:
+                height=2048; width=2048
+            else:
+                height=1; width=1
+            
             # Attempt to load test data. The height and width parameters are
-            # ignored when not required, they apply to the chronos_raw formats only.
-            # Only read the first few frames.
+            # ignored when not required. Only read the first few frames.
             data = pySciCam.ImageSequence(filename,rawtype=rawtype,\
-                                          height=1024,width=1280,frames=(0,3))
+                                          height=height,width=width,frames=(0,3))
             
             # B16 images have huge dynamic range. Clip the range so we can
             # clearly see if something has been loaded.
@@ -72,8 +82,8 @@ def raw_tests():
                 elif len(data.shape()) == 3: oneFrame = data.arr[0,:,:]
                 elif len(data.shape()) == 4: oneFrame = data.arr[0,0,:,:]
                 else: print "I don't know what to do with a grayscale array of shape %s" % data.shape
-                plotHandle=ax.imshow(oneFrame)
-                plt.colorbar(plotHandle)
+                plotHandle=ax.imshow(oneFrame,cmap=plt.cm.gray)
+                #plt.colorbar(plotHandle)
             else:
                 if len(data.shape()) == 3: oneFrame = data.arr.swapaxes(0,2).swapaxes(0,1)
                 elif len(data.shape()) == 4: oneFrame = data.arr[0,...].swapaxes(0,2).swapaxes(0,1)
@@ -81,7 +91,8 @@ def raw_tests():
                 # make to float with range of values 0 to 1
                 oneFrame = oneFrame.astype(np.float32)
                 oneFrame -= np.nanmin(oneFrame)
-                oneFrame /= np.nanmax(oneFrame) / 5.
+                oneFrame /= np.nanmax(oneFrame)
+                if 'chronos' in rawtype: oneFrame *= 5
                 oneFrame[oneFrame<0]=0
                 oneFrame[oneFrame>1]=1
                 #for ch in range(3): oneFrame[...,ch] /= np.nanmax(oneFrame[...,ch])

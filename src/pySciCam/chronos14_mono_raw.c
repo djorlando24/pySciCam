@@ -1692,7 +1692,7 @@ static const char __pyx_k_ndarray_is_not_C_contiguous[] = "ndarray is not C cont
 static const char __pyx_k_pySciCam_chronos14_mono_raw[] = "pySciCam.chronos14_mono_raw";
 static const char __pyx_k_File_contains_i_frames_i_x_i[] = "File contains %i frames (%i x %i)";
 static const char __pyx_k_File_has_no_frames_at_specified[] = "File has no frames at specified resolution";
-static const char __pyx_k_Read_monochrome_12_bit_and_16_b[] = "\n    Read monochrome 12-bit and 16-bit RAW files from Chronos 1.4 cameras.\n    Chronos 1.4 software 0.2.3 beta.\n\n    @author Daniel Duke <daniel.duke@monash.edu>\n    @copyright (c) 2018 LTRAC\n    @license GPL-3.0+\n    @version 0.1.2\n    @date 06/04/2018\n\n    Currently, software 0.2.3 beta is supported (little-endian, no header frame).\n    Support for color formats is forthcoming.\n    Some problems remain with files saved at reduced resolution.\n\n    Please see help(pySciCam) for more information.\n";
+static const char __pyx_k_Read_12_bit_and_16_bit_RAW_file[] = "\n    Read 12-bit and 16-bit RAW files from Chronos 1.4 cameras.\n    Chronos 1.4 software 0.2.3 beta.\n\n    @author Daniel Duke <daniel.duke@monash.edu>\n    @copyright (c) 2018 LTRAC\n    @license GPL-3.0+\n    @version 0.1.2\n    @date 06/04/2018\n\n    Currently, software 0.2.3 beta is supported (little-endian, no header frame).\n    Support for color formats requires Bayer decoding post-loading.\n    Some problems remain with files saved at reduced resolution.\n\n    Please see help(pySciCam) for more information.\n";
 static const char __pyx_k_Warning_requested_read_past_EOF[] = "Warning: requested read past EOF, truncating";
 static const char __pyx_k_numpy_core_multiarray_failed_to[] = "numpy.core.multiarray failed to import";
 static const char __pyx_k_src_pySciCam_chronos14_mono_raw[] = "src/pySciCam/chronos14_mono_raw.pyx";
@@ -5880,7 +5880,7 @@ static PyModuleDef_Slot __pyx_moduledef_slots[] = {
 static struct PyModuleDef __pyx_moduledef = {
     PyModuleDef_HEAD_INIT,
     "chronos14_mono_raw",
-    __pyx_k_Read_monochrome_12_bit_and_16_b, /* m_doc */
+    __pyx_k_Read_12_bit_and_16_bit_RAW_file, /* m_doc */
   #if CYTHON_PEP489_MULTI_PHASE_INIT
     0, /* m_size */
   #else
@@ -6292,7 +6292,7 @@ static int __pyx_pymod_exec_chronos14_mono_raw(PyObject *__pyx_pyinit_module)
   Py_INCREF(__pyx_m);
   #else
   #if PY_MAJOR_VERSION < 3
-  __pyx_m = Py_InitModule4("chronos14_mono_raw", __pyx_methods, __pyx_k_Read_monochrome_12_bit_and_16_b, 0, PYTHON_API_VERSION); Py_XINCREF(__pyx_m);
+  __pyx_m = Py_InitModule4("chronos14_mono_raw", __pyx_methods, __pyx_k_Read_12_bit_and_16_bit_RAW_file, 0, PYTHON_API_VERSION); Py_XINCREF(__pyx_m);
   #else
   __pyx_m = PyModule_Create(&__pyx_moduledef);
   #endif
@@ -6452,7 +6452,7 @@ static int __pyx_pymod_exec_chronos14_mono_raw(PyObject *__pyx_pyinit_module)
   /* "pySciCam/chronos14_mono_raw.pyx":1
  * # -*- coding: UTF-8 -*-             # <<<<<<<<<<<<<<
  * """
- *     Read monochrome 12-bit and 16-bit RAW files from Chronos 1.4 cameras.
+ *     Read 12-bit and 16-bit RAW files from Chronos 1.4 cameras.
  */
   __pyx_t_2 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
