@@ -58,6 +58,8 @@ def fbayerDecode(arr, interpolation_method='DC1394_BAYER_METHOD_NEAREST',\
     else:
         enum_tile = c_uint(dc1394color_filters.index(camera_filter.upper()) + 512)
 
+    print 'Bayer settings:',interpolation_method,',', camera_filter
+
     # Check numpy array
     try:
         assert isinstance(arr,np.ndarray)
@@ -87,10 +89,20 @@ def fbayerDecode(arr, interpolation_method='DC1394_BAYER_METHOD_NEAREST',\
         func = libbayer.dc1394_bayer_decoding_8bit
     else:
         raise ValueError("Cannot do bayer decoding on image array with dtype "+str(arr.dtype))
-        
+
+
+    # Run parallel over all frames
+    if ncpus > 1:
+        try:
+            from joblib import Parallel, delayed
+            
+        except ImportError:
+            print 'Unable to load joblib module for parallel processing. Falling back to serial'
+            ncpus=1
+
     # Run serially
-    if ncpu <= 1:
-        frame_out = np.zeros((3*out_nx*out_ny),dtype=frame_in.dtype)
+    if ncpus <= 1:
+        frame_out = np.zeros((3*out_nx*out_ny),dtype=arr.dtype)
         rgb_out = frame_out.ctypes.data_as(POINTER(C_UINT_T * (3 * s[1] * s[2])))
         for i in range(s[0]):
             frame_in = np.asfortranarray(arr[i,...])
@@ -98,10 +110,6 @@ def fbayerDecode(arr, interpolation_method='DC1394_BAYER_METHOD_NEAREST',\
             flag = func(bayer_in, rgb_out, sx, sy, enum_tile, enum_method, bits)
             if flag != 0: raise ValueError("Bayer decode error %i" % flag)
             newarr[i,...] = np.moveaxis( frame_out.reshape(out_ny,out_nx,3) , [0,1,2], [2,1,0] )
-
-    # Run parallel over all frames
-    else:
-        pass
 
 
     return newarr
