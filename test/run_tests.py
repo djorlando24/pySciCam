@@ -223,10 +223,10 @@ def plot_arrangement(n):
 if __name__=='__main__':
     """ Run the tests when the run_tests.py script is invoked from command line """
     
-    #p1,n1 = image_sequence_tests()
-    #p2,n2 = movie_tests()
-    p3,n3 = raw_tests()
-    plt.show();exit()
+    p1,n1 = image_sequence_tests()
+    p2,n2 = movie_tests()
+    p3,n3 = raw_tests();
+    #plt.show();exit()
     
     print '*'*80
     print "Passed %i of %i tests with serial I/O\nClose windows to continue\n" % (p1+p2+p3,n1+n2+n3)
