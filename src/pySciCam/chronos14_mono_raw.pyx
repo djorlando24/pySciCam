@@ -56,7 +56,7 @@ def read_chronos_mono_raw(filename, int width, int height, tuple frames=None,\
     cdef long nbytes = os.path.getsize(filename)
 
     # Scanlines are padded to nearest 16 bytes
-    cdef unsigned int scanline_pad = int((width*1.5)%16)
+    cdef unsigned int scanline_pad = 0 #int((width*1.5)%16)  # disabled for debugging
     cdef unsigned int scanline_bytes = int(width*1.5) + scanline_pad
     
     # Bytes padding between frames
