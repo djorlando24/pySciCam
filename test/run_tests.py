@@ -9,7 +9,7 @@
     @copyright (c) 2017 LTRAC
     @license GPL-3.0+
     @version 0.1.2
-    @date 06/04/2018
+    @date 08/04/2018
     
     Laboratory for Turbulence Research in Aerospace & Combustion (LTRAC)
     Monash University, Australia
@@ -30,8 +30,11 @@ import matplotlib.pyplot as plt
 def raw_tests():
     """ Try each RAW format handler and attempt to load a frame
     """
+    # All Rawtypes
     #types = pySciCam.raw_handler.raw_types
-    types = [ t for t in pySciCam.raw_handler.raw_types if 'chronos' in t ]
+    
+    # RESTRICT TESTS - DEBUGGING !
+    types = [ t for t in pySciCam.raw_handler.raw_types if 'chronos14_color' in t ]
     
     fig=plt.figure(figsize=(15,8))
     plt.subplots_adjust(wspace=0.1,hspace=0.2)
@@ -77,7 +80,9 @@ def raw_tests():
                 # make to float with range of values 0 to 1
                 oneFrame = oneFrame.astype(np.float32)
                 oneFrame -= np.nanmin(oneFrame)
-                oneFrame /= np.nanmax(oneFrame)
+                oneFrame /= np.nanmax(oneFrame) / 5.
+                oneFrame[oneFrame<0]=0
+                oneFrame[oneFrame>1]=1
                 #for ch in range(3): oneFrame[...,ch] /= np.nanmax(oneFrame[...,ch])
                 #oneFrame = oneFrame.astype(np.uint8)
                 plotHandle=ax.imshow(oneFrame)

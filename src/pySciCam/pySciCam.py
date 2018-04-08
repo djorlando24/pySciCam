@@ -7,7 +7,7 @@
     @copyright (c) 2017 LTRAC
     @license GPL-3.0+
     @version 0.1.2
-    @date 07/04/2018
+    @date 08/04/2018
     
     Laboratory for Turbulence Research in Aerospace & Combustion (LTRAC)
     Monash University, Australia
@@ -247,59 +247,15 @@ class ImageSequence:
         else:
             return None
 
-    # Perform Bayer decoding on colour data loaded from RAW format
-    def bayerDecode(self):
-        import site, itertools
-        from ctypes import cdll, c_uint, c_uint8, c_uint16, c_uint32, POINTER
+    # Perform Bayer decoding on colour data loaded from RAW format.
+    #
+    def bayerDecode(self, **kwargs):
         
+        # Use IO_threads as number of cpus to parallelize on, by default.
+        if not 'ncpus' in kwargs.keys():
+            kwargs['ncpus']=self.IO_threads
+        
+        from bayer_decode import fbayerDecode
         print 'Bayer decoding...'
-        s=self.shape()
-        
-        # naive reshaping
-        #self.arr = self.arr.reshape(s[0]/3,3,s[1],s[2])
-        
-        # build empty RGB array
-        newarr = np.zeros((s[0],3,s[1],s[2]),dtype=self.dtype)
-        
-        # load libbayer
-        path_to_libbayer = list(itertools.chain.from_iterable([ glob.glob(p+'/libbayer.so')\
-                                for p in site.getsitepackages() ]))
-        if len(path_to_libbayer)==0: raise IOError("Can't find libbayer.so")
-        libbayer= cdll.LoadLibrary(path_to_libbayer[0])
-        
-        # call appropriate subroutine.
-        if self.dtype == np.uint16:
-            # args to dc1394_bayer_decoding functions:
-            # const uint16_t *restrict bayer, uint16_t *restrict rgb, uint32_t sx, uint32_t sy, dc1394color_filter_t tile, dc1394bayer_method_t method, uint32_t bits
-            method = c_uint(0)
-            tile = c_uint(512)
-            sx = c_uint32(s[1])
-            sy = c_uint32(s[2])
-            bits = c_uint32(16)
-            
-            # This runs, but the pixel ordering is wrong.
-            bayer_in = self.arr[0,...].ctypes.data_as(POINTER(c_uint16 * (s[1] * s[2])))
-            rgb_out = newarr[0,...].ctypes.data_as(POINTER(c_uint16 * (3 * s[1] * s[2])))
-            
-            flag = libbayer.dc1394_bayer_decoding_16bit(bayer_in, rgb_out, sx, sy, tile, method, bits)
-            if flag != 0: raise ValueError("Bayer decode error flag %i" % flag)
-        
-        elif self.dtype == np.uint8:
-            raise ValueError("uint8 not yet supported")
-            #if libbayer.dc1394_bayer_decoding_8bit( self.arr, newarr) != 0: raise ValueError
-        
-        else:
-            raise ValueError("Cannot do bayer decoding on image array dtype"+self.dtype)
-        
-        #        for i in range(s[0]):
-        #            for j in range(0,s[1],2):
-        #                for k in range(0,s[2],2):
-        #
-        #                    # RG
-        #                    # GB bayer blocks
-        #                    newarr[i,0,j:j+2,k:k+2] = self.arr[i,j,k] # red values
-        #                    newarr[i,1,j:j+2,k:k+2] = self.arr[i,j+1,k] + self.arr[i,j,k+1] # green values
-        #                    newarr[i,2,j:j+2,k:k+2] = self.arr[i,j+1,k+1] # blue values
-    
-        self.arr= newarr
+        self.arr = fbayerDecode(self.arr, **kwargs)
         return
