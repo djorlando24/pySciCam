@@ -33,13 +33,37 @@ def plot_arrangement(n):
 
 filename = 'chronos14_mono_12bit_336x96 12db 38550fps 100f 12bp.raw'
 rawtype = 'chronos14_mono_12bit_noheader'
-#height = 96; width = 336
-width = 1280/2; height = 3225600/width
-data = pySciCam.ImageSequence(filename,rawtype=rawtype,\
-                              height=height,width=width)
+oheight = 95; owidth = 336; oframes=100
 
-N=1
-start=0
+#width = 1024; height = 3225600/width
+width=1; height=owidth*oheight*oframes
+
+data = pySciCam.ImageSequence(filename,rawtype=rawtype,\
+                              height=height,width=width,\
+                              start_offset=0)
+
+
+# pull out frames
+newarr = np.ndarray((oframes,oheight,owidth),dtype=data.dtype)
+print 'Cast to',newarr.shape
+a=0
+for i in range(oframes):
+    #print 'frame',i
+    for j in range(oheight):
+        if (j+i*2)%31 == 0 and j>0 : a+=512
+        #if j==31 or j==62 or j==93: a+=512
+        b=a+owidth-1
+        if b>data.shape()[1]: break
+        newarr[i,j,:(b-a)] = data.arr[0,a:b,0]
+        a+=1025-width
+
+
+data.arr = newarr
+
+
+N=25
+if data.shape()[0] < N: N=data.shape()[0]
+start=25
 stride=1
 fig=plt.figure(figsize=(12,8))
 nh, nv = plot_arrangement(N)
@@ -47,8 +71,8 @@ j=1
 for i in range(N):
     if start + i*stride < data.shape()[0]:
         ax=fig.add_subplot(nh,nv,j)
-        ax.imshow(data.arr[start + i*stride,...])
+        h_=ax.imshow(data.arr[start + i*stride,...],vmax=200)
         plt.title('%i' % (start + i*stride))
         j+=1
-
+plt.colorbar(h_)
 plt.show()

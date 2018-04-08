@@ -2166,7 +2166,7 @@ static PyObject *__pyx_pf_8pySciCam_18chronos14_mono_raw_read_chronos_mono_raw(C
   /* "pySciCam/chronos14_mono_raw.pyx":59
  * 
  *     # Scanlines are padded to nearest 16 bytes
- *     cdef unsigned int scanline_pad = 0 #int((width*1.5)%16)             # <<<<<<<<<<<<<<
+ *     cdef unsigned int scanline_pad = 0 #int((width*1.5)%16)  # disabled for debugging             # <<<<<<<<<<<<<<
  *     cdef unsigned int scanline_bytes = int(width*1.5) + scanline_pad
  * 
  */
@@ -2174,7 +2174,7 @@ static PyObject *__pyx_pf_8pySciCam_18chronos14_mono_raw_read_chronos_mono_raw(C
 
   /* "pySciCam/chronos14_mono_raw.pyx":60
  *     # Scanlines are padded to nearest 16 bytes
- *     cdef unsigned int scanline_pad = 0 #int((width*1.5)%16)
+ *     cdef unsigned int scanline_pad = 0 #int((width*1.5)%16)  # disabled for debugging
  *     cdef unsigned int scanline_bytes = int(width*1.5) + scanline_pad             # <<<<<<<<<<<<<<
  * 
  *     # Bytes padding between frames
