@@ -254,8 +254,10 @@ class ImageSequence:
         # Use IO_threads as number of cpus to parallelize on, by default.
         if not 'ncpus' in kwargs.keys():
             kwargs['ncpus']=self.IO_threads
+        #kwargs['JobLib_Verbosity']=self.Joblib_Verbosity
         
         from bayer_decode import fbayerDecode
-        print 'Bayer decoding...'
+        print 'Bayer decoding array of size %s...' % str(self.shape())
         self.arr = fbayerDecode(self.arr, **kwargs)
+        #print 'RGB array is now of size %s' % str(self.shape())
         return

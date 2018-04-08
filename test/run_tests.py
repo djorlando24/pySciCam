@@ -31,13 +31,13 @@ def raw_tests():
     """ Try each RAW format handler and attempt to load a frame
     """
     # All Rawtypes
-    #types = pySciCam.raw_handler.raw_types
+    types = pySciCam.raw_handler.raw_types
     
-    # RESTRICT TESTS - DEBUGGING !
-    types = [ t for t in pySciCam.raw_handler.raw_types if 'chronos14_color' in t ]
+    # Restricting types for debugging
+    #types = [ t for t in pySciCam.raw_handler.raw_types if 'chronos14_color' in t ]
     
     fig=plt.figure(figsize=(15,8))
-    plt.subplots_adjust(wspace=0.1,hspace=0.2)
+    plt.subplots_adjust(wspace=0.5,hspace=0.2)
     plt.suptitle("RAW format tests")
     i=1
     passed=0
@@ -56,6 +56,7 @@ def raw_tests():
             
             # Attempt to load test data. The height and width parameters are
             # ignored when not required, they apply to the chronos_raw formats only.
+            # Only read the first few frames.
             data = pySciCam.ImageSequence(filename,rawtype=rawtype,\
                                           height=1024,width=1280,frames=(0,3))
             
