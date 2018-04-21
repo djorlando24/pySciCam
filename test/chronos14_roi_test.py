@@ -31,47 +31,57 @@ def plot_arrangement(n):
     nv = int(np.ceil(n/float(nh)))
     return nh,nv
 
+#filename = 'chronos14_color_12bit 800x600 2073fps.raw'
+#rawtype = 'chronos14_mono_12bit_noheader'
+#width=800; height=600; vmax=500
+
+#filename='chronos14_color_12bit 640x96 21k.raw'
+#rawtype = 'chronos14_mono_12bit_noheader'
+#width=640; height=96; vmax=75
+
+#filename='chronos14_color_12bit 192x96 38kfps.raw'
+#rawtype = 'chronos14_mono_12bit_noheader'
+#width=192; height=96; vmax=None
+
 filename = 'chronos14_mono_12bit_336x96 12db 38550fps 100f 12bp.raw'
 rawtype = 'chronos14_mono_12bit_noheader'
-oheight = 95; owidth = 336; oframes=100
+width=336; height=96; vmax=200
 
-#width = 1024; height = 3225600/width
-width=1; height=owidth*oheight*oframes
 
 data = pySciCam.ImageSequence(filename,rawtype=rawtype,\
                               height=height,width=width,\
                               start_offset=0)
 
 
-# pull out frames
-newarr = np.ndarray((oframes,oheight,owidth),dtype=data.dtype)
-print 'Cast to',newarr.shape
-a=0
-for i in range(oframes):
-    #print 'frame',i
-    for j in range(oheight):
-        if (j+i*2)%31 == 0 and j>0 : a+=512
-        #if j==31 or j==62 or j==93: a+=512
-        b=a+owidth-1
-        if b>data.shape()[1]: break
-        newarr[i,j,:(b-a)] = data.arr[0,a:b,0]
-        a+=1025-width
-
-
-data.arr = newarr
+## pull out frames
+#newarr = np.ndarray((oframes,oheight,owidth),dtype=data.dtype)
+#print 'Cast to',newarr.shape
+#a=0
+#for i in range(oframes):
+#    #print 'frame',i
+#    for j in range(oheight):
+#        if (j+i*2)%31 == 0 and j>0 : a+=512
+#        #if j==31 or j==62 or j==93: a+=512
+#        b=a+owidth-1
+#        if b>data.shape()[1]: break
+#        newarr[i,j,:(b-a)] = data.arr[0,a:b,0]
+#        a+=1025-width
+#
+#
+#data.arr = newarr
 
 
 N=25
 if data.shape()[0] < N: N=data.shape()[0]
-start=25
-stride=1
+start=0
+stride=5
 fig=plt.figure(figsize=(12,8))
 nh, nv = plot_arrangement(N)
 j=1
 for i in range(N):
     if start + i*stride < data.shape()[0]:
         ax=fig.add_subplot(nh,nv,j)
-        h_=ax.imshow(data.arr[start + i*stride,...],vmax=200)
+        h_=ax.imshow(data.arr[start + i*stride,...],vmax=vmax)
         plt.title('%i' % (start + i*stride))
         j+=1
 plt.colorbar(h_)
