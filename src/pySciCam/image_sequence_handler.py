@@ -7,7 +7,7 @@
     @copyright (c) 2018 LTRAC
     @license GPL-3.0+
     @version 0.1.2
-    @date 07/04/2018
+    @date 24/04/2018
     
     Please see help(pySciCam) for more information.
 """
@@ -220,7 +220,7 @@ def load_image_sequence(ImageSequence,all_images,frames=None,monochrome=False,\
     if n_jobs > len(all_images): n_jobs = len(all_images)
     b=len(all_images)/n_jobs
     if b<1: b=1
-
+    
     print "\tReading files into memory..."
     t0=time.time()
     if n_jobs > 1:
@@ -237,7 +237,7 @@ def load_image_sequence(ImageSequence,all_images,frames=None,monochrome=False,\
         ImageSequence.arr = np.dstack(L).swapaxes(2,0).swapaxes(1,2)
     else:
         # colour arrays
-        ImageSequence.arr = np.rollaxis(np.rollaxis(np.dstack(L),3,0),3,1)
+        ImageSequence.arr = np.rollaxis(np.rollaxis(np.concatenate(L,axis=3),3,0),3,1)
 
     ImageSequence.src_bpp = bits_per_pixel
     read_nbytes = bits_per_pixel * np.product(ImageSequence.arr.shape) / 8
