@@ -152,7 +152,7 @@ def load_raw(ImageSequence,all_images,rawtype=None,width=None,height=None,\
         raise ValueError("Unknown RAW format `%s'. Allowed choices:\n\trawtype = %s" % (rawtype,raw_types))
     
     
-    ImageSequence.width = ImageSequence.arr.shape[0]
+    ImageSequence.width = ImageSequence.arr.shape[2]
     ImageSequence.height = ImageSequence.arr.shape[1]
     ImageSequence.dtype = ImageSequence.arr.dtype
     return
