@@ -148,7 +148,8 @@ class ImageSequence:
             self.Joblib_Verbosity=40
         else:
             self.Joblib_Verbosity=int(kwargs['Joblib_Verbosity'])
-        
+            del kwargs['Joblib_Verbosity']
+         
         self.N=0
         self.arr = None
         
