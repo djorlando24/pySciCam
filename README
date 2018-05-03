@@ -117,7 +117,7 @@ Class to read images from high speed and scientific cameras in Python
       You may wish to set up a development environment (I like conda)
     - Ensure you have a working C compiler (i.e. gcc) to build the extensions.
     - Install mandatory python modules using either easy_install, pip, or conda
-	numpy, tqdm, natsort, joblib, itertools
+	cython, numpy, tqdm, natsort, joblib, itertools
     - Install optional python modules to provide further compatibility/enhancement
         imageio (movie formats)
         pillow (conventional image file formats)
@@ -128,6 +128,7 @@ Class to read images from high speed and scientific cameras in Python
       with `git clone https://github.com/ImageMagick/PythonMagick.git')
       this library will require 'boost-python', 'imagemagick', and python2.5 or later,
       as well as working c/c++ compilers.
+      This code has been tested with ImageMagick 7.0.7-30 Q16 x86_64
       To get a working imagemagick on Linux you need to install 'libmagickcore-dev' and 'libmagick++-dev'.
       Build the module with ./configure; make; make install. 
       nb. On MacOS I had weird compiler errors when boost-python wasn't installed 
