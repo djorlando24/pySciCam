@@ -4,7 +4,7 @@
     RAW format handling routines for pySciCam module
     
     @author Daniel Duke <daniel.duke@monash.edu>
-    @copyright (c) 2017 LTRAC
+    @copyright (c) 2018 LTRAC
     @license GPL-3.0+
     @version 0.1.2
     @date 08/04/2018
