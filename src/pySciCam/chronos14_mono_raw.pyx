@@ -106,7 +106,7 @@ def read_chronos_mono_raw(filename, int width, int height, tuple frames=None,\
     cdef np.ndarray[DTYPE_t, ndim=1] images = np.zeros(int(nframes*height*width),dtype=DTYPE)
 
     # read array in
-    cdef int i
+    cdef int i, flag
     cdef int npixels = int(ceil((end-start)/bytes_per_pixel))
     filename_byte_string = filename.encode("UTF-8")
     cdef char * fname = filename_byte_string
@@ -118,7 +118,7 @@ def read_chronos_mono_raw(filename, int width, int height, tuple frames=None,\
         if start>0: fseek (cfile, start, SEEK_SET)
         if bits_per_pixel==12: # loop every 3 bytes, read 2 pixels
             for i in xrange(0,len(images),2):
-                fread (&buffer, 1, 3, cfile)
+                flag = fread (&buffer, 1, 3, cfile)
                 buf2 = <int>buffer
 
                 # Read two pixels from three bytes
@@ -147,7 +147,7 @@ def read_chronos_mono_raw(filename, int width, int height, tuple frames=None,\
 
         elif bits_per_pixel==16: # loop every 2 bytes, write 1 pixel
             for i in xrange(0,len(images)):
-                fread (&buffer, 1, 2, cfile)
+                flag = fread (&buffer, 1, 2, cfile)
                 buf2 = <int>buffer
                 images[i]   = <DTYPE_t>(buf2 & 0xFFFF)
 

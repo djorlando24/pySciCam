@@ -1633,6 +1633,7 @@ static const char __pyx_k_end[] = "end";
 static const char __pyx_k_mod[] = "mod";
 static const char __pyx_k_buf2[] = "buf2";
 static const char __pyx_k_file[] = "file";
+static const char __pyx_k_flag[] = "flag";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_path[] = "path";
 static const char __pyx_k_test[] = "__test__";
@@ -1744,6 +1745,7 @@ static PyObject *__pyx_n_s_end;
 static PyObject *__pyx_n_s_file;
 static PyObject *__pyx_n_s_filename;
 static PyObject *__pyx_n_s_filename_byte_string;
+static PyObject *__pyx_n_s_flag;
 static PyObject *__pyx_n_s_fname;
 static PyObject *__pyx_n_s_frame_pad;
 static PyObject *__pyx_kp_s_frame_range_Cannot_start_reading;
@@ -1975,6 +1977,7 @@ static PyObject *__pyx_pf_8pySciCam_18chronos14_mono_raw_read_chronos_mono_raw(C
   int __pyx_v_end;
   PyArrayObject *__pyx_v_images = 0;
   int __pyx_v_i;
+  CYTHON_UNUSED int __pyx_v_flag;
   CYTHON_UNUSED int __pyx_v_npixels;
   PyObject *__pyx_v_filename_byte_string = NULL;
   char *__pyx_v_fname;
@@ -2807,7 +2810,7 @@ static PyObject *__pyx_pf_8pySciCam_18chronos14_mono_raw_read_chronos_mono_raw(C
 
   /* "pySciCam/chronos14_mono_raw.pyx":110
  *     # read array in
- *     cdef int i
+ *     cdef int i, flag
  *     cdef int npixels = int(ceil((end-start)/bytes_per_pixel))             # <<<<<<<<<<<<<<
  *     filename_byte_string = filename.encode("UTF-8")
  *     cdef char * fname = filename_byte_string
@@ -2815,7 +2818,7 @@ static PyObject *__pyx_pf_8pySciCam_18chronos14_mono_raw_read_chronos_mono_raw(C
   __pyx_v_npixels = ((int)ceil((((double)(__pyx_v_end - __pyx_v_start)) / __pyx_v_bytes_per_pixel)));
 
   /* "pySciCam/chronos14_mono_raw.pyx":111
- *     cdef int i
+ *     cdef int i, flag
  *     cdef int npixels = int(ceil((end-start)/bytes_per_pixel))
  *     filename_byte_string = filename.encode("UTF-8")             # <<<<<<<<<<<<<<
  *     cdef char * fname = filename_byte_string
@@ -2884,7 +2887,7 @@ static PyObject *__pyx_pf_8pySciCam_18chronos14_mono_raw_read_chronos_mono_raw(C
  *         if start>0: fseek (cfile, start, SEEK_SET)
  *         if bits_per_pixel==12: # loop every 3 bytes, read 2 pixels             # <<<<<<<<<<<<<<
  *             for i in xrange(0,len(images),2):
- *                 fread (&buffer, 1, 3, cfile)
+ *                 flag = fread (&buffer, 1, 3, cfile)
  */
     switch (__pyx_v_bits_per_pixel) {
       case 12:
@@ -2893,7 +2896,7 @@ static PyObject *__pyx_pf_8pySciCam_18chronos14_mono_raw_read_chronos_mono_raw(C
  *         if start>0: fseek (cfile, start, SEEK_SET)
  *         if bits_per_pixel==12: # loop every 3 bytes, read 2 pixels
  *             for i in xrange(0,len(images),2):             # <<<<<<<<<<<<<<
- *                 fread (&buffer, 1, 3, cfile)
+ *                 flag = fread (&buffer, 1, 3, cfile)
  *                 buf2 = <int>buffer
  */
       __pyx_t_15 = PyObject_Length(((PyObject *)__pyx_v_images)); if (unlikely(__pyx_t_15 == ((Py_ssize_t)-1))) __PYX_ERR(0, 120, __pyx_L1_error)
@@ -2903,15 +2906,15 @@ static PyObject *__pyx_pf_8pySciCam_18chronos14_mono_raw_read_chronos_mono_raw(C
         /* "pySciCam/chronos14_mono_raw.pyx":121
  *         if bits_per_pixel==12: # loop every 3 bytes, read 2 pixels
  *             for i in xrange(0,len(images),2):
- *                 fread (&buffer, 1, 3, cfile)             # <<<<<<<<<<<<<<
+ *                 flag = fread (&buffer, 1, 3, cfile)             # <<<<<<<<<<<<<<
  *                 buf2 = <int>buffer
  * 
  */
-        fread((&__pyx_v_buffer), 1, 3, __pyx_v_cfile);
+        __pyx_v_flag = fread((&__pyx_v_buffer), 1, 3, __pyx_v_cfile);
 
         /* "pySciCam/chronos14_mono_raw.pyx":122
  *             for i in xrange(0,len(images),2):
- *                 fread (&buffer, 1, 3, cfile)
+ *                 flag = fread (&buffer, 1, 3, cfile)
  *                 buf2 = <int>buffer             # <<<<<<<<<<<<<<
  * 
  *                 # Read two pixels from three bytes
@@ -3024,7 +3027,7 @@ static PyObject *__pyx_pf_8pySciCam_18chronos14_mono_raw_read_chronos_mono_raw(C
  *         if start>0: fseek (cfile, start, SEEK_SET)
  *         if bits_per_pixel==12: # loop every 3 bytes, read 2 pixels             # <<<<<<<<<<<<<<
  *             for i in xrange(0,len(images),2):
- *                 fread (&buffer, 1, 3, cfile)
+ *                 flag = fread (&buffer, 1, 3, cfile)
  */
       break;
 
@@ -3033,7 +3036,7 @@ static PyObject *__pyx_pf_8pySciCam_18chronos14_mono_raw_read_chronos_mono_raw(C
  * 
  *         elif bits_per_pixel==16: # loop every 2 bytes, write 1 pixel             # <<<<<<<<<<<<<<
  *             for i in xrange(0,len(images)):
- *                 fread (&buffer, 1, 2, cfile)
+ *                 flag = fread (&buffer, 1, 2, cfile)
  */
       case 16:
 
@@ -3041,7 +3044,7 @@ static PyObject *__pyx_pf_8pySciCam_18chronos14_mono_raw_read_chronos_mono_raw(C
  * 
  *         elif bits_per_pixel==16: # loop every 2 bytes, write 1 pixel
  *             for i in xrange(0,len(images)):             # <<<<<<<<<<<<<<
- *                 fread (&buffer, 1, 2, cfile)
+ *                 flag = fread (&buffer, 1, 2, cfile)
  *                 buf2 = <int>buffer
  */
       __pyx_t_15 = PyObject_Length(((PyObject *)__pyx_v_images)); if (unlikely(__pyx_t_15 == ((Py_ssize_t)-1))) __PYX_ERR(0, 149, __pyx_L1_error)
@@ -3051,15 +3054,15 @@ static PyObject *__pyx_pf_8pySciCam_18chronos14_mono_raw_read_chronos_mono_raw(C
         /* "pySciCam/chronos14_mono_raw.pyx":150
  *         elif bits_per_pixel==16: # loop every 2 bytes, write 1 pixel
  *             for i in xrange(0,len(images)):
- *                 fread (&buffer, 1, 2, cfile)             # <<<<<<<<<<<<<<
+ *                 flag = fread (&buffer, 1, 2, cfile)             # <<<<<<<<<<<<<<
  *                 buf2 = <int>buffer
  *                 images[i]   = <DTYPE_t>(buf2 & 0xFFFF)
  */
-        fread((&__pyx_v_buffer), 1, 2, __pyx_v_cfile);
+        __pyx_v_flag = fread((&__pyx_v_buffer), 1, 2, __pyx_v_cfile);
 
         /* "pySciCam/chronos14_mono_raw.pyx":151
  *             for i in xrange(0,len(images)):
- *                 fread (&buffer, 1, 2, cfile)
+ *                 flag = fread (&buffer, 1, 2, cfile)
  *                 buf2 = <int>buffer             # <<<<<<<<<<<<<<
  *                 images[i]   = <DTYPE_t>(buf2 & 0xFFFF)
  * 
@@ -3067,7 +3070,7 @@ static PyObject *__pyx_pf_8pySciCam_18chronos14_mono_raw_read_chronos_mono_raw(C
         __pyx_v_buf2 = ((int)__pyx_v_buffer);
 
         /* "pySciCam/chronos14_mono_raw.pyx":152
- *                 fread (&buffer, 1, 2, cfile)
+ *                 flag = fread (&buffer, 1, 2, cfile)
  *                 buf2 = <int>buffer
  *                 images[i]   = <DTYPE_t>(buf2 & 0xFFFF)             # <<<<<<<<<<<<<<
  * 
@@ -3090,7 +3093,7 @@ static PyObject *__pyx_pf_8pySciCam_18chronos14_mono_raw_read_chronos_mono_raw(C
  * 
  *         elif bits_per_pixel==16: # loop every 2 bytes, write 1 pixel             # <<<<<<<<<<<<<<
  *             for i in xrange(0,len(images)):
- *                 fread (&buffer, 1, 2, cfile)
+ *                 flag = fread (&buffer, 1, 2, cfile)
  */
       break;
       default: break;
@@ -5935,6 +5938,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_file, __pyx_k_file, sizeof(__pyx_k_file), 0, 0, 1, 1},
   {&__pyx_n_s_filename, __pyx_k_filename, sizeof(__pyx_k_filename), 0, 0, 1, 1},
   {&__pyx_n_s_filename_byte_string, __pyx_k_filename_byte_string, sizeof(__pyx_k_filename_byte_string), 0, 0, 1, 1},
+  {&__pyx_n_s_flag, __pyx_k_flag, sizeof(__pyx_k_flag), 0, 0, 1, 1},
   {&__pyx_n_s_fname, __pyx_k_fname, sizeof(__pyx_k_fname), 0, 0, 1, 1},
   {&__pyx_n_s_frame_pad, __pyx_k_frame_pad, sizeof(__pyx_k_frame_pad), 0, 0, 1, 1},
   {&__pyx_kp_s_frame_range_Cannot_start_reading, __pyx_k_frame_range_Cannot_start_reading, sizeof(__pyx_k_frame_range_Cannot_start_reading), 0, 0, 1, 0},
@@ -6059,7 +6063,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__5);
 
   /* "pySciCam/chronos14_mono_raw.pyx":111
- *     cdef int i
+ *     cdef int i, flag
  *     cdef int npixels = int(ceil((end-start)/bytes_per_pixel))
  *     filename_byte_string = filename.encode("UTF-8")             # <<<<<<<<<<<<<<
  *     cdef char * fname = filename_byte_string
@@ -6173,10 +6177,10 @@ static int __Pyx_InitCachedConstants(void) {
  *                           int bits_per_pixel=12, int start_offset = 0, int quiet = 0):
  * 
  */
-  __pyx_tuple__16 = PyTuple_Pack(26, __pyx_n_s_filename, __pyx_n_s_width, __pyx_n_s_height, __pyx_n_s_frames, __pyx_n_s_bits_per_pixel, __pyx_n_s_start_offset, __pyx_n_s_quiet, __pyx_n_s_t0, __pyx_n_s_bytes_per_pixel, __pyx_n_s_nbytes, __pyx_n_s_scanline_pad, __pyx_n_s_scanline_bytes, __pyx_n_s_frame_pad, __pyx_n_s_bytes_per_frame, __pyx_n_s_nframes, __pyx_n_s_remainder_bytes, __pyx_n_s_start, __pyx_n_s_end, __pyx_n_s_images, __pyx_n_s_i, __pyx_n_s_npixels, __pyx_n_s_filename_byte_string, __pyx_n_s_fname, __pyx_n_s_buffer, __pyx_n_s_buf2, __pyx_n_s_cfile); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_tuple__16 = PyTuple_Pack(27, __pyx_n_s_filename, __pyx_n_s_width, __pyx_n_s_height, __pyx_n_s_frames, __pyx_n_s_bits_per_pixel, __pyx_n_s_start_offset, __pyx_n_s_quiet, __pyx_n_s_t0, __pyx_n_s_bytes_per_pixel, __pyx_n_s_nbytes, __pyx_n_s_scanline_pad, __pyx_n_s_scanline_bytes, __pyx_n_s_frame_pad, __pyx_n_s_bytes_per_frame, __pyx_n_s_nframes, __pyx_n_s_remainder_bytes, __pyx_n_s_start, __pyx_n_s_end, __pyx_n_s_images, __pyx_n_s_i, __pyx_n_s_flag, __pyx_n_s_npixels, __pyx_n_s_filename_byte_string, __pyx_n_s_fname, __pyx_n_s_buffer, __pyx_n_s_buf2, __pyx_n_s_cfile); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__16);
   __Pyx_GIVEREF(__pyx_tuple__16);
-  __pyx_codeobj__17 = (PyObject*)__Pyx_PyCode_New(7, 0, 26, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__16, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pySciCam_chronos14_mono_raw, __pyx_n_s_read_chronos_mono_raw, 44, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__17)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_codeobj__17 = (PyObject*)__Pyx_PyCode_New(7, 0, 27, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__16, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pySciCam_chronos14_mono_raw, __pyx_n_s_read_chronos_mono_raw, 44, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__17)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;

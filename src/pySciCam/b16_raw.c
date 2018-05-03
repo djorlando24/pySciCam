@@ -1663,6 +1663,7 @@ static const char __pyx_k_t0[] = "t0";
 static const char __pyx_k_b16[] = ".b16";
 static const char __pyx_k_end[] = "end";
 static const char __pyx_k_file[] = "file";
+static const char __pyx_k_flag[] = "flag";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_path[] = "path";
 static const char __pyx_k_test[] = "__test__";
@@ -1764,6 +1765,7 @@ static PyObject *__pyx_n_s_end;
 static PyObject *__pyx_n_s_file;
 static PyObject *__pyx_n_s_filename;
 static PyObject *__pyx_n_s_filename_byte_string;
+static PyObject *__pyx_n_s_flag;
 static PyObject *__pyx_n_s_fname;
 static PyObject *__pyx_n_s_hb;
 static PyObject *__pyx_n_s_hbytes;
@@ -1864,6 +1866,7 @@ static PyObject *__pyx_pf_8pySciCam_7b16_raw_b16_read_header(CYTHON_UNUSED PyObj
   unsigned char *__pyx_v_buffer;
   int __pyx_v_height;
   int __pyx_v_width;
+  CYTHON_UNUSED int __pyx_v_flag;
   unsigned int __pyx_v_skipext;
   long __pyx_v_nbytes;
   long __pyx_v_hbytes;
@@ -1886,7 +1889,7 @@ static PyObject *__pyx_pf_8pySciCam_7b16_raw_b16_read_header(CYTHON_UNUSED PyObj
  * def b16_read_header(char* fname):
  *     cfile = fopen(fname, "rb")             # <<<<<<<<<<<<<<
  *     cdef unsigned char * buffer = <unsigned char*>malloc(4)
- *     cdef int height, width
+ *     cdef int height, width, flag
  */
   __pyx_v_cfile = fopen(__pyx_v_fname, ((char const *)"rb"));
 
@@ -1894,14 +1897,14 @@ static PyObject *__pyx_pf_8pySciCam_7b16_raw_b16_read_header(CYTHON_UNUSED PyObj
  * def b16_read_header(char* fname):
  *     cfile = fopen(fname, "rb")
  *     cdef unsigned char * buffer = <unsigned char*>malloc(4)             # <<<<<<<<<<<<<<
- *     cdef int height, width
+ *     cdef int height, width, flag
  *     cdef unsigned int skipext = 0
  */
   __pyx_v_buffer = ((unsigned char *)malloc(4));
 
   /* "pySciCam/b16_raw.pyx":43
  *     cdef unsigned char * buffer = <unsigned char*>malloc(4)
- *     cdef int height, width
+ *     cdef int height, width, flag
  *     cdef unsigned int skipext = 0             # <<<<<<<<<<<<<<
  *     cdef long nbytes, hbytes
  * 
@@ -1913,25 +1916,25 @@ static PyObject *__pyx_pf_8pySciCam_7b16_raw_b16_read_header(CYTHON_UNUSED PyObj
  *     # Read header
  *     fseek (cfile, 4, SEEK_CUR)             # <<<<<<<<<<<<<<
  * 
- *     fread (&buffer, 1, 4, cfile)
+ *     flag = fread (&buffer, 1, 4, cfile)
  */
   fseek(__pyx_v_cfile, 4, SEEK_CUR);
 
   /* "pySciCam/b16_raw.pyx":49
  *     fseek (cfile, 4, SEEK_CUR)
  * 
- *     fread (&buffer, 1, 4, cfile)             # <<<<<<<<<<<<<<
+ *     flag = fread (&buffer, 1, 4, cfile)             # <<<<<<<<<<<<<<
  *     hb = <long>buffer & 0xFFFFFFFF
  *     nbytes = hb
  */
-  fread((&__pyx_v_buffer), 1, 4, __pyx_v_cfile);
+  __pyx_v_flag = fread((&__pyx_v_buffer), 1, 4, __pyx_v_cfile);
 
   /* "pySciCam/b16_raw.pyx":50
  * 
- *     fread (&buffer, 1, 4, cfile)
+ *     flag = fread (&buffer, 1, 4, cfile)
  *     hb = <long>buffer & 0xFFFFFFFF             # <<<<<<<<<<<<<<
  *     nbytes = hb
- *     fread (&buffer, 1, 4, cfile)
+ *     flag = fread (&buffer, 1, 4, cfile)
  */
   __pyx_t_1 = __Pyx_PyInt_From_long(((long)__pyx_v_buffer)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -1942,10 +1945,10 @@ static PyObject *__pyx_pf_8pySciCam_7b16_raw_b16_read_header(CYTHON_UNUSED PyObj
   __pyx_t_2 = 0;
 
   /* "pySciCam/b16_raw.pyx":51
- *     fread (&buffer, 1, 4, cfile)
+ *     flag = fread (&buffer, 1, 4, cfile)
  *     hb = <long>buffer & 0xFFFFFFFF
  *     nbytes = hb             # <<<<<<<<<<<<<<
- *     fread (&buffer, 1, 4, cfile)
+ *     flag = fread (&buffer, 1, 4, cfile)
  *     hb = <long>buffer & 0xFFFFFFFF
  */
   __pyx_t_3 = __Pyx_PyInt_As_long(__pyx_v_hb); if (unlikely((__pyx_t_3 == (long)-1) && PyErr_Occurred())) __PYX_ERR(0, 51, __pyx_L1_error)
@@ -1954,15 +1957,15 @@ static PyObject *__pyx_pf_8pySciCam_7b16_raw_b16_read_header(CYTHON_UNUSED PyObj
   /* "pySciCam/b16_raw.pyx":52
  *     hb = <long>buffer & 0xFFFFFFFF
  *     nbytes = hb
- *     fread (&buffer, 1, 4, cfile)             # <<<<<<<<<<<<<<
+ *     flag = fread (&buffer, 1, 4, cfile)             # <<<<<<<<<<<<<<
  *     hb = <long>buffer & 0xFFFFFFFF
  *     hbytes = hb
  */
-  fread((&__pyx_v_buffer), 1, 4, __pyx_v_cfile);
+  __pyx_v_flag = fread((&__pyx_v_buffer), 1, 4, __pyx_v_cfile);
 
   /* "pySciCam/b16_raw.pyx":53
  *     nbytes = hb
- *     fread (&buffer, 1, 4, cfile)
+ *     flag = fread (&buffer, 1, 4, cfile)
  *     hb = <long>buffer & 0xFFFFFFFF             # <<<<<<<<<<<<<<
  *     hbytes = hb
  *     nbytes -= hb
@@ -1976,7 +1979,7 @@ static PyObject *__pyx_pf_8pySciCam_7b16_raw_b16_read_header(CYTHON_UNUSED PyObj
   __pyx_t_1 = 0;
 
   /* "pySciCam/b16_raw.pyx":54
- *     fread (&buffer, 1, 4, cfile)
+ *     flag = fread (&buffer, 1, 4, cfile)
  *     hb = <long>buffer & 0xFFFFFFFF
  *     hbytes = hb             # <<<<<<<<<<<<<<
  *     nbytes -= hb
@@ -1990,7 +1993,7 @@ static PyObject *__pyx_pf_8pySciCam_7b16_raw_b16_read_header(CYTHON_UNUSED PyObj
  *     hbytes = hb
  *     nbytes -= hb             # <<<<<<<<<<<<<<
  * 
- *     fread (&buffer, 1, 4, cfile)
+ *     flag = fread (&buffer, 1, 4, cfile)
  */
   __pyx_t_1 = __Pyx_PyInt_From_long(__pyx_v_nbytes); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 55, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -2004,15 +2007,15 @@ static PyObject *__pyx_pf_8pySciCam_7b16_raw_b16_read_header(CYTHON_UNUSED PyObj
   /* "pySciCam/b16_raw.pyx":57
  *     nbytes -= hb
  * 
- *     fread (&buffer, 1, 4, cfile)             # <<<<<<<<<<<<<<
+ *     flag = fread (&buffer, 1, 4, cfile)             # <<<<<<<<<<<<<<
  *     hb = <long>buffer & 0xFFFFFFFF
  *     width = int(hb)
  */
-  fread((&__pyx_v_buffer), 1, 4, __pyx_v_cfile);
+  __pyx_v_flag = fread((&__pyx_v_buffer), 1, 4, __pyx_v_cfile);
 
   /* "pySciCam/b16_raw.pyx":58
  * 
- *     fread (&buffer, 1, 4, cfile)
+ *     flag = fread (&buffer, 1, 4, cfile)
  *     hb = <long>buffer & 0xFFFFFFFF             # <<<<<<<<<<<<<<
  *     width = int(hb)
  * 
@@ -2026,11 +2029,11 @@ static PyObject *__pyx_pf_8pySciCam_7b16_raw_b16_read_header(CYTHON_UNUSED PyObj
   __pyx_t_1 = 0;
 
   /* "pySciCam/b16_raw.pyx":59
- *     fread (&buffer, 1, 4, cfile)
+ *     flag = fread (&buffer, 1, 4, cfile)
  *     hb = <long>buffer & 0xFFFFFFFF
  *     width = int(hb)             # <<<<<<<<<<<<<<
  * 
- *     fread (&buffer, 1, 4, cfile)
+ *     flag = fread (&buffer, 1, 4, cfile)
  */
   __pyx_t_1 = __Pyx_PyNumber_Int(__pyx_v_hb); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 59, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -2041,15 +2044,15 @@ static PyObject *__pyx_pf_8pySciCam_7b16_raw_b16_read_header(CYTHON_UNUSED PyObj
   /* "pySciCam/b16_raw.pyx":61
  *     width = int(hb)
  * 
- *     fread (&buffer, 1, 4, cfile)             # <<<<<<<<<<<<<<
+ *     flag = fread (&buffer, 1, 4, cfile)             # <<<<<<<<<<<<<<
  *     hb = <long>buffer & 0xFFFFFFFF
  *     height = int(hb)
  */
-  fread((&__pyx_v_buffer), 1, 4, __pyx_v_cfile);
+  __pyx_v_flag = fread((&__pyx_v_buffer), 1, 4, __pyx_v_cfile);
 
   /* "pySciCam/b16_raw.pyx":62
  * 
- *     fread (&buffer, 1, 4, cfile)
+ *     flag = fread (&buffer, 1, 4, cfile)
  *     hb = <long>buffer & 0xFFFFFFFF             # <<<<<<<<<<<<<<
  *     height = int(hb)
  * 
@@ -2063,11 +2066,11 @@ static PyObject *__pyx_pf_8pySciCam_7b16_raw_b16_read_header(CYTHON_UNUSED PyObj
   __pyx_t_2 = 0;
 
   /* "pySciCam/b16_raw.pyx":63
- *     fread (&buffer, 1, 4, cfile)
+ *     flag = fread (&buffer, 1, 4, cfile)
  *     hb = <long>buffer & 0xFFFFFFFF
  *     height = int(hb)             # <<<<<<<<<<<<<<
  * 
- *     fread (&buffer, 1, 4, cfile)
+ *     flag = fread (&buffer, 1, 4, cfile)
  */
   __pyx_t_2 = __Pyx_PyNumber_Int(__pyx_v_hb); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 63, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -2078,15 +2081,15 @@ static PyObject *__pyx_pf_8pySciCam_7b16_raw_b16_read_header(CYTHON_UNUSED PyObj
   /* "pySciCam/b16_raw.pyx":65
  *     height = int(hb)
  * 
- *     fread (&buffer, 1, 4, cfile)             # <<<<<<<<<<<<<<
+ *     flag = fread (&buffer, 1, 4, cfile)             # <<<<<<<<<<<<<<
  *     hb = <long>buffer & 0xFFFFFFFF
  *     if hb != 0xFFFFFFFF: skipext=1
  */
-  fread((&__pyx_v_buffer), 1, 4, __pyx_v_cfile);
+  __pyx_v_flag = fread((&__pyx_v_buffer), 1, 4, __pyx_v_cfile);
 
   /* "pySciCam/b16_raw.pyx":66
  * 
- *     fread (&buffer, 1, 4, cfile)
+ *     flag = fread (&buffer, 1, 4, cfile)
  *     hb = <long>buffer & 0xFFFFFFFF             # <<<<<<<<<<<<<<
  *     if hb != 0xFFFFFFFF: skipext=1
  * 
@@ -2100,7 +2103,7 @@ static PyObject *__pyx_pf_8pySciCam_7b16_raw_b16_read_header(CYTHON_UNUSED PyObj
   __pyx_t_1 = 0;
 
   /* "pySciCam/b16_raw.pyx":67
- *     fread (&buffer, 1, 4, cfile)
+ *     flag = fread (&buffer, 1, 4, cfile)
  *     hb = <long>buffer & 0xFFFFFFFF
  *     if hb != 0xFFFFFFFF: skipext=1             # <<<<<<<<<<<<<<
  * 
@@ -2292,6 +2295,7 @@ static PyObject *__pyx_pf_8pySciCam_7b16_raw_2b16_reader(CYTHON_UNUSED PyObject 
   unsigned int __pyx_v_skipext;
   unsigned int __pyx_v_block;
   unsigned int __pyx_v_npixels;
+  CYTHON_UNUSED unsigned int __pyx_v_flag;
   FILE *__pyx_v_cfile;
   __Pyx_LocalBuf_ND __pyx_pybuffernd_images;
   __Pyx_Buffer __pyx_pybuffer_images;
@@ -2562,12 +2566,12 @@ static PyObject *__pyx_pf_8pySciCam_7b16_raw_2b16_reader(CYTHON_UNUSED PyObject 
  *     cdef char * fname = filename_byte_string
  *     cdef unsigned char * buffer = <unsigned char*>malloc(4)             # <<<<<<<<<<<<<<
  *     cdef long hb
- *     cdef unsigned int mb, i, skipext, block, npixels
+ *     cdef unsigned int mb, i, skipext, block, npixels, flag
  */
   __pyx_v_buffer = ((unsigned char *)malloc(4));
 
   /* "pySciCam/b16_raw.pyx":99
- *     cdef unsigned int mb, i, skipext, block, npixels
+ *     cdef unsigned int mb, i, skipext, block, npixels, flag
  * 
  *     height, width, nbytes_from_header, hbytes, skipext = b16_read_header(fname)             # <<<<<<<<<<<<<<
  *     nbytes = nbytes_from_header
@@ -3209,7 +3213,7 @@ static PyObject *__pyx_pf_8pySciCam_7b16_raw_2b16_reader(CYTHON_UNUSED PyObject 
  * 
  *         # Read pixel buffer
  *         for i in xrange(npixels):             # <<<<<<<<<<<<<<
- *             fread (&buffer, 1, 2, cfile)
+ *             flag = fread (&buffer, 1, 2, cfile)
  *             mb = <int>buffer & 0xFFFF
  */
     __pyx_t_15 = __pyx_v_npixels;
@@ -3219,15 +3223,15 @@ static PyObject *__pyx_pf_8pySciCam_7b16_raw_2b16_reader(CYTHON_UNUSED PyObject 
       /* "pySciCam/b16_raw.pyx":149
  *         # Read pixel buffer
  *         for i in xrange(npixels):
- *             fread (&buffer, 1, 2, cfile)             # <<<<<<<<<<<<<<
+ *             flag = fread (&buffer, 1, 2, cfile)             # <<<<<<<<<<<<<<
  *             mb = <int>buffer & 0xFFFF
  *             images[i] = <DTYPE_t>mb
  */
-      fread((&__pyx_v_buffer), 1, 2, __pyx_v_cfile);
+      __pyx_v_flag = fread((&__pyx_v_buffer), 1, 2, __pyx_v_cfile);
 
       /* "pySciCam/b16_raw.pyx":150
  *         for i in xrange(npixels):
- *             fread (&buffer, 1, 2, cfile)
+ *             flag = fread (&buffer, 1, 2, cfile)
  *             mb = <int>buffer & 0xFFFF             # <<<<<<<<<<<<<<
  *             images[i] = <DTYPE_t>mb
  * 
@@ -3235,7 +3239,7 @@ static PyObject *__pyx_pf_8pySciCam_7b16_raw_2b16_reader(CYTHON_UNUSED PyObject 
       __pyx_v_mb = (((int)__pyx_v_buffer) & 0xFFFF);
 
       /* "pySciCam/b16_raw.pyx":151
- *             fread (&buffer, 1, 2, cfile)
+ *             flag = fread (&buffer, 1, 2, cfile)
  *             mb = <int>buffer & 0xFFFF
  *             images[i] = <DTYPE_t>mb             # <<<<<<<<<<<<<<
  * 
@@ -6259,6 +6263,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_file, __pyx_k_file, sizeof(__pyx_k_file), 0, 0, 1, 1},
   {&__pyx_n_s_filename, __pyx_k_filename, sizeof(__pyx_k_filename), 0, 0, 1, 1},
   {&__pyx_n_s_filename_byte_string, __pyx_k_filename_byte_string, sizeof(__pyx_k_filename_byte_string), 0, 0, 1, 1},
+  {&__pyx_n_s_flag, __pyx_k_flag, sizeof(__pyx_k_flag), 0, 0, 1, 1},
   {&__pyx_n_s_fname, __pyx_k_fname, sizeof(__pyx_k_fname), 0, 0, 1, 1},
   {&__pyx_n_s_hb, __pyx_k_hb, sizeof(__pyx_k_hb), 0, 0, 1, 1},
   {&__pyx_n_s_hbytes, __pyx_k_hbytes, sizeof(__pyx_k_hbytes), 0, 0, 1, 1},
@@ -6436,10 +6441,10 @@ static int __Pyx_InitCachedConstants(void) {
  *     cfile = fopen(fname, "rb")
  *     cdef unsigned char * buffer = <unsigned char*>malloc(4)
  */
-  __pyx_tuple__11 = PyTuple_Pack(10, __pyx_n_s_fname, __pyx_n_s_fname, __pyx_n_s_cfile, __pyx_n_s_buffer, __pyx_n_s_height, __pyx_n_s_width, __pyx_n_s_skipext, __pyx_n_s_nbytes, __pyx_n_s_hbytes, __pyx_n_s_hb); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __pyx_tuple__11 = PyTuple_Pack(11, __pyx_n_s_fname, __pyx_n_s_fname, __pyx_n_s_cfile, __pyx_n_s_buffer, __pyx_n_s_height, __pyx_n_s_width, __pyx_n_s_flag, __pyx_n_s_skipext, __pyx_n_s_nbytes, __pyx_n_s_hbytes, __pyx_n_s_hb); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__11);
   __Pyx_GIVEREF(__pyx_tuple__11);
-  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(1, 0, 10, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pySciCam_b16_raw_pyx, __pyx_n_s_b16_read_header, 39, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(1, 0, 11, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pySciCam_b16_raw_pyx, __pyx_n_s_b16_read_header, 39, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 39, __pyx_L1_error)
 
   /* "pySciCam/b16_raw.pyx":74
  * 
@@ -6448,10 +6453,10 @@ static int __Pyx_InitCachedConstants(void) {
  *     """ Read B16 or B16dat file specified by filename """
  * 
  */
-  __pyx_tuple__13 = PyTuple_Pack(22, __pyx_n_s_filename, __pyx_n_s_doubleExposure, __pyx_n_s_quiet, __pyx_n_s_t0, __pyx_n_s_width, __pyx_n_s_height, __pyx_n_s_images, __pyx_n_s_nbytes, __pyx_n_s_nbytes_from_header, __pyx_n_s_hbytes, __pyx_n_s_nframes, __pyx_n_s_is_b16dat, __pyx_n_s_filename_byte_string, __pyx_n_s_fname, __pyx_n_s_buffer, __pyx_n_s_hb, __pyx_n_s_mb, __pyx_n_s_i, __pyx_n_s_skipext, __pyx_n_s_block, __pyx_n_s_npixels, __pyx_n_s_cfile); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 74, __pyx_L1_error)
+  __pyx_tuple__13 = PyTuple_Pack(23, __pyx_n_s_filename, __pyx_n_s_doubleExposure, __pyx_n_s_quiet, __pyx_n_s_t0, __pyx_n_s_width, __pyx_n_s_height, __pyx_n_s_images, __pyx_n_s_nbytes, __pyx_n_s_nbytes_from_header, __pyx_n_s_hbytes, __pyx_n_s_nframes, __pyx_n_s_is_b16dat, __pyx_n_s_filename_byte_string, __pyx_n_s_fname, __pyx_n_s_buffer, __pyx_n_s_hb, __pyx_n_s_mb, __pyx_n_s_i, __pyx_n_s_skipext, __pyx_n_s_block, __pyx_n_s_npixels, __pyx_n_s_flag, __pyx_n_s_cfile); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__13);
   __Pyx_GIVEREF(__pyx_tuple__13);
-  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(3, 0, 22, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pySciCam_b16_raw_pyx, __pyx_n_s_b16_reader, 74, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) __PYX_ERR(0, 74, __pyx_L1_error)
+  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(3, 0, 23, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_pySciCam_b16_raw_pyx, __pyx_n_s_b16_reader, 74, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;

@@ -39,30 +39,30 @@ ctypedef np.uint16_t DTYPE_t
 def b16_read_header(char* fname):
     cfile = fopen(fname, "rb")
     cdef unsigned char * buffer = <unsigned char*>malloc(4)
-    cdef int height, width
+    cdef int height, width, flag
     cdef unsigned int skipext = 0
     cdef long nbytes, hbytes
 
     # Read header
     fseek (cfile, 4, SEEK_CUR)
 
-    fread (&buffer, 1, 4, cfile)
+    flag = fread (&buffer, 1, 4, cfile)
     hb = <long>buffer & 0xFFFFFFFF
     nbytes = hb
-    fread (&buffer, 1, 4, cfile)
+    flag = fread (&buffer, 1, 4, cfile)
     hb = <long>buffer & 0xFFFFFFFF
     hbytes = hb
     nbytes -= hb
 
-    fread (&buffer, 1, 4, cfile)
+    flag = fread (&buffer, 1, 4, cfile)
     hb = <long>buffer & 0xFFFFFFFF
     width = int(hb)
 
-    fread (&buffer, 1, 4, cfile)
+    flag = fread (&buffer, 1, 4, cfile)
     hb = <long>buffer & 0xFFFFFFFF
     height = int(hb)
 
-    fread (&buffer, 1, 4, cfile)
+    flag = fread (&buffer, 1, 4, cfile)
     hb = <long>buffer & 0xFFFFFFFF
     if hb != 0xFFFFFFFF: skipext=1
 
@@ -94,7 +94,7 @@ def b16_reader(filename,doubleExposure=True,quiet=0):
     cdef char * fname = filename_byte_string
     cdef unsigned char * buffer = <unsigned char*>malloc(4)
     cdef long hb
-    cdef unsigned int mb, i, skipext, block, npixels
+    cdef unsigned int mb, i, skipext, block, npixels, flag
 
     height, width, nbytes_from_header, hbytes, skipext = b16_read_header(fname)
     nbytes = nbytes_from_header
@@ -146,7 +146,7 @@ def b16_reader(filename,doubleExposure=True,quiet=0):
 
         # Read pixel buffer
         for i in xrange(npixels):
-            fread (&buffer, 1, 2, cfile)
+            flag = fread (&buffer, 1, 2, cfile)
             mb = <int>buffer & 0xFFFF
             images[i] = <DTYPE_t>mb
 
