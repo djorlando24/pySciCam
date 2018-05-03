@@ -7,7 +7,7 @@
     @copyright (c) 2018 LTRAC
     @license GPL-3.0+
     @version 0.1.2
-    @date 24/04/2018
+    @date 03/05/2018
     
     Please see help(pySciCam) for more information.
 """
@@ -21,7 +21,7 @@ __copyright__="Copyright (c) 2018 LTRAC"
 # Known tested still frame file extensions
 still_formats = ['.tif','.tiff']
 
-import time
+import time, os
 import numpy as np
 
 ##########################################################################################
