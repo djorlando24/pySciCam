@@ -10,8 +10,13 @@
 
     support single & double exposed B16 (single image pair) and B16dat (multiple pairs).
 
-
     Please see help(pySciCam) for more information.
+        __   ____________    ___    ______
+       / /  /_  ____ __  \  /   |  / ____/
+      / /    / /   / /_/ / / /| | / /
+     / /___ / /   / _, _/ / ___ |/ /_________
+    /_____//_/   /_/ |__\/_/  |_|\__________/
+
 """
 from __future__ import division
 

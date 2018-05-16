@@ -10,6 +10,12 @@
     @date 03/05/2018
     
     Please see help(pySciCam) for more information.
+        __   ____________    ___    ______
+       / /  /_  ____ __  \  /   |  / ____/
+      / /    / /   / /_/ / / /| | / /
+     / /___ / /   / _, _/ / ___ |/ /_________
+    /_____//_/   /_/ |__\/_/  |_|\__________/
+
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
