@@ -3,8 +3,8 @@ Class to read images from high speed and scientific cameras in Python
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2018 LTRAC
     @license GPL-3.0+
-    @version 0.1.2
-    @date 8/4/2018    
+    @version 0.1.3
+    @date 16/6/2018
         __   ____________    ___    ______    
        / /  /_  ____ __  \  /   |  / ____/    
       / /    / /   / /_/ / / /| | / /         

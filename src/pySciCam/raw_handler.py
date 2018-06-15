@@ -6,8 +6,8 @@
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2018 LTRAC
     @license GPL-3.0+
-    @version 0.1.2
-    @date 08/04/2018
+    @version 0.1.3
+    @date 16/6/2018
     
     Please see help(pySciCam) for more information.
         __   ____________    ___    ______
@@ -19,7 +19,7 @@
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.1.1"
+__version__="0.1.3"
 __license__="GPL-3.0+"
 __copyright__="Copyright (c) 2018 LTRAC"
 
@@ -157,8 +157,4 @@ def load_raw(ImageSequence,all_images,rawtype=None,width=None,height=None,\
     else:
         raise ValueError("Unknown RAW format `%s'. Allowed choices:\n\trawtype = %s" % (rawtype,raw_types))
     
-    
-    ImageSequence.width = ImageSequence.arr.shape[2]
-    ImageSequence.height = ImageSequence.arr.shape[1]
-    ImageSequence.dtype = ImageSequence.arr.dtype
     return

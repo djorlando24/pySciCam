@@ -6,7 +6,7 @@
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2017 LTRAC
     @license GPL-3.0+
-    @version 0.1.2
+    @version 0.1.3
     @date 08/04/2018
     
     Please see help(pySciCam) for more information.
