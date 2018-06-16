@@ -36,14 +36,23 @@ if not os.path.isdir(dest):
     print "Create directory",dest
     os.mkdir(dest)
 
-I = ImageSequence(sys.argv[1],rawtype='chronos14_mono_12bit_noheader',width=1280,height=1024)
+if len(sys.argv)==3:
+    fr = (0,int(sys.argv[2]))
+elif len(sys.argv)>3:
+    fr = (int(sys.argv[2]),int(sys.argv[3]))
+else:
+    fr=None
+
+I = ImageSequence(sys.argv[1],rawtype='chronos14_mono_12bit_noheader',width=1280,height=1024,frames=fr)
 print '-'*79
 
+overwrite=False
 for i in range(I.N):
     fn='%s/%s_%06i.tif' % (dest,prefix,i)
-    if os.path.isfile(fn):
-        s=raw_input( "File exists! Overwrite?" )
+    if os.path.isfile(fn) and not overwrite:
+        s=raw_input( "File exists! Overwrite all? ")
         if s.lower().strip() != 'y': break
+        overwrite=True
     print '\t',fn
     tiff = TIFF.open(fn, mode='w')
     tiff.write_image(I.arr[i,...])
