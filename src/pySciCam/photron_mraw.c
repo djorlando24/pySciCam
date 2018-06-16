@@ -1420,15 +1420,15 @@ static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value);
 /* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_unsigned_int(unsigned int value);
 
+/* CIntToPy.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
+
 /* Print.proto */
 static int __Pyx_Print(PyObject*, PyObject *, int);
 #if CYTHON_COMPILING_IN_PYPY || PY_MAJOR_VERSION >= 3
 static PyObject* __pyx_print = 0;
 static PyObject* __pyx_print_kwargs = 0;
 #endif
-
-/* CIntToPy.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
 
 /* RealImag.proto */
 #if CYTHON_CCOMPLEX
@@ -1638,7 +1638,7 @@ static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_path[] = "path";
 static const char __pyx_k_test[] = "__test__";
 static const char __pyx_k_time[] = "time";
-static const char __pyx_k_0_1_2[] = "0.1.2";
+static const char __pyx_k_0_1_3[] = "0.1.3";
 static const char __pyx_k_DTYPE[] = "DTYPE";
 static const char __pyx_k_UTF_8[] = "UTF-8";
 static const char __pyx_k_cfile[] = "cfile";
@@ -1712,7 +1712,7 @@ static const char __pyx_k_ndarray_is_not_Fortran_contiguou[] = "ndarray is not F
 static const char __pyx_k_numpy_core_umath_failed_to_impor[] = "numpy.core.umath failed to import";
 static const char __pyx_k_start_offset_is_beyond_end_of_fi[] = "start_offset is beyond end of file";
 static const char __pyx_k_Format_string_allocated_too_shor_2[] = "Format string allocated too short.";
-static PyObject *__pyx_kp_s_0_1_2;
+static PyObject *__pyx_kp_s_0_1_3;
 static PyObject *__pyx_kp_s_Copyright_c_2018_LTRAC;
 static PyObject *__pyx_n_s_DTYPE;
 static PyObject *__pyx_kp_s_Daniel_Duke_daniel_duke_monash_e;
@@ -1798,7 +1798,7 @@ static PyObject *__pyx_n_s_version;
 static PyObject *__pyx_n_s_width;
 static PyObject *__pyx_n_s_xrange;
 static PyObject *__pyx_n_s_zeros;
-static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_filename, int __pyx_v_width, int __pyx_v_height, int __pyx_v_rgbmode, PyObject *__pyx_v_frames, int __pyx_v_bits_per_pixel, int __pyx_v_start_offset, int __pyx_v_quiet); /* proto */
+static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_filename, int __pyx_v_width, int __pyx_v_height, int __pyx_v_rgbmode, PyObject *__pyx_v_frames, int __pyx_v_bits_per_pixel, long __pyx_v_start_offset, int __pyx_v_quiet); /* proto */
 static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info); /* proto */
 static PyObject *__pyx_int_0;
@@ -1827,7 +1827,7 @@ static PyObject *__pyx_codeobj__17;
  * @cython.wraparound(False)
  * @cython.nonecheck(False)
  * def read_mraw(filename, int width, int height, int rgbmode = 0, tuple frames=None,\             # <<<<<<<<<<<<<<
- *                           int bits_per_pixel=12, int start_offset = 0, int quiet = 0):
+ *                           int bits_per_pixel=12, long start_offset = 0, int quiet = 0):
  * 
  */
 
@@ -1841,7 +1841,7 @@ static PyObject *__pyx_pw_8pySciCam_12photron_mraw_1read_mraw(PyObject *__pyx_se
   int __pyx_v_rgbmode;
   PyObject *__pyx_v_frames = 0;
   int __pyx_v_bits_per_pixel;
-  int __pyx_v_start_offset;
+  long __pyx_v_start_offset;
   int __pyx_v_quiet;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
@@ -1958,9 +1958,9 @@ static PyObject *__pyx_pw_8pySciCam_12photron_mraw_1read_mraw(PyObject *__pyx_se
       __pyx_v_bits_per_pixel = ((int)12);
     }
     if (values[6]) {
-      __pyx_v_start_offset = __Pyx_PyInt_As_int(values[6]); if (unlikely((__pyx_v_start_offset == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 45, __pyx_L3_error)
+      __pyx_v_start_offset = __Pyx_PyInt_As_long(values[6]); if (unlikely((__pyx_v_start_offset == (long)-1) && PyErr_Occurred())) __PYX_ERR(0, 45, __pyx_L3_error)
     } else {
-      __pyx_v_start_offset = ((int)0);
+      __pyx_v_start_offset = ((long)0);
     }
     if (values[7]) {
       __pyx_v_quiet = __Pyx_PyInt_As_int(values[7]); if (unlikely((__pyx_v_quiet == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 45, __pyx_L3_error)
@@ -1988,7 +1988,7 @@ static PyObject *__pyx_pw_8pySciCam_12photron_mraw_1read_mraw(PyObject *__pyx_se
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_filename, int __pyx_v_width, int __pyx_v_height, int __pyx_v_rgbmode, PyObject *__pyx_v_frames, int __pyx_v_bits_per_pixel, int __pyx_v_start_offset, int __pyx_v_quiet) {
+static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_filename, int __pyx_v_width, int __pyx_v_height, int __pyx_v_rgbmode, PyObject *__pyx_v_frames, int __pyx_v_bits_per_pixel, long __pyx_v_start_offset, int __pyx_v_quiet) {
   long __pyx_v_t0;
   double __pyx_v_bytes_per_pixel;
   long __pyx_v_nbytes;
@@ -1998,8 +1998,8 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
   int __pyx_v_bytes_per_frame;
   int __pyx_v_nframes;
   int __pyx_v_remainder_bytes;
-  int __pyx_v_start;
-  int __pyx_v_end;
+  long __pyx_v_start;
+  long __pyx_v_end;
   int __pyx_v_totalpixels;
   PyArrayObject *__pyx_v_images = 0;
   int __pyx_v_i;
@@ -2043,7 +2043,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
   __pyx_pybuffernd_images.rcbuffer = &__pyx_pybuffer_images;
 
   /* "pySciCam/photron_mraw.pyx":47
- *                           int bits_per_pixel=12, int start_offset = 0, int quiet = 0):
+ *                           int bits_per_pixel=12, long start_offset = 0, int quiet = 0):
  * 
  *     cdef long t0 = time.time()             # <<<<<<<<<<<<<<
  *     cdef double bytes_per_pixel
@@ -2407,7 +2407,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
  * 
  *     if quiet == 0: print "File contains %i frames (%i x %i)" % (nframes,width,height)
  */
-    __pyx_t_8 = __Pyx_PyInt_From_int(__pyx_v_start_offset); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 83, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyInt_From_long(__pyx_v_start_offset); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 83, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __pyx_t_3 = __Pyx_PyString_Format(__pyx_kp_s_Offset_by_i_bytes, __pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 83, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
@@ -2563,24 +2563,24 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
   /* "pySciCam/photron_mraw.pyx":93
  * 
  *     # Limit number of frames loaded from file (good for testing)
- *     cdef int start = start_offset # bytes             # <<<<<<<<<<<<<<
- *     cdef int end = nbytes
+ *     cdef long start = start_offset # bytes             # <<<<<<<<<<<<<<
+ *     cdef long end = nbytes
  *     if frames is not None:
  */
   __pyx_v_start = __pyx_v_start_offset;
 
   /* "pySciCam/photron_mraw.pyx":94
  *     # Limit number of frames loaded from file (good for testing)
- *     cdef int start = start_offset # bytes
- *     cdef int end = nbytes             # <<<<<<<<<<<<<<
+ *     cdef long start = start_offset # bytes
+ *     cdef long end = nbytes             # <<<<<<<<<<<<<<
  *     if frames is not None:
  *         if frames[1] > 0:
  */
   __pyx_v_end = __pyx_v_nbytes;
 
   /* "pySciCam/photron_mraw.pyx":95
- *     cdef int start = start_offset # bytes
- *     cdef int end = nbytes
+ *     cdef long start = start_offset # bytes
+ *     cdef long end = nbytes
  *     if frames is not None:             # <<<<<<<<<<<<<<
  *         if frames[1] > 0:
  *             start = start_offset + int(bytes_per_frame*frames[0])
@@ -2590,7 +2590,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
   if (__pyx_t_6) {
 
     /* "pySciCam/photron_mraw.pyx":96
- *     cdef int end = nbytes
+ *     cdef long end = nbytes
  *     if frames is not None:
  *         if frames[1] > 0:             # <<<<<<<<<<<<<<
  *             start = start_offset + int(bytes_per_frame*frames[0])
@@ -2615,7 +2615,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
  *             end = start_offset + int(bytes_per_frame*frames[1])
  *         if start > nbytes:
  */
-      __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_start_offset); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 97, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyInt_From_long(__pyx_v_start_offset); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 97, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __pyx_t_8 = __Pyx_PyInt_From_int(__pyx_v_bytes_per_frame); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 97, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
@@ -2636,9 +2636,9 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-      __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 97, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_As_long(__pyx_t_3); if (unlikely((__pyx_t_4 == (long)-1) && PyErr_Occurred())) __PYX_ERR(0, 97, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_v_start = __pyx_t_10;
+      __pyx_v_start = __pyx_t_4;
 
       /* "pySciCam/photron_mraw.pyx":98
  *         if frames[1] > 0:
@@ -2647,7 +2647,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
  *         if start > nbytes:
  *             raise ValueError("frame range: Cannot start reading beyond end of file!")
  */
-      __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_start_offset); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 98, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_long(__pyx_v_start_offset); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 98, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __pyx_t_12 = __Pyx_PyInt_From_int(__pyx_v_bytes_per_frame); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 98, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_12);
@@ -2668,12 +2668,12 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_t_8); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 98, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_As_long(__pyx_t_8); if (unlikely((__pyx_t_4 == (long)-1) && PyErr_Occurred())) __PYX_ERR(0, 98, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_v_end = __pyx_t_10;
+      __pyx_v_end = __pyx_t_4;
 
       /* "pySciCam/photron_mraw.pyx":96
- *     cdef int end = nbytes
+ *     cdef long end = nbytes
  *     if frames is not None:
  *         if frames[1] > 0:             # <<<<<<<<<<<<<<
  *             start = start_offset + int(bytes_per_frame*frames[0])
@@ -2793,8 +2793,8 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
     __pyx_v_nframes = __pyx_t_10;
 
     /* "pySciCam/photron_mraw.pyx":95
- *     cdef int start = start_offset # bytes
- *     cdef int end = nbytes
+ *     cdef long start = start_offset # bytes
+ *     cdef long end = nbytes
  *     if frames is not None:             # <<<<<<<<<<<<<<
  *         if frames[1] > 0:
  *             start = start_offset + int(bytes_per_frame*frames[0])
@@ -3262,7 +3262,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
  */
   __pyx_t_6 = ((__pyx_v_quiet == 0) != 0);
   if (__pyx_t_6) {
-    __pyx_t_3 = __Pyx_PyInt_From_long((((long)(__pyx_v_end - __pyx_v_start)) / 0x100000)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 153, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyInt_From_long(((__pyx_v_end - __pyx_v_start) / 0x100000)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 153, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_time); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 153, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
@@ -3576,7 +3576,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
  * @cython.wraparound(False)
  * @cython.nonecheck(False)
  * def read_mraw(filename, int width, int height, int rgbmode = 0, tuple frames=None,\             # <<<<<<<<<<<<<<
- *                           int bits_per_pixel=12, int start_offset = 0, int quiet = 0):
+ *                           int bits_per_pixel=12, long start_offset = 0, int quiet = 0):
  * 
  */
 
@@ -6228,7 +6228,7 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_kp_s_0_1_2, __pyx_k_0_1_2, sizeof(__pyx_k_0_1_2), 0, 0, 1, 0},
+  {&__pyx_kp_s_0_1_3, __pyx_k_0_1_3, sizeof(__pyx_k_0_1_3), 0, 0, 1, 0},
   {&__pyx_kp_s_Copyright_c_2018_LTRAC, __pyx_k_Copyright_c_2018_LTRAC, sizeof(__pyx_k_Copyright_c_2018_LTRAC), 0, 0, 1, 0},
   {&__pyx_n_s_DTYPE, __pyx_k_DTYPE, sizeof(__pyx_k_DTYPE), 0, 0, 1, 1},
   {&__pyx_kp_s_Daniel_Duke_daniel_duke_monash_e, __pyx_k_Daniel_Duke_daniel_duke_monash_e, sizeof(__pyx_k_Daniel_Duke_daniel_duke_monash_e), 0, 0, 1, 0},
@@ -6503,7 +6503,7 @@ static int __Pyx_InitCachedConstants(void) {
  * @cython.wraparound(False)
  * @cython.nonecheck(False)
  * def read_mraw(filename, int width, int height, int rgbmode = 0, tuple frames=None,\             # <<<<<<<<<<<<<<
- *                           int bits_per_pixel=12, int start_offset = 0, int quiet = 0):
+ *                           int bits_per_pixel=12, long start_offset = 0, int quiet = 0):
  * 
  */
   __pyx_tuple__16 = PyTuple_Pack(29, __pyx_n_s_filename, __pyx_n_s_width, __pyx_n_s_height, __pyx_n_s_rgbmode, __pyx_n_s_frames, __pyx_n_s_bits_per_pixel, __pyx_n_s_start_offset, __pyx_n_s_quiet, __pyx_n_s_t0, __pyx_n_s_bytes_per_pixel, __pyx_n_s_nbytes, __pyx_n_s_scanline_pad, __pyx_n_s_scanline_bytes, __pyx_n_s_frame_pad, __pyx_n_s_bytes_per_frame, __pyx_n_s_nframes, __pyx_n_s_remainder_bytes, __pyx_n_s_start, __pyx_n_s_end, __pyx_n_s_totalpixels, __pyx_n_s_images, __pyx_n_s_i, __pyx_n_s_flag, __pyx_n_s_npixels, __pyx_n_s_filename_byte_string, __pyx_n_s_fname, __pyx_n_s_buffer, __pyx_n_s_buf2, __pyx_n_s_cfile); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(0, 44, __pyx_L1_error)
@@ -6690,7 +6690,7 @@ static int __pyx_pymod_exec_photron_mraw(PyObject *__pyx_pyinit_module)
  * from __future__ import division
  * 
  * __author__="Daniel Duke <daniel.duke@monash.edu>"             # <<<<<<<<<<<<<<
- * __version__="0.1.2"
+ * __version__="0.1.3"
  * __license__="GPL-3.0+"
  */
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_author, __pyx_kp_s_Daniel_Duke_daniel_duke_monash_e) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
@@ -6698,15 +6698,15 @@ static int __pyx_pymod_exec_photron_mraw(PyObject *__pyx_pyinit_module)
   /* "pySciCam/photron_mraw.pyx":22
  * 
  * __author__="Daniel Duke <daniel.duke@monash.edu>"
- * __version__="0.1.2"             # <<<<<<<<<<<<<<
+ * __version__="0.1.3"             # <<<<<<<<<<<<<<
  * __license__="GPL-3.0+"
  * __copyright__="Copyright (c) 2018 LTRAC"
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_version, __pyx_kp_s_0_1_2) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_version, __pyx_kp_s_0_1_3) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
 
   /* "pySciCam/photron_mraw.pyx":23
  * __author__="Daniel Duke <daniel.duke@monash.edu>"
- * __version__="0.1.2"
+ * __version__="0.1.3"
  * __license__="GPL-3.0+"             # <<<<<<<<<<<<<<
  * __copyright__="Copyright (c) 2018 LTRAC"
  * 
@@ -6714,7 +6714,7 @@ static int __pyx_pymod_exec_photron_mraw(PyObject *__pyx_pyinit_module)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_license, __pyx_kp_s_GPL_3_0) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
 
   /* "pySciCam/photron_mraw.pyx":24
- * __version__="0.1.2"
+ * __version__="0.1.3"
  * __license__="GPL-3.0+"
  * __copyright__="Copyright (c) 2018 LTRAC"             # <<<<<<<<<<<<<<
  * 
@@ -6777,7 +6777,7 @@ static int __pyx_pymod_exec_photron_mraw(PyObject *__pyx_pyinit_module)
  * @cython.wraparound(False)
  * @cython.nonecheck(False)
  * def read_mraw(filename, int width, int height, int rgbmode = 0, tuple frames=None,\             # <<<<<<<<<<<<<<
- *                           int bits_per_pixel=12, int start_offset = 0, int quiet = 0):
+ *                           int bits_per_pixel=12, long start_offset = 0, int quiet = 0):
  * 
  */
   __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_8pySciCam_12photron_mraw_1read_mraw, NULL, __pyx_n_s_pySciCam_photron_mraw); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L1_error)
@@ -8667,6 +8667,37 @@ static void __Pyx_ReleaseBuffer(Py_buffer *view) {
     }
 }
 
+/* CIntToPy */
+        static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
+    const long neg_one = (long) -1, const_zero = (long) 0;
+    const int is_unsigned = neg_one > const_zero;
+    if (is_unsigned) {
+        if (sizeof(long) < sizeof(long)) {
+            return PyInt_FromLong((long) value);
+        } else if (sizeof(long) <= sizeof(unsigned long)) {
+            return PyLong_FromUnsignedLong((unsigned long) value);
+#ifdef HAVE_LONG_LONG
+        } else if (sizeof(long) <= sizeof(unsigned PY_LONG_LONG)) {
+            return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
+#endif
+        }
+    } else {
+        if (sizeof(long) <= sizeof(long)) {
+            return PyInt_FromLong((long) value);
+#ifdef HAVE_LONG_LONG
+        } else if (sizeof(long) <= sizeof(PY_LONG_LONG)) {
+            return PyLong_FromLongLong((PY_LONG_LONG) value);
+#endif
+        }
+    }
+    {
+        int one = 1; int little = (int)*(unsigned char *)&one;
+        unsigned char *bytes = (unsigned char *)&value;
+        return _PyLong_FromByteArray(bytes, sizeof(long),
+                                     little, !is_unsigned);
+    }
+}
+
 /* Print */
         #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION < 3
 static PyObject *__Pyx_GetStdout(void) {
@@ -8772,37 +8803,6 @@ bad:
     return -1;
 }
 #endif
-
-/* CIntToPy */
-        static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
-    const long neg_one = (long) -1, const_zero = (long) 0;
-    const int is_unsigned = neg_one > const_zero;
-    if (is_unsigned) {
-        if (sizeof(long) < sizeof(long)) {
-            return PyInt_FromLong((long) value);
-        } else if (sizeof(long) <= sizeof(unsigned long)) {
-            return PyLong_FromUnsignedLong((unsigned long) value);
-#ifdef HAVE_LONG_LONG
-        } else if (sizeof(long) <= sizeof(unsigned PY_LONG_LONG)) {
-            return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
-#endif
-        }
-    } else {
-        if (sizeof(long) <= sizeof(long)) {
-            return PyInt_FromLong((long) value);
-#ifdef HAVE_LONG_LONG
-        } else if (sizeof(long) <= sizeof(PY_LONG_LONG)) {
-            return PyLong_FromLongLong((PY_LONG_LONG) value);
-#endif
-        }
-    }
-    {
-        int one = 1; int little = (int)*(unsigned char *)&one;
-        unsigned char *bytes = (unsigned char *)&value;
-        return _PyLong_FromByteArray(bytes, sizeof(long),
-                                     little, !is_unsigned);
-    }
-}
 
 /* Declarations */
         #if CYTHON_CCOMPLEX

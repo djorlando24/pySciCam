@@ -24,7 +24,7 @@
 from __future__ import division
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.1.2"
+__version__="0.1.3"
 __license__="GPL-3.0+"
 __copyright__="Copyright (c) 2018 LTRAC"
 
@@ -48,7 +48,7 @@ ctypedef np.uint16_t DTYPE_t
 @cython.wraparound(False)
 @cython.nonecheck(False)
 def read_chronos_mono_raw(filename, int width, int height, tuple frames=None,\
-                          int bits_per_pixel=12, int start_offset = 0, int quiet = 0):
+                          int bits_per_pixel=12, long start_offset = 0, int quiet = 0):
 
     cdef long t0 = time.time()
     cdef double bytes_per_pixel = bits_per_pixel/8.0
@@ -94,8 +94,8 @@ def read_chronos_mono_raw(filename, int width, int height, tuple frames=None,\
 
 
     # Limit number of frames loaded from file (good for testing)
-    cdef int start = start_offset # bytes
-    cdef int end = nbytes
+    cdef long start = start_offset # bytes
+    cdef long end = nbytes
     if frames is not None:
         if frames[1] > 0:
             start = start_offset + int(bytes_per_frame*frames[0])
