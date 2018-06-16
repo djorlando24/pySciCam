@@ -58,5 +58,5 @@ for i in range(I.N):
     tiff.write_image(I.arr[i,...])
     tiff.close()
 
-size = sum(os.path.getsize(f) for f in os.listdir(dest) if os.path.isfile(f))/(1024.**3)
+size = sum(os.path.getsize(dest+'/'+f) for f in os.listdir(dest+'/'))/(1024.**2)
 print '\nDone. Destination directory size %.1f MB' % size
