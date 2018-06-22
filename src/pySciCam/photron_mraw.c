@@ -1430,6 +1430,9 @@ static PyObject* __pyx_print = 0;
 static PyObject* __pyx_print_kwargs = 0;
 #endif
 
+/* CIntToPy.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_PY_LONG_LONG(PY_LONG_LONG value);
+
 /* RealImag.proto */
 #if CYTHON_CCOMPLEX
   #ifdef __cplusplus
@@ -1697,7 +1700,7 @@ static const char __pyx_k_ndarray_is_not_C_contiguous[] = "ndarray is not C cont
 static const char __pyx_k_File_contains_i_frames_i_x_i[] = "File contains %i frames (%i x %i)";
 static const char __pyx_k_src_pySciCam_photron_mraw_pyx[] = "src/pySciCam/photron_mraw.pyx";
 static const char __pyx_k_File_has_no_frames_at_specified[] = "File has no frames at specified resolution";
-static const char __pyx_k_Read_8_12_and_16_bit_MRAW_files[] = "\n    Read 8, 12 and 16-bit MRAW files from Photron FastCam Viewer software.\n\n    @author Daniel Duke <daniel.duke@monash.edu>\n    @copyright (c) 2018 LTRAC\n    @license GPL-3.0+\n    @version 0.1.2\n    @date 08/04/2018\n\n    Please see help(pySciCam) for more information.\n        __   ____________    ___    ______\n       / /  /_  ____ __  \\  /   |  / ____/\n      / /    / /   / /_/ / / /| | / /\n     / /___ / /   / _, _/ / ___ |/ /_________\n    /_____//_/   /_/ |__\\/_/  |_|\\__________/\n\n";
+static const char __pyx_k_Read_8_12_and_16_bit_MRAW_files[] = "\n    Read 8, 12 and 16-bit MRAW files from Photron FastCam Viewer software.\n\n    @author Daniel Duke <daniel.duke@monash.edu>\n    @copyright (c) 2018 LTRAC\n    @license GPL-3.0+\n    @version 0.1.3\n    @date 22/06/2018\n\n    Please see help(pySciCam) for more information.\n        __   ____________    ___    ______\n       / /  /_  ____ __  \\  /   |  / ____/\n      / /    / /   / /_/ / / /| | / /\n     / /___ / /   / _, _/ / ___ |/ /_________\n    /_____//_/   /_/ |__\\/_/  |_|\\__________/\n\n";
 static const char __pyx_k_Warning_requested_read_past_EOF[] = "Warning: requested read past EOF, truncating";
 static const char __pyx_k_numpy_core_multiarray_failed_to[] = "numpy.core.multiarray failed to import";
 static const char __pyx_k_start_offset_cannot_be_negative[] = "start_offset cannot be negative";
@@ -2000,7 +2003,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
   int __pyx_v_remainder_bytes;
   long __pyx_v_start;
   long __pyx_v_end;
-  int __pyx_v_totalpixels;
+  PY_LONG_LONG __pyx_v_totalpixels;
   PyArrayObject *__pyx_v_images = 0;
   int __pyx_v_i;
   CYTHON_UNUSED int __pyx_v_flag;
@@ -2803,74 +2806,92 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
 
   /* "pySciCam/photron_mraw.pyx":109
  *     # make new image array (flattened)
- *     cdef int totalpixels
- *     if rgbmode==1: totalpixels = 3*nframes*height*width             # <<<<<<<<<<<<<<
- *     else: totalpixels = nframes*height*width
- *     cdef np.ndarray[DTYPE_t, ndim=1] images = np.zeros(int(totalpixels),dtype=DTYPE)
+ *     cdef long long totalpixels
+ *     if rgbmode==1: totalpixels = 3*nframes             # <<<<<<<<<<<<<<
+ *     else: totalpixels = nframes
+ *     totalpixels *= height
  */
   __pyx_t_6 = ((__pyx_v_rgbmode == 1) != 0);
   if (__pyx_t_6) {
-    __pyx_v_totalpixels = (((3 * __pyx_v_nframes) * __pyx_v_height) * __pyx_v_width);
+    __pyx_v_totalpixels = (3 * __pyx_v_nframes);
     goto __pyx_L20;
   }
 
   /* "pySciCam/photron_mraw.pyx":110
- *     cdef int totalpixels
- *     if rgbmode==1: totalpixels = 3*nframes*height*width
- *     else: totalpixels = nframes*height*width             # <<<<<<<<<<<<<<
- *     cdef np.ndarray[DTYPE_t, ndim=1] images = np.zeros(int(totalpixels),dtype=DTYPE)
- * 
+ *     cdef long long totalpixels
+ *     if rgbmode==1: totalpixels = 3*nframes
+ *     else: totalpixels = nframes             # <<<<<<<<<<<<<<
+ *     totalpixels *= height
+ *     totalpixels *= width
  */
   /*else*/ {
-    __pyx_v_totalpixels = ((__pyx_v_nframes * __pyx_v_height) * __pyx_v_width);
+    __pyx_v_totalpixels = __pyx_v_nframes;
   }
   __pyx_L20:;
 
   /* "pySciCam/photron_mraw.pyx":111
- *     if rgbmode==1: totalpixels = 3*nframes*height*width
- *     else: totalpixels = nframes*height*width
+ *     if rgbmode==1: totalpixels = 3*nframes
+ *     else: totalpixels = nframes
+ *     totalpixels *= height             # <<<<<<<<<<<<<<
+ *     totalpixels *= width
+ *     cdef np.ndarray[DTYPE_t, ndim=1] images = np.zeros(int(totalpixels),dtype=DTYPE)
+ */
+  __pyx_v_totalpixels = (__pyx_v_totalpixels * __pyx_v_height);
+
+  /* "pySciCam/photron_mraw.pyx":112
+ *     else: totalpixels = nframes
+ *     totalpixels *= height
+ *     totalpixels *= width             # <<<<<<<<<<<<<<
+ *     cdef np.ndarray[DTYPE_t, ndim=1] images = np.zeros(int(totalpixels),dtype=DTYPE)
+ * 
+ */
+  __pyx_v_totalpixels = (__pyx_v_totalpixels * __pyx_v_width);
+
+  /* "pySciCam/photron_mraw.pyx":113
+ *     totalpixels *= height
+ *     totalpixels *= width
  *     cdef np.ndarray[DTYPE_t, ndim=1] images = np.zeros(int(totalpixels),dtype=DTYPE)             # <<<<<<<<<<<<<<
  * 
  *     # read array in
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 111, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 113, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 111, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 113, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_totalpixels); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 111, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_PY_LONG_LONG(__pyx_v_totalpixels); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 113, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 111, __pyx_L1_error)
+  __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 113, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_3);
   __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)(&PyInt_Type)), __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 111, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)(&PyInt_Type)), __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 113, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 111, __pyx_L1_error)
+  __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 113, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_3);
   __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 111, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 113, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_12 = __Pyx_GetModuleGlobalName(__pyx_n_s_DTYPE); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 111, __pyx_L1_error)
+  __pyx_t_12 = __Pyx_GetModuleGlobalName(__pyx_n_s_DTYPE); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 113, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, __pyx_t_12) < 0) __PYX_ERR(0, 111, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, __pyx_t_12) < 0) __PYX_ERR(0, 113, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-  __pyx_t_12 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_8, __pyx_t_3); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 111, __pyx_L1_error)
+  __pyx_t_12 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_8, __pyx_t_3); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 113, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (!(likely(((__pyx_t_12) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_12, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 111, __pyx_L1_error)
+  if (!(likely(((__pyx_t_12) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_12, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 113, __pyx_L1_error)
   __pyx_t_13 = ((PyArrayObject *)__pyx_t_12);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_images.rcbuffer->pybuffer, (PyObject*)__pyx_t_13, &__Pyx_TypeInfo_nn___pyx_t_8pySciCam_12photron_mraw_DTYPE_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_images = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_images.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 111, __pyx_L1_error)
+      __PYX_ERR(0, 113, __pyx_L1_error)
     } else {__pyx_pybuffernd_images.diminfo[0].strides = __pyx_pybuffernd_images.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_images.diminfo[0].shape = __pyx_pybuffernd_images.rcbuffer->pybuffer.shape[0];
     }
   }
@@ -2878,7 +2899,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
   __pyx_v_images = ((PyArrayObject *)__pyx_t_12);
   __pyx_t_12 = 0;
 
-  /* "pySciCam/photron_mraw.pyx":115
+  /* "pySciCam/photron_mraw.pyx":117
  *     # read array in
  *     cdef int i, flag
  *     cdef int npixels = int(ceil((end-start)/bytes_per_pixel))             # <<<<<<<<<<<<<<
@@ -2887,32 +2908,32 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
  */
   __pyx_v_npixels = ((int)ceil((((double)(__pyx_v_end - __pyx_v_start)) / __pyx_v_bytes_per_pixel)));
 
-  /* "pySciCam/photron_mraw.pyx":116
+  /* "pySciCam/photron_mraw.pyx":118
  *     cdef int i, flag
  *     cdef int npixels = int(ceil((end-start)/bytes_per_pixel))
  *     filename_byte_string = filename.encode("UTF-8")             # <<<<<<<<<<<<<<
  *     cdef char * fname = filename_byte_string
  *     cdef unsigned char * buffer = <unsigned char*>malloc(3)
  */
-  __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_v_filename, __pyx_n_s_encode); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 116, __pyx_L1_error)
+  __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_v_filename, __pyx_n_s_encode); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 118, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_12);
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_12, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 116, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_12, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 118, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
   __pyx_v_filename_byte_string = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "pySciCam/photron_mraw.pyx":117
+  /* "pySciCam/photron_mraw.pyx":119
  *     cdef int npixels = int(ceil((end-start)/bytes_per_pixel))
  *     filename_byte_string = filename.encode("UTF-8")
  *     cdef char * fname = filename_byte_string             # <<<<<<<<<<<<<<
  *     cdef unsigned char * buffer = <unsigned char*>malloc(3)
  *     cdef unsigned int buf2
  */
-  __pyx_t_14 = __Pyx_PyObject_AsWritableString(__pyx_v_filename_byte_string); if (unlikely((!__pyx_t_14) && PyErr_Occurred())) __PYX_ERR(0, 117, __pyx_L1_error)
+  __pyx_t_14 = __Pyx_PyObject_AsWritableString(__pyx_v_filename_byte_string); if (unlikely((!__pyx_t_14) && PyErr_Occurred())) __PYX_ERR(0, 119, __pyx_L1_error)
   __pyx_v_fname = __pyx_t_14;
 
-  /* "pySciCam/photron_mraw.pyx":118
+  /* "pySciCam/photron_mraw.pyx":120
  *     filename_byte_string = filename.encode("UTF-8")
  *     cdef char * fname = filename_byte_string
  *     cdef unsigned char * buffer = <unsigned char*>malloc(3)             # <<<<<<<<<<<<<<
@@ -2921,7 +2942,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
  */
   __pyx_v_buffer = ((unsigned char *)malloc(3));
 
-  /* "pySciCam/photron_mraw.pyx":121
+  /* "pySciCam/photron_mraw.pyx":123
  *     cdef unsigned int buf2
  * 
  *     cfile = fopen(fname, "rb")             # <<<<<<<<<<<<<<
@@ -2930,7 +2951,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
  */
   __pyx_v_cfile = fopen(__pyx_v_fname, ((char const *)"rb"));
 
-  /* "pySciCam/photron_mraw.pyx":122
+  /* "pySciCam/photron_mraw.pyx":124
  * 
  *     cfile = fopen(fname, "rb")
  *     if cfile:             # <<<<<<<<<<<<<<
@@ -2940,7 +2961,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
   __pyx_t_6 = (__pyx_v_cfile != 0);
   if (__pyx_t_6) {
 
-    /* "pySciCam/photron_mraw.pyx":123
+    /* "pySciCam/photron_mraw.pyx":125
  *     cfile = fopen(fname, "rb")
  *     if cfile:
  *         if start>0: fseek (cfile, start, SEEK_SET)             # <<<<<<<<<<<<<<
@@ -2952,7 +2973,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
       fseek(__pyx_v_cfile, __pyx_v_start, SEEK_SET);
     }
 
-    /* "pySciCam/photron_mraw.pyx":124
+    /* "pySciCam/photron_mraw.pyx":126
  *     if cfile:
  *         if start>0: fseek (cfile, start, SEEK_SET)
  *         if bits_per_pixel==12: # loop every 3 bytes, read 2 pixels             # <<<<<<<<<<<<<<
@@ -2962,18 +2983,18 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
     switch (__pyx_v_bits_per_pixel) {
       case 12:
 
-      /* "pySciCam/photron_mraw.pyx":125
+      /* "pySciCam/photron_mraw.pyx":127
  *         if start>0: fseek (cfile, start, SEEK_SET)
  *         if bits_per_pixel==12: # loop every 3 bytes, read 2 pixels
  *             for i in xrange(0,len(images),2):             # <<<<<<<<<<<<<<
  *                 flag = fread (&buffer, 1, 3, cfile)
  *                 buf2 = <int>buffer
  */
-      __pyx_t_15 = PyObject_Length(((PyObject *)__pyx_v_images)); if (unlikely(__pyx_t_15 == ((Py_ssize_t)-1))) __PYX_ERR(0, 125, __pyx_L1_error)
+      __pyx_t_15 = PyObject_Length(((PyObject *)__pyx_v_images)); if (unlikely(__pyx_t_15 == ((Py_ssize_t)-1))) __PYX_ERR(0, 127, __pyx_L1_error)
       for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_15; __pyx_t_10+=2) {
         __pyx_v_i = __pyx_t_10;
 
-        /* "pySciCam/photron_mraw.pyx":126
+        /* "pySciCam/photron_mraw.pyx":128
  *         if bits_per_pixel==12: # loop every 3 bytes, read 2 pixels
  *             for i in xrange(0,len(images),2):
  *                 flag = fread (&buffer, 1, 3, cfile)             # <<<<<<<<<<<<<<
@@ -2982,7 +3003,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
  */
         __pyx_v_flag = fread((&__pyx_v_buffer), 1, 3, __pyx_v_cfile);
 
-        /* "pySciCam/photron_mraw.pyx":127
+        /* "pySciCam/photron_mraw.pyx":129
  *             for i in xrange(0,len(images),2):
  *                 flag = fread (&buffer, 1, 3, cfile)
  *                 buf2 = <int>buffer             # <<<<<<<<<<<<<<
@@ -2991,7 +3012,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
  */
         __pyx_v_buf2 = ((int)__pyx_v_buffer);
 
-        /* "pySciCam/photron_mraw.pyx":130
+        /* "pySciCam/photron_mraw.pyx":132
  * 
  *                 # Read two pixels from three bytes
  *                 images[i]   = <DTYPE_t>(((buf2 & 0xFF) << 4) | ((buf2 & 0xF000) >> 12)  )             # <<<<<<<<<<<<<<
@@ -3005,11 +3026,11 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
         } else if (unlikely(__pyx_t_16 >= __pyx_pybuffernd_images.diminfo[0].shape)) __pyx_t_17 = 0;
         if (unlikely(__pyx_t_17 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_17);
-          __PYX_ERR(0, 130, __pyx_L1_error)
+          __PYX_ERR(0, 132, __pyx_L1_error)
         }
         *__Pyx_BufPtrStrided1d(__pyx_t_8pySciCam_12photron_mraw_DTYPE_t *, __pyx_pybuffernd_images.rcbuffer->pybuffer.buf, __pyx_t_16, __pyx_pybuffernd_images.diminfo[0].strides) = ((__pyx_t_8pySciCam_12photron_mraw_DTYPE_t)(((__pyx_v_buf2 & 0xFF) << 4) | ((__pyx_v_buf2 & 0xF000) >> 12)));
 
-        /* "pySciCam/photron_mraw.pyx":131
+        /* "pySciCam/photron_mraw.pyx":133
  *                 # Read two pixels from three bytes
  *                 images[i]   = <DTYPE_t>(((buf2 & 0xFF) << 4) | ((buf2 & 0xF000) >> 12)  )
  *                 images[i+1] = <DTYPE_t>(((buf2 & 0xFF0000) >> 16) | (buf2 & 0xF00) )             # <<<<<<<<<<<<<<
@@ -3023,11 +3044,11 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
         } else if (unlikely(__pyx_t_18 >= __pyx_pybuffernd_images.diminfo[0].shape)) __pyx_t_17 = 0;
         if (unlikely(__pyx_t_17 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_17);
-          __PYX_ERR(0, 131, __pyx_L1_error)
+          __PYX_ERR(0, 133, __pyx_L1_error)
         }
         *__Pyx_BufPtrStrided1d(__pyx_t_8pySciCam_12photron_mraw_DTYPE_t *, __pyx_pybuffernd_images.rcbuffer->pybuffer.buf, __pyx_t_18, __pyx_pybuffernd_images.diminfo[0].strides) = ((__pyx_t_8pySciCam_12photron_mraw_DTYPE_t)(((__pyx_v_buf2 & 0xFF0000) >> 16) | (__pyx_v_buf2 & 0xF00)));
 
-        /* "pySciCam/photron_mraw.pyx":134
+        /* "pySciCam/photron_mraw.pyx":136
  * 
  *                 # Scanline padded to nearest 16 bytes
  *                 if (i>0) and (i%width==0):             # <<<<<<<<<<<<<<
@@ -3045,7 +3066,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
         __pyx_L26_bool_binop_done:;
         if (__pyx_t_6) {
 
-          /* "pySciCam/photron_mraw.pyx":135
+          /* "pySciCam/photron_mraw.pyx":137
  *                 # Scanline padded to nearest 16 bytes
  *                 if (i>0) and (i%width==0):
  *                     fseek (cfile, scanline_pad, SEEK_CUR)             # <<<<<<<<<<<<<<
@@ -3054,7 +3075,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
  */
           fseek(__pyx_v_cfile, __pyx_v_scanline_pad, SEEK_CUR);
 
-          /* "pySciCam/photron_mraw.pyx":136
+          /* "pySciCam/photron_mraw.pyx":138
  *                 if (i>0) and (i%width==0):
  *                     fseek (cfile, scanline_pad, SEEK_CUR)
  *                     if (i%(width*height)==0):             # <<<<<<<<<<<<<<
@@ -3064,7 +3085,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
           __pyx_t_6 = (((__pyx_v_i % (__pyx_v_width * __pyx_v_height)) == 0) != 0);
           if (__pyx_t_6) {
 
-            /* "pySciCam/photron_mraw.pyx":137
+            /* "pySciCam/photron_mraw.pyx":139
  *                     fseek (cfile, scanline_pad, SEEK_CUR)
  *                     if (i%(width*height)==0):
  *                         fseek (cfile, frame_pad, SEEK_CUR)             # <<<<<<<<<<<<<<
@@ -3073,7 +3094,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
  */
             fseek(__pyx_v_cfile, __pyx_v_frame_pad, SEEK_CUR);
 
-            /* "pySciCam/photron_mraw.pyx":136
+            /* "pySciCam/photron_mraw.pyx":138
  *                 if (i>0) and (i%width==0):
  *                     fseek (cfile, scanline_pad, SEEK_CUR)
  *                     if (i%(width*height)==0):             # <<<<<<<<<<<<<<
@@ -3082,7 +3103,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
  */
           }
 
-          /* "pySciCam/photron_mraw.pyx":134
+          /* "pySciCam/photron_mraw.pyx":136
  * 
  *                 # Scanline padded to nearest 16 bytes
  *                 if (i>0) and (i%width==0):             # <<<<<<<<<<<<<<
@@ -3092,7 +3113,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
         }
       }
 
-      /* "pySciCam/photron_mraw.pyx":124
+      /* "pySciCam/photron_mraw.pyx":126
  *     if cfile:
  *         if start>0: fseek (cfile, start, SEEK_SET)
  *         if bits_per_pixel==12: # loop every 3 bytes, read 2 pixels             # <<<<<<<<<<<<<<
@@ -3101,7 +3122,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
  */
       break;
 
-      /* "pySciCam/photron_mraw.pyx":139
+      /* "pySciCam/photron_mraw.pyx":141
  *                         fseek (cfile, frame_pad, SEEK_CUR)
  * 
  *         elif bits_per_pixel==16: # loop every 2 bytes, write 1 pixel             # <<<<<<<<<<<<<<
@@ -3110,18 +3131,18 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
  */
       case 16:
 
-      /* "pySciCam/photron_mraw.pyx":140
+      /* "pySciCam/photron_mraw.pyx":142
  * 
  *         elif bits_per_pixel==16: # loop every 2 bytes, write 1 pixel
  *             for i in xrange(0,len(images)):             # <<<<<<<<<<<<<<
  *                 flag = fread (&buffer, 1, 2, cfile)
  *                 buf2 = <int>buffer
  */
-      __pyx_t_15 = PyObject_Length(((PyObject *)__pyx_v_images)); if (unlikely(__pyx_t_15 == ((Py_ssize_t)-1))) __PYX_ERR(0, 140, __pyx_L1_error)
+      __pyx_t_15 = PyObject_Length(((PyObject *)__pyx_v_images)); if (unlikely(__pyx_t_15 == ((Py_ssize_t)-1))) __PYX_ERR(0, 142, __pyx_L1_error)
       for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_15; __pyx_t_10+=1) {
         __pyx_v_i = __pyx_t_10;
 
-        /* "pySciCam/photron_mraw.pyx":141
+        /* "pySciCam/photron_mraw.pyx":143
  *         elif bits_per_pixel==16: # loop every 2 bytes, write 1 pixel
  *             for i in xrange(0,len(images)):
  *                 flag = fread (&buffer, 1, 2, cfile)             # <<<<<<<<<<<<<<
@@ -3130,7 +3151,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
  */
         __pyx_v_flag = fread((&__pyx_v_buffer), 1, 2, __pyx_v_cfile);
 
-        /* "pySciCam/photron_mraw.pyx":142
+        /* "pySciCam/photron_mraw.pyx":144
  *             for i in xrange(0,len(images)):
  *                 flag = fread (&buffer, 1, 2, cfile)
  *                 buf2 = <int>buffer             # <<<<<<<<<<<<<<
@@ -3139,7 +3160,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
  */
         __pyx_v_buf2 = ((int)__pyx_v_buffer);
 
-        /* "pySciCam/photron_mraw.pyx":143
+        /* "pySciCam/photron_mraw.pyx":145
  *                 flag = fread (&buffer, 1, 2, cfile)
  *                 buf2 = <int>buffer
  *                 images[i]   = <DTYPE_t>(buf2 & 0xFFFF)             # <<<<<<<<<<<<<<
@@ -3153,12 +3174,12 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
         } else if (unlikely(__pyx_t_19 >= __pyx_pybuffernd_images.diminfo[0].shape)) __pyx_t_17 = 0;
         if (unlikely(__pyx_t_17 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_17);
-          __PYX_ERR(0, 143, __pyx_L1_error)
+          __PYX_ERR(0, 145, __pyx_L1_error)
         }
         *__Pyx_BufPtrStrided1d(__pyx_t_8pySciCam_12photron_mraw_DTYPE_t *, __pyx_pybuffernd_images.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_images.diminfo[0].strides) = ((__pyx_t_8pySciCam_12photron_mraw_DTYPE_t)(__pyx_v_buf2 & 0xFFFF));
       }
 
-      /* "pySciCam/photron_mraw.pyx":139
+      /* "pySciCam/photron_mraw.pyx":141
  *                         fseek (cfile, frame_pad, SEEK_CUR)
  * 
  *         elif bits_per_pixel==16: # loop every 2 bytes, write 1 pixel             # <<<<<<<<<<<<<<
@@ -3167,7 +3188,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
  */
       break;
 
-      /* "pySciCam/photron_mraw.pyx":145
+      /* "pySciCam/photron_mraw.pyx":147
  *                 images[i]   = <DTYPE_t>(buf2 & 0xFFFF)
  * 
  *         elif bits_per_pixel==8: # loop 1 byte, 1 pixel.             # <<<<<<<<<<<<<<
@@ -3176,18 +3197,18 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
  */
       case 8:
 
-      /* "pySciCam/photron_mraw.pyx":146
+      /* "pySciCam/photron_mraw.pyx":148
  * 
  *         elif bits_per_pixel==8: # loop 1 byte, 1 pixel.
  *             for i in xrange(0,len(images)):             # <<<<<<<<<<<<<<
  *                 flag = fread (&buffer, 1, 1, cfile)
  *                 buf2 = <int>buffer
  */
-      __pyx_t_15 = PyObject_Length(((PyObject *)__pyx_v_images)); if (unlikely(__pyx_t_15 == ((Py_ssize_t)-1))) __PYX_ERR(0, 146, __pyx_L1_error)
+      __pyx_t_15 = PyObject_Length(((PyObject *)__pyx_v_images)); if (unlikely(__pyx_t_15 == ((Py_ssize_t)-1))) __PYX_ERR(0, 148, __pyx_L1_error)
       for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_15; __pyx_t_10+=1) {
         __pyx_v_i = __pyx_t_10;
 
-        /* "pySciCam/photron_mraw.pyx":147
+        /* "pySciCam/photron_mraw.pyx":149
  *         elif bits_per_pixel==8: # loop 1 byte, 1 pixel.
  *             for i in xrange(0,len(images)):
  *                 flag = fread (&buffer, 1, 1, cfile)             # <<<<<<<<<<<<<<
@@ -3196,7 +3217,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
  */
         __pyx_v_flag = fread((&__pyx_v_buffer), 1, 1, __pyx_v_cfile);
 
-        /* "pySciCam/photron_mraw.pyx":148
+        /* "pySciCam/photron_mraw.pyx":150
  *             for i in xrange(0,len(images)):
  *                 flag = fread (&buffer, 1, 1, cfile)
  *                 buf2 = <int>buffer             # <<<<<<<<<<<<<<
@@ -3205,7 +3226,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
  */
         __pyx_v_buf2 = ((int)__pyx_v_buffer);
 
-        /* "pySciCam/photron_mraw.pyx":149
+        /* "pySciCam/photron_mraw.pyx":151
  *                 flag = fread (&buffer, 1, 1, cfile)
  *                 buf2 = <int>buffer
  *                 images[i]   = <DTYPE_t>(buf2 & 0xFFFF)             # <<<<<<<<<<<<<<
@@ -3219,12 +3240,12 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
         } else if (unlikely(__pyx_t_20 >= __pyx_pybuffernd_images.diminfo[0].shape)) __pyx_t_17 = 0;
         if (unlikely(__pyx_t_17 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_17);
-          __PYX_ERR(0, 149, __pyx_L1_error)
+          __PYX_ERR(0, 151, __pyx_L1_error)
         }
         *__Pyx_BufPtrStrided1d(__pyx_t_8pySciCam_12photron_mraw_DTYPE_t *, __pyx_pybuffernd_images.rcbuffer->pybuffer.buf, __pyx_t_20, __pyx_pybuffernd_images.diminfo[0].strides) = ((__pyx_t_8pySciCam_12photron_mraw_DTYPE_t)(__pyx_v_buf2 & 0xFFFF));
       }
 
-      /* "pySciCam/photron_mraw.pyx":145
+      /* "pySciCam/photron_mraw.pyx":147
  *                 images[i]   = <DTYPE_t>(buf2 & 0xFFFF)
  * 
  *         elif bits_per_pixel==8: # loop 1 byte, 1 pixel.             # <<<<<<<<<<<<<<
@@ -3235,7 +3256,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
       default: break;
     }
 
-    /* "pySciCam/photron_mraw.pyx":122
+    /* "pySciCam/photron_mraw.pyx":124
  * 
  *     cfile = fopen(fname, "rb")
  *     if cfile:             # <<<<<<<<<<<<<<
@@ -3244,7 +3265,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
  */
   }
 
-  /* "pySciCam/photron_mraw.pyx":151
+  /* "pySciCam/photron_mraw.pyx":153
  *                 images[i]   = <DTYPE_t>(buf2 & 0xFFFF)
  * 
  *     fclose(cfile)             # <<<<<<<<<<<<<<
@@ -3253,7 +3274,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
  */
   fclose(__pyx_v_cfile);
 
-  /* "pySciCam/photron_mraw.pyx":153
+  /* "pySciCam/photron_mraw.pyx":155
  *     fclose(cfile)
  * 
  *     if quiet == 0: print 'Read %.1f MiB in %.1f sec' % ((end-start)/1048576,time.time()-t0)             # <<<<<<<<<<<<<<
@@ -3262,11 +3283,11 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
  */
   __pyx_t_6 = ((__pyx_v_quiet == 0) != 0);
   if (__pyx_t_6) {
-    __pyx_t_3 = __Pyx_PyInt_From_long(((__pyx_v_end - __pyx_v_start) / 0x100000)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 153, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyInt_From_long(((__pyx_v_end - __pyx_v_start) / 0x100000)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 155, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_time); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 153, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_time); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 155, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 153, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 155, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __pyx_t_8 = NULL;
@@ -3280,20 +3301,20 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
       }
     }
     if (__pyx_t_8) {
-      __pyx_t_12 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_8); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 153, __pyx_L1_error)
+      __pyx_t_12 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_8); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 155, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     } else {
-      __pyx_t_12 = __Pyx_PyObject_CallNoArg(__pyx_t_1); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 153, __pyx_L1_error)
+      __pyx_t_12 = __Pyx_PyObject_CallNoArg(__pyx_t_1); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 155, __pyx_L1_error)
     }
     __Pyx_GOTREF(__pyx_t_12);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyInt_From_long(__pyx_v_t0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 153, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyInt_From_long(__pyx_v_t0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 155, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_8 = PyNumber_Subtract(__pyx_t_12, __pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 153, __pyx_L1_error)
+    __pyx_t_8 = PyNumber_Subtract(__pyx_t_12, __pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 155, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 153, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 155, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_GIVEREF(__pyx_t_3);
     PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_3);
@@ -3301,14 +3322,14 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
     PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_8);
     __pyx_t_3 = 0;
     __pyx_t_8 = 0;
-    __pyx_t_8 = __Pyx_PyString_Format(__pyx_kp_s_Read_1f_MiB_in_1f_sec, __pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 153, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyString_Format(__pyx_kp_s_Read_1f_MiB_in_1f_sec, __pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 155, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (__Pyx_PrintOne(0, __pyx_t_8) < 0) __PYX_ERR(0, 153, __pyx_L1_error)
+    if (__Pyx_PrintOne(0, __pyx_t_8) < 0) __PYX_ERR(0, 155, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   }
 
-  /* "pySciCam/photron_mraw.pyx":156
+  /* "pySciCam/photron_mraw.pyx":158
  * 
  *     # Return 3D array (un-flatten the output)
  *     if rgbmode==1:             # <<<<<<<<<<<<<<
@@ -3318,7 +3339,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
   __pyx_t_6 = ((__pyx_v_rgbmode == 1) != 0);
   if (__pyx_t_6) {
 
-    /* "pySciCam/photron_mraw.pyx":157
+    /* "pySciCam/photron_mraw.pyx":159
  *     # Return 3D array (un-flatten the output)
  *     if rgbmode==1:
  *         return np.moveaxis(images.reshape((nframes,height,width,3)),[0,3,1,2],[0,1,2,3])             # <<<<<<<<<<<<<<
@@ -3326,20 +3347,20 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
  *         return images.reshape((nframes,height,width))
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 157, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 159, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_moveaxis); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 157, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_moveaxis); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 159, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_12 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_images), __pyx_n_s_reshape); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 157, __pyx_L1_error)
+    __pyx_t_12 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_images), __pyx_n_s_reshape); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 159, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_12);
-    __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_nframes); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 157, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_nframes); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 159, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_11 = __Pyx_PyInt_From_int(__pyx_v_height); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 157, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_PyInt_From_int(__pyx_v_height); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 159, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
-    __pyx_t_21 = __Pyx_PyInt_From_int(__pyx_v_width); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 157, __pyx_L1_error)
+    __pyx_t_21 = __Pyx_PyInt_From_int(__pyx_v_width); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 159, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_21);
-    __pyx_t_22 = PyTuple_New(4); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 157, __pyx_L1_error)
+    __pyx_t_22 = PyTuple_New(4); if (unlikely(!__pyx_t_22)) __PYX_ERR(0, 159, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_22);
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_22, 0, __pyx_t_2);
@@ -3364,14 +3385,14 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
       }
     }
     if (!__pyx_t_21) {
-      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_12, __pyx_t_22); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 157, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_12, __pyx_t_22); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 159, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_22); __pyx_t_22 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_12)) {
         PyObject *__pyx_temp[2] = {__pyx_t_21, __pyx_t_22};
-        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_12, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 157, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_12, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 159, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_21); __pyx_t_21 = 0;
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_22); __pyx_t_22 = 0;
@@ -3380,26 +3401,26 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_12)) {
         PyObject *__pyx_temp[2] = {__pyx_t_21, __pyx_t_22};
-        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_12, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 157, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_12, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 159, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_21); __pyx_t_21 = 0;
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_22); __pyx_t_22 = 0;
       } else
       #endif
       {
-        __pyx_t_11 = PyTuple_New(1+1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 157, __pyx_L1_error)
+        __pyx_t_11 = PyTuple_New(1+1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 159, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_11);
         __Pyx_GIVEREF(__pyx_t_21); PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_21); __pyx_t_21 = NULL;
         __Pyx_GIVEREF(__pyx_t_22);
         PyTuple_SET_ITEM(__pyx_t_11, 0+1, __pyx_t_22);
         __pyx_t_22 = 0;
-        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_12, __pyx_t_11, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 157, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_12, __pyx_t_11, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 159, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
       }
     }
     __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-    __pyx_t_12 = PyList_New(4); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 157, __pyx_L1_error)
+    __pyx_t_12 = PyList_New(4); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 159, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_12);
     __Pyx_INCREF(__pyx_int_0);
     __Pyx_GIVEREF(__pyx_int_0);
@@ -3413,7 +3434,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
     __Pyx_INCREF(__pyx_int_2);
     __Pyx_GIVEREF(__pyx_int_2);
     PyList_SET_ITEM(__pyx_t_12, 3, __pyx_int_2);
-    __pyx_t_11 = PyList_New(4); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 157, __pyx_L1_error)
+    __pyx_t_11 = PyList_New(4); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 159, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
     __Pyx_INCREF(__pyx_int_0);
     __Pyx_GIVEREF(__pyx_int_0);
@@ -3442,7 +3463,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_3)) {
       PyObject *__pyx_temp[4] = {__pyx_t_22, __pyx_t_1, __pyx_t_12, __pyx_t_11};
-      __pyx_t_8 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_10, 3+__pyx_t_10); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 157, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_10, 3+__pyx_t_10); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 159, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_22); __pyx_t_22 = 0;
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -3453,7 +3474,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
       PyObject *__pyx_temp[4] = {__pyx_t_22, __pyx_t_1, __pyx_t_12, __pyx_t_11};
-      __pyx_t_8 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_10, 3+__pyx_t_10); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 157, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_10, 3+__pyx_t_10); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 159, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_22); __pyx_t_22 = 0;
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -3462,7 +3483,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
     } else
     #endif
     {
-      __pyx_t_21 = PyTuple_New(3+__pyx_t_10); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 157, __pyx_L1_error)
+      __pyx_t_21 = PyTuple_New(3+__pyx_t_10); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 159, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_21);
       if (__pyx_t_22) {
         __Pyx_GIVEREF(__pyx_t_22); PyTuple_SET_ITEM(__pyx_t_21, 0, __pyx_t_22); __pyx_t_22 = NULL;
@@ -3476,7 +3497,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
       __pyx_t_1 = 0;
       __pyx_t_12 = 0;
       __pyx_t_11 = 0;
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_21, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 157, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_21, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 159, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_21); __pyx_t_21 = 0;
     }
@@ -3485,7 +3506,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
     __pyx_t_8 = 0;
     goto __pyx_L0;
 
-    /* "pySciCam/photron_mraw.pyx":156
+    /* "pySciCam/photron_mraw.pyx":158
  * 
  *     # Return 3D array (un-flatten the output)
  *     if rgbmode==1:             # <<<<<<<<<<<<<<
@@ -3494,7 +3515,7 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
  */
   }
 
-  /* "pySciCam/photron_mraw.pyx":159
+  /* "pySciCam/photron_mraw.pyx":161
  *         return np.moveaxis(images.reshape((nframes,height,width,3)),[0,3,1,2],[0,1,2,3])
  *     else:
  *         return images.reshape((nframes,height,width))             # <<<<<<<<<<<<<<
@@ -3502,15 +3523,15 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
  */
   /*else*/ {
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_images), __pyx_n_s_reshape); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 159, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_images), __pyx_n_s_reshape); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 161, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_21 = __Pyx_PyInt_From_int(__pyx_v_nframes); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 159, __pyx_L1_error)
+    __pyx_t_21 = __Pyx_PyInt_From_int(__pyx_v_nframes); if (unlikely(!__pyx_t_21)) __PYX_ERR(0, 161, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_21);
-    __pyx_t_11 = __Pyx_PyInt_From_int(__pyx_v_height); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 159, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_PyInt_From_int(__pyx_v_height); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 161, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
-    __pyx_t_12 = __Pyx_PyInt_From_int(__pyx_v_width); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 159, __pyx_L1_error)
+    __pyx_t_12 = __Pyx_PyInt_From_int(__pyx_v_width); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 161, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_12);
-    __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 159, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 161, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_GIVEREF(__pyx_t_21);
     PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_21);
@@ -3532,14 +3553,14 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
       }
     }
     if (!__pyx_t_12) {
-      __pyx_t_8 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 159, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 161, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_GOTREF(__pyx_t_8);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_3)) {
         PyObject *__pyx_temp[2] = {__pyx_t_12, __pyx_t_1};
-        __pyx_t_8 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 159, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 161, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -3548,20 +3569,20 @@ static PyObject *__pyx_pf_8pySciCam_12photron_mraw_read_mraw(CYTHON_UNUSED PyObj
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
         PyObject *__pyx_temp[2] = {__pyx_t_12, __pyx_t_1};
-        __pyx_t_8 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 159, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 161, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       } else
       #endif
       {
-        __pyx_t_11 = PyTuple_New(1+1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 159, __pyx_L1_error)
+        __pyx_t_11 = PyTuple_New(1+1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 161, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_11);
         __Pyx_GIVEREF(__pyx_t_12); PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_12); __pyx_t_12 = NULL;
         __Pyx_GIVEREF(__pyx_t_1);
         PyTuple_SET_ITEM(__pyx_t_11, 0+1, __pyx_t_1);
         __pyx_t_1 = 0;
-        __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_11, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 159, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_11, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 161, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
       }
@@ -6320,9 +6341,9 @@ static int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(0, 54, __pyx_L1_error)
   __pyx_builtin_IOError = __Pyx_GetBuiltinName(__pyx_n_s_IOError); if (!__pyx_builtin_IOError) __PYX_ERR(0, 74, __pyx_L1_error)
   #if PY_MAJOR_VERSION >= 3
-  __pyx_builtin_xrange = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_xrange) __PYX_ERR(0, 125, __pyx_L1_error)
+  __pyx_builtin_xrange = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_xrange) __PYX_ERR(0, 127, __pyx_L1_error)
   #else
-  __pyx_builtin_xrange = __Pyx_GetBuiltinName(__pyx_n_s_xrange); if (!__pyx_builtin_xrange) __PYX_ERR(0, 125, __pyx_L1_error)
+  __pyx_builtin_xrange = __Pyx_GetBuiltinName(__pyx_n_s_xrange); if (!__pyx_builtin_xrange) __PYX_ERR(0, 127, __pyx_L1_error)
   #endif
   __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(1, 248, __pyx_L1_error)
   __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(1, 823, __pyx_L1_error)
@@ -6391,14 +6412,14 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
 
-  /* "pySciCam/photron_mraw.pyx":116
+  /* "pySciCam/photron_mraw.pyx":118
  *     cdef int i, flag
  *     cdef int npixels = int(ceil((end-start)/bytes_per_pixel))
  *     filename_byte_string = filename.encode("UTF-8")             # <<<<<<<<<<<<<<
  *     cdef char * fname = filename_byte_string
  *     cdef unsigned char * buffer = <unsigned char*>malloc(3)
  */
-  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_s_UTF_8); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 116, __pyx_L1_error)
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_s_UTF_8); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 118, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
 
@@ -8803,6 +8824,37 @@ bad:
     return -1;
 }
 #endif
+
+/* CIntToPy */
+        static CYTHON_INLINE PyObject* __Pyx_PyInt_From_PY_LONG_LONG(PY_LONG_LONG value) {
+    const PY_LONG_LONG neg_one = (PY_LONG_LONG) -1, const_zero = (PY_LONG_LONG) 0;
+    const int is_unsigned = neg_one > const_zero;
+    if (is_unsigned) {
+        if (sizeof(PY_LONG_LONG) < sizeof(long)) {
+            return PyInt_FromLong((long) value);
+        } else if (sizeof(PY_LONG_LONG) <= sizeof(unsigned long)) {
+            return PyLong_FromUnsignedLong((unsigned long) value);
+#ifdef HAVE_LONG_LONG
+        } else if (sizeof(PY_LONG_LONG) <= sizeof(unsigned PY_LONG_LONG)) {
+            return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
+#endif
+        }
+    } else {
+        if (sizeof(PY_LONG_LONG) <= sizeof(long)) {
+            return PyInt_FromLong((long) value);
+#ifdef HAVE_LONG_LONG
+        } else if (sizeof(PY_LONG_LONG) <= sizeof(PY_LONG_LONG)) {
+            return PyLong_FromLongLong((PY_LONG_LONG) value);
+#endif
+        }
+    }
+    {
+        int one = 1; int little = (int)*(unsigned char *)&one;
+        unsigned char *bytes = (unsigned char *)&value;
+        return _PyLong_FromByteArray(bytes, sizeof(PY_LONG_LONG),
+                                     little, !is_unsigned);
+    }
+}
 
 /* Declarations */
         #if CYTHON_CCOMPLEX

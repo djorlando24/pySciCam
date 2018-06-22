@@ -85,6 +85,7 @@ def b16_reader(filename,doubleExposure=True,quiet=0):
     cdef long nbytes = 0, nbytes_from_header = 0
     cdef long hbytes = 0
     cdef int nframes
+    cdef long long npix
 
     is_b16dat = False
     if os.path.splitext(filename)[1].lower() == '.b16':
@@ -142,10 +143,10 @@ def b16_reader(filename,doubleExposure=True,quiet=0):
         fseek (cfile, 1024, SEEK_SET)
 
         # make new image array (flattened)
-        cdef long long npix = nframes
+        npix = nframes
         npix *= height
         npix *= width
-        cdef np.ndarray[DTYPE_t, ndim=1] images = np.zeros(npix,dtype=DTYPE)
+        images = np.zeros(npix,dtype=DTYPE)
 
         # Size of b16 pixel blocks in b16dat
         block = int(nbytes_from_header/2)
