@@ -126,7 +126,7 @@ def read_chronos_mono_raw(filename, int width, int height, tuple frames=None,\
     if cfile:
         if start>0: fseek (cfile, start, SEEK_SET)
         if bits_per_pixel==12: # loop every 3 bytes, read 2 pixels
-            for i in xrange(0,len(images),2):
+            for i in xrange(0,len(images)-1,2):
                 flag = fread (&buffer, 1, 3, cfile)
                 buf2 = <int>buffer
 

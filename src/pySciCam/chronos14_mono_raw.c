@@ -2010,9 +2010,10 @@ static PyObject *__pyx_pf_8pySciCam_18chronos14_mono_raw_read_chronos_mono_raw(C
   char *__pyx_t_14;
   Py_ssize_t __pyx_t_15;
   Py_ssize_t __pyx_t_16;
-  int __pyx_t_17;
-  Py_ssize_t __pyx_t_18;
+  Py_ssize_t __pyx_t_17;
+  int __pyx_t_18;
   Py_ssize_t __pyx_t_19;
+  Py_ssize_t __pyx_t_20;
   __Pyx_RefNannySetupContext("read_chronos_mono_raw", 0);
   __pyx_pybuffer_images.pybuffer.buf = NULL;
   __pyx_pybuffer_images.refcount = 0;
@@ -2900,7 +2901,7 @@ static PyObject *__pyx_pf_8pySciCam_18chronos14_mono_raw_read_chronos_mono_raw(C
  *     if cfile:
  *         if start>0: fseek (cfile, start, SEEK_SET)             # <<<<<<<<<<<<<<
  *         if bits_per_pixel==12: # loop every 3 bytes, read 2 pixels
- *             for i in xrange(0,len(images),2):
+ *             for i in xrange(0,len(images)-1,2):
  */
     __pyx_t_6 = ((__pyx_v_start > 0) != 0);
     if (__pyx_t_6) {
@@ -2911,7 +2912,7 @@ static PyObject *__pyx_pf_8pySciCam_18chronos14_mono_raw_read_chronos_mono_raw(C
  *     if cfile:
  *         if start>0: fseek (cfile, start, SEEK_SET)
  *         if bits_per_pixel==12: # loop every 3 bytes, read 2 pixels             # <<<<<<<<<<<<<<
- *             for i in xrange(0,len(images),2):
+ *             for i in xrange(0,len(images)-1,2):
  *                 flag = fread (&buffer, 1, 3, cfile)
  */
     switch (__pyx_v_bits_per_pixel) {
@@ -2920,17 +2921,18 @@ static PyObject *__pyx_pf_8pySciCam_18chronos14_mono_raw_read_chronos_mono_raw(C
       /* "pySciCam/chronos14_mono_raw.pyx":129
  *         if start>0: fseek (cfile, start, SEEK_SET)
  *         if bits_per_pixel==12: # loop every 3 bytes, read 2 pixels
- *             for i in xrange(0,len(images),2):             # <<<<<<<<<<<<<<
+ *             for i in xrange(0,len(images)-1,2):             # <<<<<<<<<<<<<<
  *                 flag = fread (&buffer, 1, 3, cfile)
  *                 buf2 = <int>buffer
  */
       __pyx_t_15 = PyObject_Length(((PyObject *)__pyx_v_images)); if (unlikely(__pyx_t_15 == ((Py_ssize_t)-1))) __PYX_ERR(0, 129, __pyx_L1_error)
-      for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_15; __pyx_t_10+=2) {
+      __pyx_t_16 = (__pyx_t_15 - 1);
+      for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_16; __pyx_t_10+=2) {
         __pyx_v_i = __pyx_t_10;
 
         /* "pySciCam/chronos14_mono_raw.pyx":130
  *         if bits_per_pixel==12: # loop every 3 bytes, read 2 pixels
- *             for i in xrange(0,len(images),2):
+ *             for i in xrange(0,len(images)-1,2):
  *                 flag = fread (&buffer, 1, 3, cfile)             # <<<<<<<<<<<<<<
  *                 buf2 = <int>buffer
  * 
@@ -2938,7 +2940,7 @@ static PyObject *__pyx_pf_8pySciCam_18chronos14_mono_raw_read_chronos_mono_raw(C
         __pyx_v_flag = fread((&__pyx_v_buffer), 1, 3, __pyx_v_cfile);
 
         /* "pySciCam/chronos14_mono_raw.pyx":131
- *             for i in xrange(0,len(images),2):
+ *             for i in xrange(0,len(images)-1,2):
  *                 flag = fread (&buffer, 1, 3, cfile)
  *                 buf2 = <int>buffer             # <<<<<<<<<<<<<<
  * 
@@ -2953,16 +2955,16 @@ static PyObject *__pyx_pf_8pySciCam_18chronos14_mono_raw_read_chronos_mono_raw(C
  *                 images[i+1] = <DTYPE_t>(((buf2 & 0xFF0000) >> 16) | (buf2 & 0xF00) )
  * 
  */
-        __pyx_t_16 = __pyx_v_i;
-        __pyx_t_17 = -1;
-        if (__pyx_t_16 < 0) {
-          __pyx_t_17 = 0;
-        } else if (unlikely(__pyx_t_16 >= __pyx_pybuffernd_images.diminfo[0].shape)) __pyx_t_17 = 0;
-        if (unlikely(__pyx_t_17 != -1)) {
-          __Pyx_RaiseBufferIndexError(__pyx_t_17);
+        __pyx_t_17 = __pyx_v_i;
+        __pyx_t_18 = -1;
+        if (__pyx_t_17 < 0) {
+          __pyx_t_18 = 0;
+        } else if (unlikely(__pyx_t_17 >= __pyx_pybuffernd_images.diminfo[0].shape)) __pyx_t_18 = 0;
+        if (unlikely(__pyx_t_18 != -1)) {
+          __Pyx_RaiseBufferIndexError(__pyx_t_18);
           __PYX_ERR(0, 134, __pyx_L1_error)
         }
-        *__Pyx_BufPtrStrided1d(__pyx_t_8pySciCam_18chronos14_mono_raw_DTYPE_t *, __pyx_pybuffernd_images.rcbuffer->pybuffer.buf, __pyx_t_16, __pyx_pybuffernd_images.diminfo[0].strides) = ((__pyx_t_8pySciCam_18chronos14_mono_raw_DTYPE_t)(((__pyx_v_buf2 & 0xFF) << 4) | ((__pyx_v_buf2 & 0xF000) >> 12)));
+        *__Pyx_BufPtrStrided1d(__pyx_t_8pySciCam_18chronos14_mono_raw_DTYPE_t *, __pyx_pybuffernd_images.rcbuffer->pybuffer.buf, __pyx_t_17, __pyx_pybuffernd_images.diminfo[0].strides) = ((__pyx_t_8pySciCam_18chronos14_mono_raw_DTYPE_t)(((__pyx_v_buf2 & 0xFF) << 4) | ((__pyx_v_buf2 & 0xF000) >> 12)));
 
         /* "pySciCam/chronos14_mono_raw.pyx":135
  *                 # Read two pixels from three bytes
@@ -2971,16 +2973,16 @@ static PyObject *__pyx_pf_8pySciCam_18chronos14_mono_raw_read_chronos_mono_raw(C
  * 
  *                 # Alternate encoding schemes
  */
-        __pyx_t_18 = (__pyx_v_i + 1);
-        __pyx_t_17 = -1;
-        if (__pyx_t_18 < 0) {
-          __pyx_t_17 = 0;
-        } else if (unlikely(__pyx_t_18 >= __pyx_pybuffernd_images.diminfo[0].shape)) __pyx_t_17 = 0;
-        if (unlikely(__pyx_t_17 != -1)) {
-          __Pyx_RaiseBufferIndexError(__pyx_t_17);
+        __pyx_t_19 = (__pyx_v_i + 1);
+        __pyx_t_18 = -1;
+        if (__pyx_t_19 < 0) {
+          __pyx_t_18 = 0;
+        } else if (unlikely(__pyx_t_19 >= __pyx_pybuffernd_images.diminfo[0].shape)) __pyx_t_18 = 0;
+        if (unlikely(__pyx_t_18 != -1)) {
+          __Pyx_RaiseBufferIndexError(__pyx_t_18);
           __PYX_ERR(0, 135, __pyx_L1_error)
         }
-        *__Pyx_BufPtrStrided1d(__pyx_t_8pySciCam_18chronos14_mono_raw_DTYPE_t *, __pyx_pybuffernd_images.rcbuffer->pybuffer.buf, __pyx_t_18, __pyx_pybuffernd_images.diminfo[0].strides) = ((__pyx_t_8pySciCam_18chronos14_mono_raw_DTYPE_t)(((__pyx_v_buf2 & 0xFF0000) >> 16) | (__pyx_v_buf2 & 0xF00)));
+        *__Pyx_BufPtrStrided1d(__pyx_t_8pySciCam_18chronos14_mono_raw_DTYPE_t *, __pyx_pybuffernd_images.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_images.diminfo[0].strides) = ((__pyx_t_8pySciCam_18chronos14_mono_raw_DTYPE_t)(((__pyx_v_buf2 & 0xFF0000) >> 16) | (__pyx_v_buf2 & 0xF00)));
 
         /* "pySciCam/chronos14_mono_raw.pyx":152
  * 
@@ -3051,7 +3053,7 @@ static PyObject *__pyx_pf_8pySciCam_18chronos14_mono_raw_read_chronos_mono_raw(C
  *     if cfile:
  *         if start>0: fseek (cfile, start, SEEK_SET)
  *         if bits_per_pixel==12: # loop every 3 bytes, read 2 pixels             # <<<<<<<<<<<<<<
- *             for i in xrange(0,len(images),2):
+ *             for i in xrange(0,len(images)-1,2):
  *                 flag = fread (&buffer, 1, 3, cfile)
  */
       break;
@@ -3072,8 +3074,8 @@ static PyObject *__pyx_pf_8pySciCam_18chronos14_mono_raw_read_chronos_mono_raw(C
  *                 flag = fread (&buffer, 1, 2, cfile)
  *                 buf2 = <int>buffer
  */
-      __pyx_t_15 = PyObject_Length(((PyObject *)__pyx_v_images)); if (unlikely(__pyx_t_15 == ((Py_ssize_t)-1))) __PYX_ERR(0, 158, __pyx_L1_error)
-      for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_15; __pyx_t_10+=1) {
+      __pyx_t_16 = PyObject_Length(((PyObject *)__pyx_v_images)); if (unlikely(__pyx_t_16 == ((Py_ssize_t)-1))) __PYX_ERR(0, 158, __pyx_L1_error)
+      for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_16; __pyx_t_10+=1) {
         __pyx_v_i = __pyx_t_10;
 
         /* "pySciCam/chronos14_mono_raw.pyx":159
@@ -3101,16 +3103,16 @@ static PyObject *__pyx_pf_8pySciCam_18chronos14_mono_raw_read_chronos_mono_raw(C
  * 
  *     fclose(cfile)
  */
-        __pyx_t_19 = __pyx_v_i;
-        __pyx_t_17 = -1;
-        if (__pyx_t_19 < 0) {
-          __pyx_t_17 = 0;
-        } else if (unlikely(__pyx_t_19 >= __pyx_pybuffernd_images.diminfo[0].shape)) __pyx_t_17 = 0;
-        if (unlikely(__pyx_t_17 != -1)) {
-          __Pyx_RaiseBufferIndexError(__pyx_t_17);
+        __pyx_t_20 = __pyx_v_i;
+        __pyx_t_18 = -1;
+        if (__pyx_t_20 < 0) {
+          __pyx_t_18 = 0;
+        } else if (unlikely(__pyx_t_20 >= __pyx_pybuffernd_images.diminfo[0].shape)) __pyx_t_18 = 0;
+        if (unlikely(__pyx_t_18 != -1)) {
+          __Pyx_RaiseBufferIndexError(__pyx_t_18);
           __PYX_ERR(0, 161, __pyx_L1_error)
         }
-        *__Pyx_BufPtrStrided1d(__pyx_t_8pySciCam_18chronos14_mono_raw_DTYPE_t *, __pyx_pybuffernd_images.rcbuffer->pybuffer.buf, __pyx_t_19, __pyx_pybuffernd_images.diminfo[0].strides) = ((__pyx_t_8pySciCam_18chronos14_mono_raw_DTYPE_t)(__pyx_v_buf2 & 0xFFFF));
+        *__Pyx_BufPtrStrided1d(__pyx_t_8pySciCam_18chronos14_mono_raw_DTYPE_t *, __pyx_pybuffernd_images.rcbuffer->pybuffer.buf, __pyx_t_20, __pyx_pybuffernd_images.diminfo[0].strides) = ((__pyx_t_8pySciCam_18chronos14_mono_raw_DTYPE_t)(__pyx_v_buf2 & 0xFFFF));
       }
 
       /* "pySciCam/chronos14_mono_raw.pyx":157
