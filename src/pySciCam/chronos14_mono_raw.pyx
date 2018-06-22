@@ -115,7 +115,8 @@ def read_chronos_mono_raw(filename, int width, int height, tuple frames=None,\
     cdef np.ndarray[DTYPE_t, ndim=1] images = np.zeros(npix,dtype=DTYPE)
 
     # read array in
-    cdef int i, flag
+    cdef long long i
+    cdef int flag
     cdef int npixels = int(ceil((end-start)/bytes_per_pixel))
     filename_byte_string = filename.encode("UTF-8")
     cdef char * fname = filename_byte_string
