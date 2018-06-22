@@ -5,8 +5,8 @@
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2018 LTRAC
     @license GPL-3.0+
-    @version 0.1.2
-    @date 07/04/2018
+    @version 0.1.3
+    @date 22/06/2018
 
     support single & double exposed B16 (single image pair) and B16dat (multiple pairs).
 
@@ -142,7 +142,10 @@ def b16_reader(filename,doubleExposure=True,quiet=0):
         fseek (cfile, 1024, SEEK_SET)
 
         # make new image array (flattened)
-        images = np.zeros(int(nframes*height*width),dtype=DTYPE)
+        cdef long long npix = nframes
+        npix *= height
+        npix *= width
+        cdef np.ndarray[DTYPE_t, ndim=1] images = np.zeros(npix,dtype=DTYPE)
 
         # Size of b16 pixel blocks in b16dat
         block = int(nbytes_from_header/2)

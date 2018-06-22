@@ -5,8 +5,8 @@
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2018 LTRAC
     @license GPL-3.0+
-    @version 0.1.2
-    @date 08/04/2018
+    @version 0.1.3
+    @date 22/06/2018
 
     Please see help(pySciCam) for more information.
         __   ____________    ___    ______
@@ -105,9 +105,11 @@ def read_mraw(filename, int width, int height, int rgbmode = 0, tuple frames=Non
         nframes = frames[1]-frames[0]
 
     # make new image array (flattened)
-    cdef int totalpixels
-    if rgbmode==1: totalpixels = 3*nframes*height*width
-    else: totalpixels = nframes*height*width
+    cdef long long totalpixels
+    if rgbmode==1: totalpixels = 3*nframes
+    else: totalpixels = nframes
+    totalpixels *= height
+    totalpixels *= width
     cdef np.ndarray[DTYPE_t, ndim=1] images = np.zeros(int(totalpixels),dtype=DTYPE)
 
     # read array in

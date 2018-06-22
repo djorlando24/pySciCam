@@ -6,8 +6,8 @@
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2018 LTRAC
     @license GPL-3.0+
-    @version 0.1.2
-    @date 06/04/2018
+    @version 0.1.3
+    @date 22/06/2018
 
     Currently, software 0.2.3 beta is supported (little-endian, no header frame).
     Support for color formats requires Bayer decoding post-loading.
@@ -109,7 +109,10 @@ def read_chronos_mono_raw(filename, int width, int height, tuple frames=None,\
         nframes = frames[1]-frames[0]
 
     # make new image array (flattened)
-    cdef np.ndarray[DTYPE_t, ndim=1] images = np.zeros(int(nframes*height*width),dtype=DTYPE)
+    cdef long long npix = nframes
+    npix *= height
+    npix *= width
+    cdef np.ndarray[DTYPE_t, ndim=1] images = np.zeros(npix,dtype=DTYPE)
 
     # read array in
     cdef int i, flag
