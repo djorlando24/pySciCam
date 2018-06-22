@@ -113,7 +113,8 @@ def read_mraw(filename, int width, int height, int rgbmode = 0, tuple frames=Non
     cdef np.ndarray[DTYPE_t, ndim=1] images = np.zeros(int(totalpixels),dtype=DTYPE)
 
     # read array in
-    cdef int i, flag
+    cdef long long i
+    cdef int flag
     cdef int npixels = int(ceil((end-start)/bytes_per_pixel))
     filename_byte_string = filename.encode("UTF-8")
     cdef char * fname = filename_byte_string

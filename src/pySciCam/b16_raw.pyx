@@ -100,7 +100,8 @@ def b16_reader(filename,doubleExposure=True,quiet=0):
     cdef char * fname = filename_byte_string
     cdef unsigned char * buffer = <unsigned char*>malloc(4)
     cdef long hb
-    cdef unsigned int mb, i, skipext, block, npixels, flag
+    cdef unsigned int mb, skipext, block, npixels, flag
+    cdef long long i
 
     height, width, nbytes_from_header, hbytes, skipext = b16_read_header(fname)
     nbytes = nbytes_from_header
