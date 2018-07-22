@@ -72,7 +72,13 @@ def __magick_load_wrapper__(fseq,width,height,dtype_dest,dtype_src,monochrome):
         
         # Transfer buffer into to numpy array
         if type(dtype_src_MagickBlob) is type:
-            frame = np.fromstring(buffer.data, dtype_src_MagickBlob)
+            try:
+                frame = np.fromstring(buffer.data, dtype_src_MagickBlob)
+            except ValueError:
+                # Error will be thrown if string size is not multiple of element size, i.e
+                # we guessed incorrectly.
+                print "Error! The dtype of the images was not consistent and this has caused an error."
+                exit()
         else:
             raise ValueError("Pixel format %s not currently supported!"\
                               % dtype_src_MagickBlob)
