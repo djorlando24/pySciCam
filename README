@@ -4,7 +4,7 @@ Class to read images from high speed and scientific cameras in Python
     @copyright (c) 2018 LTRAC
     @license GPL-3.0+
     @version 0.1.3
-    @date 16/6/2018
+    @date 13/11/2018
         __   ____________    ___    ______    
        / /  /_  ____ __  \  /   |  / ____/    
       / /    / /   / /_/ / / /| | / /         
@@ -116,32 +116,4 @@ Class to read images from high speed and scientific cameras in Python
     - Motion Pro / Redlake raw formats
     contact me if you have any specific suggestions. Please provide a sample file!
 
-    INSTALLATION:
-    - Ensure you have a working Python setup. 
-      Code has been tested on Python 2.7, not Python 3 yet.
-      You may wish to set up a development environment (I like conda)
-    - Ensure you have a working C compiler (i.e. gcc) to build the extensions.
-    - Install mandatory python modules using either easy_install, pip, or conda
-	cython, numpy, tqdm, natsort, joblib, itertools
-    - Install optional python modules to provide further compatibility/enhancement
-        imageio (movie formats)
-        pillow (conventional image file formats)
-    - Install ImageMagick
-      Use package manager (apt, yum) in Linux or use homebrew on MacOS
-    - Install PythonMagick 
-      (get source from https://github.com/ImageMagick/PythonMagick or clone 
-      with `git clone https://github.com/ImageMagick/PythonMagick.git')
-      this library will require 'boost-python', 'imagemagick', and python2.5 or later,
-      as well as working c/c++ compilers.
-      This code has been tested with ImageMagick 7.0.7-30 Q16 x86_64
-      To get a working imagemagick on Linux you need to install 'libmagickcore-dev' and 'libmagick++-dev'.
-      Build the module with ./configure; make; make install. 
-      nb. On MacOS I had weird compiler errors when boost-python wasn't installed 
-       - it didn't warn during configure!
-      I'm using miniconda2 dev environment and had to manually modify Makefile to point    
-      these to the right site-packages:
-         pyexecdir = /Users/dduke/miniconda2/lib/python2.7/site-packages
-	 pythondir = /Users/dduke/miniconda2/lib/python2.7/site-packages 
-    - Check that the above modules load without errors
-        python2.7 -c 'import PythonMagick'
-        If you have trouble, Stack Oveflow is your friend!
+    
