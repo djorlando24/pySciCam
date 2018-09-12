@@ -1,0 +1,53 @@
+INSTALLATION INSTRUCTIONS
+
+    - Ensure you have a working Python setup. 
+      Code has been tested on Python 2.7, not Python 3 yet.
+      You may wish to set up a development environment (I like conda)
+
+    - Ensure you have a working C compiler (i.e. gcc) to build the extensions.
+
+    - Install mandatory python modules using either easy_install, pip, or conda
+	cython, numpy, tqdm, natsort, joblib, itertools
+
+    - Install optional python modules to provide further compatibility/enhancement
+        imageio (movie formats)
+        pillow (conventional image file formats)
+
+    - If installing movie support via imageio, also need ffmpeg
+       use package manager (apt, yum) in Linux or homebrew in macos
+
+    - Install ImageMagick
+      Use package manager (apt, yum) in Linux or use homebrew on MacOS
+      (nb. Homebrew requires Xcode and the Command Line Tools). 
+
+    - Install additional PythonMagick dependencies once ImageMagick is installed.
+      We require 'boost-python' and python2.5 or later, as well as working c/c++ compilers. These can be obtained through package manager (Linux) or homebrew on MacOS.
+      
+      On Linux you also need to install 'libmagickcore-dev' and 'libmagick++-dev'.
+      On MacOS you also need to install 'pkg-config'.
+
+    - Install PythonMagick
+      (get source from https://github.com/ImageMagick/PythonMagick or clone 
+      with `git clone https://github.com/ImageMagick/PythonMagick.git')
+      
+      Build the module with ./configure; make; make install. 
+      This code has been tested with ImageMagick 7.0.7-30 Q16 x86_64 
+
+      nb. On MacOS I had weird compiler errors when boost-python wasn't installed 
+       - it didn't warn during configure!
+      nb. I'm using miniconda2 dev environment and had to manually modify Makefile to point    
+      these to the right site-packages:
+         pyexecdir = /Users/dduke/miniconda2/lib/python2.7/site-packages
+	 pythondir = /Users/dduke/miniconda2/lib/python2.7/site-packages 
+
+      nb. on MacOS, 'make install' may put the libraries in the wrong place (i.e. the usual Linux location for site-packages).
+         I fixed this by doing sudo mv /usr/local/lib/python2.7/site-packages/PythonMagick /Library/Python/2.7/site-packages/ 
+
+    - Check that the above modules load without errors
+        cd; python2.7 -c 'import PythonMagick'
+        If you have trouble, Stack Oveflow is your friend!
+
+    - Now go to pySciCam and run 'python setup.py install'
+      n.b. if you don't have sudo permission to install the packages for the system, append the --user switch to install locally.
+
+    - Go into 'pySciCam/test' and run ' python run_tests.py ' to check all is working ok.
