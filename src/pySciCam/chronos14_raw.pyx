@@ -1,7 +1,6 @@
 # -*- coding: UTF-8 -*-
 """
     Read 12-bit and 16-bit RAW files from Chronos 1.4 cameras.
-    Chronos 1.4 software 0.2.3 beta.
 
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2018 LTRAC
@@ -13,17 +12,10 @@
     Firmware <= 0.3.0 writes a different 12 bit packing order to >=0.3.1. Those older files
     can be read by setting the flag old_packing_order=1.
 
-    Quote from firmware release notes:
-        The pixel packing order in Raw 12-bit mode has been changed for the v0.3.1 release.
-        Given a pair of two 12-bit pixels in hexidecmal as (0x123, 0xabc), the bytes produced
-        by the Raw 12-bit packing mode changes as follows:
-        v0.3.0 and earlier: (0xab, 0xc1, 0x23)
-        v0.3.1 and later: (0x23, 0x1c, 0xab)
-
-
     Support for color formats requires Bayer decoding post-loading.
     Note that the Chronos' internal software uses a different Bayer decoding scheme
     and images saved as RGB on the camera will not be identical as those saved RAW.
+    This scheme has changed with various firmware updates!
 
     Please see help(pySciCam) for more information.
         __   ____________    ___    ______
