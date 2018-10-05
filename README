@@ -3,8 +3,8 @@ Class to read images from high speed and scientific cameras in Python
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2018 LTRAC
     @license GPL-3.0+
-    @version 0.1.3
-    @date 13/11/2018
+    @version 0.2.0
+    @date 05/10/2018
         __   ____________    ___    ______    
        / /  /_  ____ __  \  /   |  / ____/    
       / /    / /   / /_/ / / /| | / /         
@@ -37,6 +37,7 @@ Class to read images from high speed and scientific cameras in Python
     Current support for:
         - 8, 12, 16, 32 & 64-bit RGB or Mono TIFF using PythonMagick (most cameras)
         - 12 & 16 bit packed RAW (Chronos monochrome and color cameras)
+          both pre-0.3 firmware and >= 0.3 firmware 12-bit packing modes supported
 	- Photron MRAW formats (mono, color Bayer and RGB encoding)
         - Any greyscale movies supported by the ffmpeg library
         - PCO B16 scientific data format for double-exposed (PIV) images
@@ -91,7 +92,11 @@ Class to read images from high speed and scientific cameras in Python
             
         IO_threads:
             Number of I/O threads for parallel reading of sets of still
-            images. Default is 8. Set to 1 to disable parallel I/O.
+            images. Default is 4. Set to 1 to disable parallel I/O.
+            
+        use_magick:
+            Manually disable use of PythonMagick, if not installed. Falls
+            back to PIL, which is easier to install but supports fewer formats.
             
     ADDITIONAL ARGS FOR RAW TYPES:
     
@@ -107,6 +112,9 @@ Class to read images from high speed and scientific cameras in Python
             
         start_offset:
             integer. Bytes offset for RAW blob with unspecified header size.
+
+	old_packing_order: (chronos formats only)
+            unpack 12-bit RAW data from Chronos firmware 0.2
     
     Future support planned for:
     - Header scanline in Chronos RAW, when firmware supports it.

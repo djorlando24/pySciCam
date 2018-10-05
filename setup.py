@@ -6,14 +6,14 @@
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2018 LTRAC
     @license GPL-3.0+
-    @version 0.1.3
-    @date 16/6/2018
+    @version 0.2
+    @date 05/10/2018
     
     Please see help(pySciCam) for more information.
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.1.3"
+__version__="0.2.0"
 __license__="GPL-3.0+"
 __copyright__="Copyright (c) 2018 LTRAC"
 
@@ -27,8 +27,8 @@ long_description = """Scientific and High speed camera file importer for Python.
 
 cython_modules = [
     Extension(
-        "pySciCam.chronos14_mono_raw",
-        ["src/pySciCam/chronos14_mono_raw.pyx"],
+        "pySciCam.chronos14_raw",
+        ["src/pySciCam/chronos14_raw.pyx"],
     ),
     Extension(
         "pySciCam.b16_raw",
@@ -45,11 +45,11 @@ c_libraries = [
 ]
 
 setup(name="pySciCam",
-      version="0.1.0",
+      version=__version__,
       description="Scientific and High speed camera file importer for Python.",
       author="Daniel Duke",
       author_email="daniel.duke@monash.edu",
-      license="GPL-3.0+",
+      license=__license__,
       long_description=long_description,
       packages=['pySciCam'],
       package_dir={'': 'src'},

@@ -5,8 +5,8 @@
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2018 LTRAC
     @license GPL-3.0+
-    @version 0.1.3
-    @date 22/06/2018
+    @version 0.2.0
+    @date 05/10/2018
 
     Please see help(pySciCam) for more information.
         __   ____________    ___    ______
@@ -19,7 +19,7 @@
 from __future__ import division
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.1.3"
+__version__="0.2.0"
 __license__="GPL-3.0+"
 __copyright__="Copyright (c) 2018 LTRAC"
 

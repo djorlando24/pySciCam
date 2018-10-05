@@ -6,8 +6,8 @@
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2017 LTRAC
     @license GPL-3.0+
-    @version 0.1.3
-    @date 16/06/2018
+    @version 0.2.0
+    @date 05/10/2018
     
     Laboratory for Turbulence Research in Aerospace & Combustion (LTRAC)
     Monash University, Australia
@@ -43,7 +43,7 @@ elif len(sys.argv)>3:
 else:
     fr=None
 
-I = ImageSequence(sys.argv[1],rawtype='chronos14_mono_12bit_noheader',width=1280,height=1024,frames=fr)
+I = ImageSequence(sys.argv[1],rawtype='chronos14_mono_12bit',width=1280,height=1024,frames=fr)
 print '-'*79
 
 overwrite=False

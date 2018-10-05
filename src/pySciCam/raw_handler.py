@@ -6,8 +6,8 @@
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2018 LTRAC
     @license GPL-3.0+
-    @version 0.1.3
-    @date 16/6/2018
+    @version 0.2
+    @date 05/10/2018
     
     Please see help(pySciCam) for more information.
         __   ____________    ___    ______
@@ -19,7 +19,7 @@
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.1.3"
+__version__="0.2"
 __license__="GPL-3.0+"
 __copyright__="Copyright (c) 2018 LTRAC"
 
@@ -28,8 +28,9 @@ raw_formats=['.raw','.mraw','.b16','.b16dat']
 
 # Valid values for rawtype kwarg.
 raw_types = ['b16','b16dat',\
-             'chronos14_mono_12bit_noheader','chronos14_mono_16bit_noheader',\
-             'chronos14_color_12bit_noheader','chronos14_color_16bit_noheader',\
+             'chronos14_mono_12bit','chronos14_mono_16bit',\
+             'chronos14_color_12bit','chronos14_color_16bit',\
+             'chronos14_mono_old12bit','chronos14_color_old12bit',\
              'photron_mraw_color_12bit_bayer','photron_mraw_color_12bit',\
              'photron_mraw_mono_12bit','photron_mraw_color_8bit_bayer',\
              'photron_mraw_color_8bit','photron_mraw_mono_8bit',\
@@ -71,26 +72,42 @@ def load_raw(ImageSequence,all_images,rawtype=None,width=None,height=None,\
     else:
         rawtype = rawtype.lower().strip()
     
-    # Chronos camera formats
-    if rawtype == 'chronos14_mono_12bit_noheader' or rawtype == 'chronos14_color_12bit_noheader':
-        print 'Chronos 12-bit RAW'
-        import chronos14_mono_raw as ch
+    # Chronos camera formats - firmware <= 0.3 12-bit packed
+    if rawtype == 'chronos14_mono_old12bit' or rawtype == 'chronos14_color_old12bit':
+        print 'Chronos 12-bit RAW (Deprecated firmware <=0.3.0 packing order)'
+        import chronos14_raw as ch
         if (width is None) or (height is None):
             raise ValueError("Specify height and width") # no header data
-        ImageSequence.arr = ch.read_chronos_mono_raw(all_images[0],width,height,\
-                                       frames,bits_per_pixel=12,start_offset=start_offset)
+        ImageSequence.arr = ch.read_chronos_raw(all_images[0],width,height,\
+                                       frames,bits_per_pixel=12,start_offset=start_offset,\
+                                                     old_packing_order=1)
         ImageSequence.src_bpp = 12
         ImageSequence.dtype = ImageSequence.arr.dtype
         if 'color' in rawtype.lower():
             ImageSequence.bayerDecode(interpolation_method='DC1394_BAYER_METHOD_BILINEAR',\
                                       camera_filter='DC1394_COLOR_FILTER_GBRG')
-    
-    elif rawtype == 'chronos14_mono_16bit_noheader' or rawtype == 'chronos14_color_16bit_noheader':
-        print 'Chronos 16-bit RAW'
-        import chronos14_mono_raw as ch
+
+    # Chronos camera formats - firmware >= 0.3.1 12-bit packed
+    elif rawtype == 'chronos14_mono_12bit' or rawtype == 'chronos14_color_12bit':
+        print 'Chronos 12-bit RAW'
+        import chronos14_raw as ch
         if (width is None) or (height is None):
             raise ValueError("Specify height and width") # no header data
-        ImageSequence.arr = ch.read_chronos_mono_raw(all_images[0],width,height,
+        ImageSequence.arr = ch.read_chronos_raw(all_images[0],width,height,\
+                                                     frames,bits_per_pixel=12,start_offset=start_offset)
+        ImageSequence.src_bpp = 12
+        ImageSequence.dtype = ImageSequence.arr.dtype
+        if 'color' in rawtype.lower():
+            ImageSequence.bayerDecode(interpolation_method='DC1394_BAYER_METHOD_BILINEAR',\
+                                      camera_filter='DC1394_COLOR_FILTER_GBRG')
+
+    # Chronos camera formats - 16-bit padded formats
+    elif rawtype == 'chronos14_mono_16bit' or rawtype == 'chronos14_color_16bit':
+        print 'Chronos 16-bit RAW'
+        import chronos14_raw as ch
+        if (width is None) or (height is None):
+            raise ValueError("Specify height and width") # no header data
+        ImageSequence.arr = ch.read_chronos_raw(all_images[0],width,height,
                                        frames,bits_per_pixel=16,start_offset=start_offset)
         ImageSequence.src_bpp = 16
         ImageSequence.dtype = ImageSequence.arr.dtype

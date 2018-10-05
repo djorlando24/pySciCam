@@ -6,8 +6,8 @@ Class to read images from high speed and scientific cameras in Python
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2018 LTRAC
     @license GPL-3.0+
-    @version 0.1.3
-    @date 16/6/2018
+    @version 0.2
+    @date 05/10/2018
         __   ____________    ___    ______
        / /  /_  ____ __  \  /   |  / ____/
       / /    / /   / /_/ / / /| | / /
@@ -94,7 +94,11 @@ Class to read images from high speed and scientific cameras in Python
             
         IO_threads:
             Number of I/O threads for parallel reading of sets of still
-            images. Default is 8. Set to 1 to disable parallel I/O.
+            images. Default is 4. Set to 1 to disable parallel I/O.
+            
+        use_magick:
+            Manually disable use of PythonMagick, if not installed. Falls
+            back to PIL, which is easier to install but supports fewer formats.
             
     ADDITIONAL ARGS FOR RAW TYPES:
     
@@ -110,6 +114,9 @@ Class to read images from high speed and scientific cameras in Python
             
         start_offset:
             integer. Bytes offset for RAW blob with unspecified header size.
+            
+        old_packing_order: (chronos formats only)
+            unpack 12-bit RAW data from Chronos firmware 0.2
     
     Future support planned for:
     - Header scanline in Chronos RAW, when firmware supports it.
@@ -120,7 +127,7 @@ Class to read images from high speed and scientific cameras in Python
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.1.3"
+__version__="0.2"
 __license__="GPL-3.0+"
 __copyright__="Copyright (c) 2018 LTRAC"
 
@@ -144,7 +151,7 @@ class ImageSequence:
         
         if not 'IO_threads' in kwargs.keys():
             # Default is parallel on 8 cores
-            self.IO_threads=8
+            self.IO_threads=4
         else:
             self.IO_threads=int(kwargs['IO_threads'])
             del kwargs['IO_threads']

@@ -6,12 +6,24 @@
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2018 LTRAC
     @license GPL-3.0+
-    @version 0.1.3
-    @date 22/06/2018
+    @version 0.2
+    @date 05/10/2018
 
-    Currently, software 0.2.3 beta is supported (little-endian, no header frame).
+    Currently, Chronos firmware up to 0.3.1 is supported (ie little-endian, no header frame).
+    Firmware <= 0.3.0 writes a different 12 bit packing order to >=0.3.1. Those older files
+    can be read by setting the flag old_packing_order=1.
+
+    Quote from firmware release notes:
+        The pixel packing order in Raw 12-bit mode has been changed for the v0.3.1 release.
+        Given a pair of two 12-bit pixels in hexidecmal as (0x123, 0xabc), the bytes produced
+        by the Raw 12-bit packing mode changes as follows:
+        v0.3.0 and earlier: (0xab, 0xc1, 0x23)
+        v0.3.1 and later: (0x23, 0x1c, 0xab)
+
+
     Support for color formats requires Bayer decoding post-loading.
-    Some problems remain with files saved at reduced resolution.
+    Note that the Chronos' internal software uses a different Bayer decoding scheme
+    and images saved as RGB on the camera will not be identical as those saved RAW.
 
     Please see help(pySciCam) for more information.
         __   ____________    ___    ______
@@ -24,7 +36,7 @@
 from __future__ import division
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.1.3"
+__version__="0.2"
 __license__="GPL-3.0+"
 __copyright__="Copyright (c) 2018 LTRAC"
 
@@ -47,8 +59,9 @@ ctypedef np.uint16_t DTYPE_t
 #@cython.boundscheck(False)
 @cython.wraparound(False)
 @cython.nonecheck(False)
-def read_chronos_mono_raw(filename, int width, int height, tuple frames=None,\
-                          int bits_per_pixel=12, long start_offset = 0, int quiet = 0):
+def read_chronos_raw(filename, int width, int height, tuple frames=None,\
+                     int bits_per_pixel=12, long start_offset = 0, int quiet = 0,\
+                     int old_packing_order = 0):
 
     cdef long t0 = time.time()
     cdef double bytes_per_pixel = bits_per_pixel/8.0
@@ -126,40 +139,62 @@ def read_chronos_mono_raw(filename, int width, int height, tuple frames=None,\
     cfile = fopen(fname, "rb")
     if cfile:
         if start>0: fseek (cfile, start, SEEK_SET)
-        if bits_per_pixel==12: # loop every 3 bytes, read 2 pixels
-            for i in xrange(0,len(images)-1,2):
-                flag = fread (&buffer, 1, 3, cfile)
-                buf2 = <int>buffer
 
-                # Read two pixels from three bytes
-                images[i]   = <DTYPE_t>(((buf2 & 0xFF) << 4) | ((buf2 & 0xF000) >> 12)  )
-                images[i+1] = <DTYPE_t>(((buf2 & 0xFF0000) >> 16) | (buf2 & 0xF00) )
-
-                # Alternate encoding schemes
-                #images[i]   = <DTYPE_t>(buf2 & 0xFFF)
-                #images[i+1] = <DTYPE_t>(((buf2&0xF00000)>>20)|((buf2&0x0F0000)>>12)|((buf2&0x00F000)>>4))
-
-                #images[i] = <DTYPE_t>(((buf2&0xF) << 8)|((buf2&0xF0))|((buf2&0xF00) >> 8))
-                #images[i+1]   = <DTYPE_t>((buf2 & 0xFFF000)>>12)
-
-                # Debugging - show buffer
-                #print '%i %06x %03x %03x' % (i, buf2 & 0xFFFFFF, images[i], images[i+1])
-                #if i >= 1033000:
-                #    fclose(cfile)
-                #    exit()
-                # End debugging block
-
-                # Scanline padded to nearest 16 bytes
-                if (i>0) and (i%width==0):
-                    fseek (cfile, scanline_pad, SEEK_CUR)
-                    if (i%(width*height)==0):
-                        fseek (cfile, frame_pad, SEEK_CUR)
-
-        elif bits_per_pixel==16: # loop every 2 bytes, write 1 pixel
+        # READ 16 BIT RAW IMAGES
+        if bits_per_pixel==16: # loop every 2 bytes, write 1 pixel
             for i in xrange(0,len(images)):
                 flag = fread (&buffer, 1, 2, cfile)
                 buf2 = <int>buffer
                 images[i]   = <DTYPE_t>(buf2 & 0xFFFF)
+
+                # Debugging - show buffer
+                # print '%i %06x %04x' % (i, buf2 & 0xFFFFFF, images[i])
+                # if i >= 10:
+                #     fclose(cfile)
+                #     return images.reshape((nframes,height,width))
+                # End debugging block
+
+        # READ 12 BIT IMAGES (PACKED RAW)
+        elif bits_per_pixel==12: # loop every 3 bytes, read 2 pixels
+
+            if old_packing_order==1: # firmware <= 0.3.0
+
+                for i in xrange(0,len(images)-1,2):
+                    flag = fread (&buffer, 1, 3, cfile)
+                    buf2 = <int>buffer
+
+                    # Read two pixels from three bytes
+                    # Given a pair of two 12-bit pixels in hexidecmal as (0x123, 0xabc),
+                    # v0.3.0 and earlier: (0xab, 0xc1, 0x23)
+                    images[i]   = <DTYPE_t>(((buf2 & 0xFF) << 4) | ((buf2 & 0xF000) >> 12)  )
+                    images[i+1] = <DTYPE_t>(((buf2 & 0xFF0000) >> 16) | (buf2 & 0xF00) )
+
+                    # Scanline padded to nearest 16 bytes
+                    if (i>0) and (i%width==0):
+                        fseek (cfile, scanline_pad, SEEK_CUR)
+                        if (i%(width*height)==0):
+                            fseek (cfile, frame_pad, SEEK_CUR)
+
+            else: # firmware >= 0.3.1 packing
+
+                for i in xrange(0,len(images)-1,2):
+                    flag = fread (&buffer, 1, 3, cfile)
+                    buf2 = <int>buffer
+
+                    # Read two pixels from three bytes
+                    # Given a pair of two 12-bit pixels in hexidecmal as (0x123, 0xabc),
+                    #v0.3.1 and later: (0x23, 0x1c, 0xab)
+                    images[i]   = <DTYPE_t>((buf2 & 0xFF) | ((buf2 & 0xF000) >> 4)  )
+                    images[i+1] = <DTYPE_t>(((buf2 & 0xFF0000) >> 12) | (buf2 & 0xF00) >> 8 )
+
+                    # Debugging - show buffer
+                    # print '%i %06x %03x %03x' % (i, buf2 & 0xFFFFFF, images[i], images[i+1])
+                    # if i >= 10:
+                    #     fclose(cfile)
+                    #     return images.reshape((nframes,height,width))
+                    # End debugging block
+
+        else: print "Unknown bits_per_pixel=",bits_per_pixel
 
     fclose(cfile)
 

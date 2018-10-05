@@ -6,10 +6,12 @@
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2018 LTRAC
     @license GPL-3.0+
-    @version 0.1.3
-    @date 03/05/2018
+    @version 0.2
+    @date 05/10/2018
     
     Please see help(pySciCam) for more information.
+    
+    This code has a bug somehow, when use_magick is False it still imports PythonMagick!
         __   ____________    ___    ______
        / /  /_  ____ __  \  /   |  / ____/
       / /    / /   / /_/ / / /| | / /
@@ -19,7 +21,7 @@
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.1.2"
+__version__="0.2"
 __license__="GPL-3.0+"
 __copyright__="Copyright (c) 2018 LTRAC"
 
@@ -54,13 +56,16 @@ def __magick_load_wrapper__(fseq,width,height,dtype_dest,dtype_src,monochrome):
     i=0
     
     for fn in fseq:
-    
         imageObj = PythonMagick.Image()
         buffer = PythonMagick.Blob()
         dtype_src_MagickBlob = dtype_src
         
         # Get pixel buffer
-        imageObj.read(fn)
+        try:
+            imageObj.read(fn)
+        except RuntimeError as e:
+            # Read and report errors due to unknown TIFF fields, etc, but try and continue anyway.
+            print e
         
         # Specify any necessary conversions to make the data readable.
         if dtype_src == 'uint12':
@@ -124,8 +129,7 @@ def __make_monochromatic__(im,dtype):
 # the disk read speed justifies it (i.e SSD).
 def load_image_sequence(ImageSequence,all_images,frames=None,monochrome=False,\
                         dtype=None,use_magick=True):
-
-
+    
     # Attempt setup of parallel file I/O.
     if ImageSequence.IO_threads > 1:
         try:
@@ -215,17 +219,15 @@ def load_image_sequence(ImageSequence,all_images,frames=None,monochrome=False,\
             # bad bit depth / not supported
             raise ValueError("Bit depth %i for source image not currently supported!" % bits)
 
-
     if not monochrome and not 'RGB' in ImageSequence.mode:
         # Force mono flag if there is no colour data
         monochrome=True
 
     if monochrome and (dtype is None):
-        # If mono flag set and dtype unspecified,
+        # If mono flag set and dtype is autodetected,
         # allow more space for colour information in mono channel
         # so there's no overflowing when we do summation.
         ImageSequence.increase_dtype()
-
 
     # Chunk size for parallel I/O
     n_jobs = ImageSequence.IO_threads
