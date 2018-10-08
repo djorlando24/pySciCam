@@ -5,8 +5,8 @@
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2018 LTRAC
     @license GPL-3.0+
-    @version 0.2
-    @date 05/10/2018
+    @version 0.2.1
+    @date 08/10/2018
 
     Currently, Chronos firmware up to 0.3.1 is supported (ie little-endian, no header frame).
     Firmware <= 0.3.0 writes a different 12 bit packing order to >=0.3.1. Those older files
@@ -28,7 +28,7 @@
 from __future__ import division
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.2"
+__version__="0.2.1"
 __license__="GPL-3.0+"
 __copyright__="Copyright (c) 2018 LTRAC"
 

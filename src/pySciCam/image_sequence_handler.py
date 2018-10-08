@@ -6,8 +6,8 @@
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2018 LTRAC
     @license GPL-3.0+
-    @version 0.2
-    @date 05/10/2018
+    @version 0.2.1
+    @date 08/10/2018
     
     Please see help(pySciCam) for more information.
     
@@ -21,7 +21,7 @@
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.2"
+__version__="0.2.1"
 __license__="GPL-3.0+"
 __copyright__="Copyright (c) 2018 LTRAC"
 
@@ -229,16 +229,26 @@ def load_image_sequence(ImageSequence,all_images,frames=None,monochrome=False,\
         # so there's no overflowing when we do summation.
         ImageSequence.increase_dtype()
 
-    # Chunk size for parallel I/O
+    # Number of parallel workers.
     n_jobs = ImageSequence.IO_threads
     if n_jobs > len(all_images): n_jobs = len(all_images)
+    
+    # Chunk size for parallel I/O.
+    # To get a single task run on each processor we would set the chunk size
     b=len(all_images)/n_jobs
+    # However this can produce tasks that have to each have a very large amount of RAM
+    # and return a very large array to the parent, which could generate IOError: bad message length.
+    # On macOS 10.13.6, I get this error when the child returns more than 300 MB.
+    # Therefore we will reduce the chunk size if it is too large.
+    if b>10*n_jobs: b=int(b/10)
+    # Ensure b>=1!
     if b<1: b=1
     
     print "\tReading files into memory..."
     t0=time.time()
     if n_jobs > 1:
         # Read image sequence in parallel
+        if ImageSequence.Joblib_Verbosity >= 1: print "%i tasks on %i processors" % (len(all_images)/b,n_jobs)
         L = Parallel(n_jobs=n_jobs,verbose=ImageSequence.Joblib_Verbosity)(delayed(imageHandler)(all_images[a:a+b],ImageSequence.width,ImageSequence.height,ImageSequence.dtype,I0_dtype,monochrome) for a in range(0,len(all_images),b))
     else:
         # Plain list. might have to rearrange this if it consumes too much RAM.

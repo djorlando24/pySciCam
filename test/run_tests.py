@@ -8,8 +8,8 @@
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2017 LTRAC
     @license GPL-3.0+
-    @version 0.2
-    @date 05/10/2018
+    @version 0.2.1
+    @date 08/10/2018
     
     Laboratory for Turbulence Research in Aerospace & Combustion (LTRAC)
     Monash University, Australia
