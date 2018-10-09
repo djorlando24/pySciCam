@@ -6,8 +6,13 @@
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2017 LTRAC
     @license GPL-3.0+
-    @version 0.2.1
-    @date 08/10/2018
+    @version 0.2.2
+    @date 09/10/2018
+        __   ____________    ___    ______
+       / /  /_  ____ __  \  /   |  / ____/
+      / /    / /   / /_/ / / /| | / /
+     / /___ / /   / _, _/ / ___ |/ /_________
+    /_____//_/   /_/ |__\/_/  |_|\__________/
     
     Laboratory for Turbulence Research in Aerospace & Combustion (LTRAC)
     Monash University, Australia
@@ -18,6 +23,11 @@
     IMAGES, MOVIES and BINARY GRAPHICS FILES in this directory are subject to the Creative Commons Attribution-NonCommerical 4.0 International License. In short, this means you may adapt and share copies of these images provided that they carry the same license, but that you may NOT use these images for commerical purposes. Please see: https://creativecommons.org/licenses/by-nc/4.0/
     
 """
+
+__author__="Daniel Duke <daniel.duke@monash.edu>"
+__version__="0.2.2"
+__license__="GPL-3.0+"
+__copyright__="Copyright (c) 2018 LTRAC"
 
 import pySciCam
 import numpy as np

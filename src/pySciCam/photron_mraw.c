@@ -1668,7 +1668,7 @@ static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_path[] = "path";
 static const char __pyx_k_test[] = "__test__";
 static const char __pyx_k_time[] = "time";
-static const char __pyx_k_0_2_0[] = "0.2.0";
+static const char __pyx_k_0_2_1[] = "0.2.1";
 static const char __pyx_k_DTYPE[] = "DTYPE";
 static const char __pyx_k_UTF_8[] = "UTF-8";
 static const char __pyx_k_cfile[] = "cfile";
@@ -1727,7 +1727,7 @@ static const char __pyx_k_ndarray_is_not_C_contiguous[] = "ndarray is not C cont
 static const char __pyx_k_File_contains_i_frames_i_x_i[] = "File contains %i frames (%i x %i)";
 static const char __pyx_k_src_pySciCam_photron_mraw_pyx[] = "src/pySciCam/photron_mraw.pyx";
 static const char __pyx_k_File_has_no_frames_at_specified[] = "File has no frames at specified resolution";
-static const char __pyx_k_Read_8_12_and_16_bit_MRAW_files[] = "\n    Read 8, 12 and 16-bit MRAW files from Photron FastCam Viewer software.\n\n    @author Daniel Duke <daniel.duke@monash.edu>\n    @copyright (c) 2018 LTRAC\n    @license GPL-3.0+\n    @version 0.2.0\n    @date 05/10/2018\n\n    Please see help(pySciCam) for more information.\n        __   ____________    ___    ______\n       / /  /_  ____ __  \\  /   |  / ____/\n      / /    / /   / /_/ / / /| | / /\n     / /___ / /   / _, _/ / ___ |/ /_________\n    /_____//_/   /_/ |__\\/_/  |_|\\__________/\n\n";
+static const char __pyx_k_Read_8_12_and_16_bit_MRAW_files[] = "\n    Read 8, 12 and 16-bit MRAW files from Photron FastCam Viewer software.\n\n    @author Daniel Duke <daniel.duke@monash.edu>\n    @copyright (c) 2018 LTRAC\n    @license GPL-3.0+\n    @version 0.2.1\n    @date 08/10/2018\n\n    Please see help(pySciCam) for more information.\n        __   ____________    ___    ______\n       / /  /_  ____ __  \\  /   |  / ____/\n      / /    / /   / /_/ / / /| | / /\n     / /___ / /   / _, _/ / ___ |/ /_________\n    /_____//_/   /_/ |__\\/_/  |_|\\__________/\n\n";
 static const char __pyx_k_Warning_requested_read_past_EOF[] = "Warning: requested read past EOF, truncating";
 static const char __pyx_k_numpy_core_multiarray_failed_to[] = "numpy.core.multiarray failed to import";
 static const char __pyx_k_start_offset_cannot_be_negative[] = "start_offset cannot be negative";
@@ -1742,7 +1742,7 @@ static const char __pyx_k_ndarray_is_not_Fortran_contiguou[] = "ndarray is not F
 static const char __pyx_k_numpy_core_umath_failed_to_impor[] = "numpy.core.umath failed to import";
 static const char __pyx_k_start_offset_is_beyond_end_of_fi[] = "start_offset is beyond end of file";
 static const char __pyx_k_Format_string_allocated_too_shor_2[] = "Format string allocated too short.";
-static PyObject *__pyx_kp_s_0_2_0;
+static PyObject *__pyx_kp_s_0_2_1;
 static PyObject *__pyx_kp_s_Copyright_c_2018_LTRAC;
 static PyObject *__pyx_n_s_DTYPE;
 static PyObject *__pyx_kp_s_Daniel_Duke_daniel_duke_monash_e;
@@ -6156,7 +6156,7 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_kp_s_0_2_0, __pyx_k_0_2_0, sizeof(__pyx_k_0_2_0), 0, 0, 1, 0},
+  {&__pyx_kp_s_0_2_1, __pyx_k_0_2_1, sizeof(__pyx_k_0_2_1), 0, 0, 1, 0},
   {&__pyx_kp_s_Copyright_c_2018_LTRAC, __pyx_k_Copyright_c_2018_LTRAC, sizeof(__pyx_k_Copyright_c_2018_LTRAC), 0, 0, 1, 0},
   {&__pyx_n_s_DTYPE, __pyx_k_DTYPE, sizeof(__pyx_k_DTYPE), 0, 0, 1, 1},
   {&__pyx_kp_s_Daniel_Duke_daniel_duke_monash_e, __pyx_k_Daniel_Duke_daniel_duke_monash_e, sizeof(__pyx_k_Daniel_Duke_daniel_duke_monash_e), 0, 0, 1, 0},
@@ -6713,7 +6713,7 @@ if (!__Pyx_RefNanny) {
  * from __future__ import division
  * 
  * __author__="Daniel Duke <daniel.duke@monash.edu>"             # <<<<<<<<<<<<<<
- * __version__="0.2.0"
+ * __version__="0.2.1"
  * __license__="GPL-3.0+"
  */
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_author, __pyx_kp_s_Daniel_Duke_daniel_duke_monash_e) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
@@ -6721,15 +6721,15 @@ if (!__Pyx_RefNanny) {
   /* "pySciCam/photron_mraw.pyx":22
  * 
  * __author__="Daniel Duke <daniel.duke@monash.edu>"
- * __version__="0.2.0"             # <<<<<<<<<<<<<<
+ * __version__="0.2.1"             # <<<<<<<<<<<<<<
  * __license__="GPL-3.0+"
  * __copyright__="Copyright (c) 2018 LTRAC"
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_version, __pyx_kp_s_0_2_0) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_version, __pyx_kp_s_0_2_1) < 0) __PYX_ERR(0, 22, __pyx_L1_error)
 
   /* "pySciCam/photron_mraw.pyx":23
  * __author__="Daniel Duke <daniel.duke@monash.edu>"
- * __version__="0.2.0"
+ * __version__="0.2.1"
  * __license__="GPL-3.0+"             # <<<<<<<<<<<<<<
  * __copyright__="Copyright (c) 2018 LTRAC"
  * 
@@ -6737,7 +6737,7 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_license, __pyx_kp_s_GPL_3_0) < 0) __PYX_ERR(0, 23, __pyx_L1_error)
 
   /* "pySciCam/photron_mraw.pyx":24
- * __version__="0.2.0"
+ * __version__="0.2.1"
  * __license__="GPL-3.0+"
  * __copyright__="Copyright (c) 2018 LTRAC"             # <<<<<<<<<<<<<<
  * 

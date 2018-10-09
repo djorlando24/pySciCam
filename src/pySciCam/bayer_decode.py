@@ -6,8 +6,8 @@
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2017 LTRAC
     @license GPL-3.0+
-    @version 0.2.1
-    @date 08/10/2018
+    @version 0.2.2
+    @date 09/10/2018
     
     Please see help(pySciCam) for more information.
         __   ____________    ___    ______
@@ -19,7 +19,7 @@
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.2.1"
+__version__="0.2.2"
 __license__="GPL-3.0+"
 __copyright__="Copyright (c) 2018 LTRAC"
 

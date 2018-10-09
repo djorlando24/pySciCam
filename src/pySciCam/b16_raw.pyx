@@ -5,8 +5,8 @@
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2018 LTRAC
     @license GPL-3.0+
-    @version 0.2.1
-    @date 08/10/2018
+    @version 0.2.2
+    @date 09/10/2018
 
     support single & double exposed B16 (single image pair) and B16dat (multiple pairs).
 
@@ -21,7 +21,7 @@
 from __future__ import division
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.2.1"
+__version__="0.2.2"
 __license__="GPL-3.0+"
 __copyright__="Copyright (c) 2018 LTRAC"
 

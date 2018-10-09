@@ -6,14 +6,24 @@
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2017 LTRAC
     @license GPL-3.0+
-    @version 0.2.1
-    @date 08/10/2018
+    @version 0.2.2
+    @date 09/10/2018
+        __   ____________    ___    ______
+       / /  /_  ____ __  \  /   |  / ____/
+      / /    / /   / /_/ / / /| | / /
+     / /___ / /   / _, _/ / ___ |/ /_________
+    /_____//_/   /_/ |__\/_/  |_|\__________/
     
     Laboratory for Turbulence Research in Aerospace & Combustion (LTRAC)
     Monash University, Australia
     
     Code in this directory is subject to the GPL-3.0+ license, please see ../LICENSE
 """
+
+__author__="Daniel Duke <daniel.duke@monash.edu>"
+__version__="0.2.2"
+__license__="GPL-3.0+"
+__copyright__="Copyright (c) 2018 LTRAC"
 
 
 try:

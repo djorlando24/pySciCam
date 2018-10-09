@@ -6,22 +6,22 @@
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2018 LTRAC
     @license GPL-3.0+
-    @version 0.2.1
-    @date 08/10/2018
-    
-    Please see help(pySciCam) for more information.
-    
-    This code has a bug somehow, when use_magick is False it still imports PythonMagick!
+    @version 0.2.2
+    @date 09/10/2018
         __   ____________    ___    ______
        / /  /_  ____ __  \  /   |  / ____/
       / /    / /   / /_/ / / /| | / /
      / /___ / /   / _, _/ / ___ |/ /_________
     /_____//_/   /_/ |__\/_/  |_|\__________/
-
+    
+    Laboratory for Turbulence Research in Aerospace & Combustion (LTRAC)
+    Monash University, Australia
+    
+    Please see help(pySciCam) for more information.
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.2.1"
+__version__="0.2.2"
 __license__="GPL-3.0+"
 __copyright__="Copyright (c) 2018 LTRAC"
 
@@ -41,9 +41,13 @@ def __pil_load_wrapper__(fseq,width,height,dtype_dest,dtype_src,monochrome):
     i=0
     for fn in fseq:
         frame = Image.open(fn)
-        if monochrome and (frame.mode=='RGB'):
+        if monochrome and (frame.mode=='RGB'): # collapse RGB to mono channel
             frame = __make_monochromatic__(np.array(frame),dtype_dest)
-        A[...,i]=np.array(frame)
+            A[...,i]=np.array(frame)
+        elif frame.mode=='RGB': # correct colour channels for RGB so 'imshow' works natively
+            A[...,i]=np.roll(np.array(frame),2,2)
+        else: # Write as-is for mono format
+            A[...,i]=np.array(frame)
         i+=1
     return A
 
@@ -168,7 +172,7 @@ def load_image_sequence(ImageSequence,all_images,frames=None,monochrome=False,\
         try:
             I0 = Image.open(all_images[0])
             ImageSequence.mode = I0.mode
-            print I0
+            #print '\t',I0  # Debugging, check PIL mode
             I0_dtype = np.array(I0).dtype
             if dtype is None: ImageSequence.dtype = I0_dtype
             else: ImageSequence.dtype=dtype
@@ -179,10 +183,14 @@ def load_image_sequence(ImageSequence,all_images,frames=None,monochrome=False,\
         except IOError as e:
             if os.path.isfile(all_images[0]) and not use_magick:
                 # Format unrecognized.
-                print "The image format was not recognized by PIL! Trying ImageMagick"
+                print "\tThe image format was not recognized by PIL! Trying ImageMagick"
                 use_magick=True
-                from PythonMagick import Image
-                imageHandler==__magick_load_wrapper__
+                try:
+                    from PythonMagick import Image
+                    imageHandler=__magick_load_wrapper__
+                except ImportError:
+                    print "PythonMagick library is not installed. Cannot load image sequence."
+                    return
             else:
                 # Possible filesystem error
                 raise IOError("File %s could not be opened." % all_images[0])
@@ -254,14 +262,16 @@ def load_image_sequence(ImageSequence,all_images,frames=None,monochrome=False,\
         # Plain list. might have to rearrange this if it consumes too much RAM.
         L = [imageHandler(all_images[a:a+b],ImageSequence.width,ImageSequence.height,ImageSequence.dtype,\
              I0_dtype,monochrome) for a in range(0,len(all_images),b)]
-
+    
     # Repack list of results into a single numpy array.
     if len(L[0].shape) == 3:
         # monochrome arrays
-        ImageSequence.arr = np.dstack(L).swapaxes(2,0).swapaxes(1,2)
+        ImageSequence.arr = np.dstack(L)
+        ImageSequence.arr=ImageSequence.arr.swapaxes(2,0).swapaxes(1,2)
     else:
         # colour arrays
-        ImageSequence.arr = np.rollaxis(np.rollaxis(np.concatenate(L,axis=3),3,0),3,1)
+        ImageSequence.arr = np.concatenate(L,axis=3)
+        ImageSequence.arr = np.rollaxis(np.rollaxis(ImageSequence.arr,3,0),3,1)
 
     ImageSequence.src_bpp = bits_per_pixel
     read_nbytes = bits_per_pixel * np.product(ImageSequence.arr.shape) / 8

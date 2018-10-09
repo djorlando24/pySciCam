@@ -8,18 +8,27 @@
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2017 LTRAC
     @license GPL-3.0+
-    @version 0.2.1
-    @date 08/10/2018
+    @version 0.2.2
+    @date 09/10/2018
+        __   ____________    ___    ______
+       / /  /_  ____ __  \  /   |  / ____/
+      / /    / /   / /_/ / / /| | / /
+     / /___ / /   / _, _/ / ___ |/ /_________
+    /_____//_/   /_/ |__\/_/  |_|\__________/
     
     Laboratory for Turbulence Research in Aerospace & Combustion (LTRAC)
     Monash University, Australia
-    
     
     Code in this directory is subject to the GPL-3.0+ license, please see ../LICENSE
 
     IMAGES, MOVIES and BINARY GRAPHICS FILES in this directory are subject to the Creative Commons Attribution-NonCommerical 4.0 International License. In short, this means you may adapt and share copies of these images provided that they carry the same license, but that you may NOT use these images for commerical purposes. Please see: https://creativecommons.org/licenses/by-nc/4.0/
     
 """
+
+__author__="Daniel Duke <daniel.duke@monash.edu>"
+__version__="0.2.2"
+__license__="GPL-3.0+"
+__copyright__="Copyright (c) 2018 LTRAC"
 
 import pySciCam
 import numpy as np
@@ -192,7 +201,7 @@ def image_sequence_tests(IO_threads=1):
     
     for dirname in directories:
         
-        print "\n*** %s IMAGES ***" % dirname
+        print "\n*** `%s' sample image set ***" % dirname
         
         try:
             ax=fig.add_subplot(nv,nh,i)
@@ -202,7 +211,8 @@ def image_sequence_tests(IO_threads=1):
             # ignored when not required.
             if 'rgb' in dirname: monochrome=False
             else: monochrome=True
-            data = pySciCam.ImageSequence(dirname,IO_threads=IO_threads,monochrome=monochrome)
+            data = pySciCam.ImageSequence(dirname,IO_threads=IO_threads,monochrome=monochrome,\
+                                          use_magick=False)
             
             if len(data.shape()) == 2: oneFrame = data.arr
             elif monochrome:
@@ -263,7 +273,7 @@ if __name__=='__main__':
     if os.path.basename(os.getcwd()) != 'test': raise IOError("Tests must be run from pySciCam or pySciCam/test")
     
     # Run tests.
-    p1,n1 = image_sequence_tests()
+    p1,n1 = image_sequence_tests();plt.show();exit()
     p2,n2 = movie_tests()
     p3,n3 = raw_tests()
     
