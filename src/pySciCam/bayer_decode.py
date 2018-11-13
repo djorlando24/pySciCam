@@ -7,7 +7,7 @@
     @copyright (c) 2017 LTRAC
     @license GPL-3.0+
     @version 0.2.2
-    @date 09/10/2018
+    @date 13/11/2018
     
     Please see help(pySciCam) for more information.
         __   ____________    ___    ______
@@ -16,6 +16,10 @@
      / /___ / /   / _, _/ / ___ |/ /_________
     /_____//_/   /_/ |__\/_/  |_|\__________/
     
+
+    Updated 13/11/18 for local site support for libbayer.so
+    (ie. setup.py install --user will work)
+
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
@@ -102,9 +106,10 @@ def fbayerDecode(arr, interpolation_method='DC1394_BAYER_METHOD_NEAREST',\
                  ncpus=1,JobLib_Verbosity=5,frame_chunk_size=4):
 
     # find libbayer (should be built as extension by setuptools)
+    sites = site.getsitepackages(); sites.append(site.USER_SITE)
     for libext in ['so','dylib','dll','a']:
         path_to_libbayer = list(itertools.chain.from_iterable([ glob.glob(p+'/libbayer.'+libext)\
-                                for p in site.getsitepackages() ]))
+                                for p in sites ]))
         if len(path_to_libbayer)>0: break
     if len(path_to_libbayer)==0: raise IOError("Can't find libbayer.so, bayer decode aborted")
     
