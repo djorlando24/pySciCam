@@ -1,3 +1,4 @@
+# pySciCam
 Class to read images from high speed and scientific cameras in Python
     
     @author Daniel Duke <daniel.duke@monash.edu>
