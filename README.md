@@ -27,10 +27,9 @@ Class to read images from high speed and scientific cameras in Python
     these files, and most graphics packages (even ImageJ!) struggle to correctly read
     files like 16/32 bit RGB TIFF for example. This Python package solves that problem.
     
-    pySciCam is an attempt to build an easy to use, all in one solutiuon to allow
-    researchers to convert their scientific camera's binary data file or unusual 
-    solution to allow researchers to quickly convert their camera's binary files or
-    unusual / native TIFF and bitmap formats into NumPy arrays in a single line of code.
+    pySciCam is an attempt to build an easy to use, all in one solution to allow
+    researchers to quickly convert their camera's binary files or unusual / native TIFF
+    and bitmap formats into NumPy arrays in a single line of code.
     It achieves this by using cython (C) modules for fast reading of RAW blobs, and
     parallelized ImageMagick / Pillow for standardised formats like TIFF. Movie support
     via ffmpeg library is also included.
@@ -88,9 +87,10 @@ Class to read images from high speed and scientific cameras in Python
         
         monochrome:
             boolean. If the image set is from a colour camera,
-            this will sum all the colour channels together during
+            setting True will sum all the colour channels together during
             the reading process to reduce the size of the array.
-            
+            The flag is ignored for grayscale source files.
+
         IO_threads:
             Number of I/O threads for parallel reading of sets of still
             images. Default is 4. Set to 1 to disable parallel I/O.
@@ -119,6 +119,7 @@ Class to read images from high speed and scientific cameras in Python
     
     Future support planned for:
     - Header scanline in Chronos RAW, when firmware supports it.
+    - Fluke IR camera .IS2 files
     - Shimadzu HPV custom format
     - Other Photron raw exporter formats
     - Other PCO DIMAX raw exporter formats
