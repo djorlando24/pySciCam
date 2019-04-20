@@ -33,7 +33,7 @@ INSTALLATION INSTRUCTIONS
       Build the module with ./configure; make; make install. 
       This code has been tested with ImageMagick 7.0.7-30 Q16 x86_64 
 
-      nb. On MacOS I had weird compiler errors when boost-python wasn't installed 
+      nb. On MacOS w/ python 2.x I had weird compiler errors when boost-python wasn't installed 
        - it didn't warn during configure!
       nb. I'm using miniconda2 dev environment and had to manually modify Makefile to point    
       these to the right site-packages:
@@ -42,6 +42,9 @@ INSTALLATION INSTRUCTIONS
 
       nb. on MacOS, 'make install' may put the libraries in the wrong place (i.e. the usual Linux location for site-packages).
          I fixed this by doing sudo mv /usr/local/lib/python2.7/site-packages/PythonMagick /Library/Python/2.7/site-packages/ 
+
+      nb. I have not yet got PythonMagick to work under python 3.x on MacOS - some problem
+      with the Boost libraries. Should work on Linux, though.
 
     - Check that the above modules load without errors
         cd; python2.7 -c 'import PythonMagick'
