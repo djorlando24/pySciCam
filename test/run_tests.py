@@ -8,8 +8,8 @@
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2017 LTRAC
     @license GPL-3.0+
-    @version 0.2.2
-    @date 09/10/2018
+    @version 0.3.0
+    @date 21/04/2019
         __   ____________    ___    ______
        / /  /_  ____ __  \  /   |  / ____/
       / /    / /   / /_/ / / /| | / /
@@ -26,11 +26,12 @@
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.2.2"
+__version__="0.3.0"
 __license__="GPL-3.0+"
-__copyright__="Copyright (c) 2018 LTRAC"
+__copyright__="Copyright (c) 2019 LTRAC"
 
 import pySciCam
+from pySciCam.pySciCam import ImageSequence
 import numpy as np
 import glob
 import os
@@ -60,7 +61,7 @@ def raw_tests():
     
     for rawtype in types:
         
-        print "\n*** %s RAW FORMAT ***" % rawtype
+        print("\n*** %s RAW FORMAT ***" % rawtype)
         filename = generate_test_filename(rawtype)
         ax=None
         
@@ -76,7 +77,7 @@ def raw_tests():
             
             # Attempt to load test data. The height and width parameters are
             # ignored when not required. Only read the first few frames.
-            data = pySciCam.ImageSequence(filename,rawtype=rawtype,\
+            data = ImageSequence(filename,rawtype=rawtype,\
                                           height=height,width=width,frames=(0,3))
             
             # B16 images have huge dynamic range. Clip the range so we can
@@ -94,13 +95,13 @@ def raw_tests():
                 if len(data.shape()) == 2: oneFrame = data.arr
                 elif len(data.shape()) == 3: oneFrame = data.arr[0,:,:]
                 elif len(data.shape()) == 4: oneFrame = data.arr[0,0,:,:]
-                else: print "I don't know what to do with a grayscale array of shape %s" % data.shape
+                else: print("I don't know what to do with a grayscale array of shape %s" % data.shape)
                 plotHandle=ax.imshow(oneFrame,cmap=plt.cm.gray)
                 #plt.colorbar(plotHandle)
             else:
                 if len(data.shape()) == 3: oneFrame = data.arr.swapaxes(0,2).swapaxes(0,1)
                 elif len(data.shape()) == 4: oneFrame = data.arr[0,...].swapaxes(0,2).swapaxes(0,1)
-                else: print "I don't know what to do with a color array of shape %s" % data.shape
+                else: print("I don't know what to do with a color array of shape %s" % data.shape)
                 # make to float with range of values 0 to 1
                 oneFrame = oneFrame.astype(np.float32)
                 oneFrame -= np.nanmin(oneFrame)
@@ -115,7 +116,7 @@ def raw_tests():
             passed+=1
         
         except IOError as e:
-            print e
+            print(e)
             if ax is not None:
                 plt.text(0.1,0.5,"Test failed - I/O error")
             
@@ -125,8 +126,8 @@ def raw_tests():
         i+=1
     
     if len(missing_types)>0:
-        print "\nTHE FOLLOWING RAW TYPES DID NOT HAVE MATCHING TEST FILES:"
-        for t in missing_types: print '\t%s' % t
+        print("\nTHE FOLLOWING RAW TYPES DID NOT HAVE MATCHING TEST FILES:")
+        for t in missing_types: print('\t%s' % t)
     
     return passed, i-1
 
@@ -146,11 +147,11 @@ def movie_tests():
     
     for movie_ext in pySciCam.movie_handler.movie_formats:
     
-        print "\n*** %s MOVIE ***" % movie_ext.strip('.').upper()
+        print("\n*** %s MOVIE ***" % movie_ext.strip('.').upper())
         
         filename=glob.glob('*%s' % movie_ext)
         if len(filename) == 0:
-            print "Test file not found"
+            print("Test file not found")
             plt.text(0.1,0.5,"Test failed - no file found")
         else:
             filename=filename[0]
@@ -161,19 +162,19 @@ def movie_tests():
             
             # Attempt to load test data. The height and width parameters are
             # ignored when not required.
-            data = pySciCam.ImageSequence(filename)
+            data = ImageSequence(filename)
             
             if len(data.shape()) == 2: oneFrame = data.arr
             elif len(data.shape()) == 3: oneFrame = data.arr[0,:,:]
             elif len(data.shape()) == 4: oneFrame = data.arr[0,0,:,:]
-            else: print "I don't know what to do with an array of shape %s" % data.shape
+            else: print("I don't know what to do with an array of shape %s" % data.shape)
             
             plotHandle=ax.imshow(oneFrame)
             plt.colorbar(plotHandle)
             passed += 1
         
         except IOError as e:
-            print e
+            print(e)
             plt.text(0.1,0.5,"Test failed - I/O error")
     
         except:
@@ -201,7 +202,7 @@ def image_sequence_tests(IO_threads=1):
     
     for dirname in directories:
         
-        print "\n*** `%s' sample image set ***" % dirname
+        print("\n*** `%s' sample image set ***" % dirname)
         
         try:
             ax=fig.add_subplot(nv,nh,i)
@@ -211,18 +212,18 @@ def image_sequence_tests(IO_threads=1):
             # ignored when not required.
             if 'rgb' in dirname: monochrome=False
             else: monochrome=True
-            data = pySciCam.ImageSequence(dirname,IO_threads=IO_threads,monochrome=monochrome,\
+            data = ImageSequence(dirname,IO_threads=IO_threads,monochrome=monochrome,\
                                           use_magick=False)
-            
+            if data.shape() is None: raise IOError
             if len(data.shape()) == 2: oneFrame = data.arr
             elif monochrome:
                 if len(data.shape()) == 3: oneFrame = data.arr[0,:,:]
                 elif len(data.shape()) == 4: oneFrame = data.arr[0,0,:,:]
-                else: print "I don't know what to do with an array of shape %s" % data.shape
+                else: print("I don't know what to do with an array of shape %s" % data.shape)
             else:
                 if len(data.shape()) == 3: oneFrame = data.arr
                 elif len(data.shape()) == 4: oneFrame = data.arr[0,...]
-                else: print "I don't know what to do with an array of shape %s" % data.shape
+                else: print("I don't know what to do with an array of shape %s" % data.shape)
                 oneFrame = np.rollaxis(oneFrame,0,3) # put color axis last
                 oneFrame = np.roll(oneFrame,1,2)    # get RGB in right order for matplotlib
                 
@@ -238,7 +239,7 @@ def image_sequence_tests(IO_threads=1):
             passed +=1
         
         except IOError as e:
-            print e
+            print(e)
             plt.text(0.1,0.5,"Test failed - I/O error")
     
         # Disable generic exceptions to capture bugs.
@@ -277,15 +278,15 @@ if __name__=='__main__':
     p2,n2 = movie_tests()
     p3,n3 = raw_tests()
     
-    print '*'*80
-    print "Passed %i of %i tests with serial I/O\nClose windows to continue\n" % (p1+p2+p3,n1+n2+n3)
+    print('*'*80)
+    print("Passed %i of %i tests with serial I/O\nClose windows to continue\n" % (p1+p2+p3,n1+n2+n3))
     
     plt.show()
     
     # Now try with parallel file I/O
     p1,n1 = image_sequence_tests(4) # 4 threads
-    print '*'*80
-    print "Passed %i of %i tests with parallel I/O\nClose windows to exit" % (p1,n1)
+    print('*'*80)
+    print("Passed %i of %i tests with parallel I/O\nClose windows to exit" % (p1,n1))
     
     plt.show()
     exit()

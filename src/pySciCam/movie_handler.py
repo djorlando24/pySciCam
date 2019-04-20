@@ -4,10 +4,10 @@
     Movie file decoding routines for pySciCam module
     
     @author Daniel Duke <daniel.duke@monash.edu>
-    @copyright (c) 2018 LTRAC
+    @copyright (c) 2019 LTRAC
     @license GPL-3.0+
-    @version 0.2.2
-    @date 09/10/2018
+    @version 0.3.0
+    @date 21/04/2019
     
     Please see help(pySciCam) for more information.
         __   ____________    ___    ______
@@ -21,9 +21,9 @@
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.2.2"
+__version__="0.3.0"
 __license__="GPL-3.0+"
-__copyright__="Copyright (c) 2018 LTRAC"
+__copyright__="Copyright (c) 2019 LTRAC"
 
 # Known movie file extensions supported & tested.
 movie_formats=['.mp4','.avi']
@@ -44,7 +44,7 @@ def load_movie(ImageSequence,filename,frames=None,monochrome=False,dtype=None):
         import tqdm
         it_fun = lambda a,b: tqdm.tqdm(range(a,b))
     except ImportError:
-        print "Warning: tqdm library not installed. No progress bar!"
+        print("Warning: tqdm library not installed. No progress bar!")
         it_fun = range
     
     try:
@@ -56,7 +56,7 @@ def load_movie(ImageSequence,filename,frames=None,monochrome=False,dtype=None):
     # Copy metadata of video into ImageSequence
     for k in vid.get_meta_data().keys():
         ImageSequence.__dict__[k] = vid.get_meta_data()[k]
-        print '\t%s: %s' % (k,vid.get_meta_data()[k])
+        print('\t%s: %s' % (k,vid.get_meta_data()[k]))
 
     start = 0
     end = vid.get_length()
@@ -91,6 +91,6 @@ def load_movie(ImageSequence,filename,frames=None,monochrome=False,dtype=None):
 
     # Estimate bits per pixel
     read_nbytes = os.path.getsize(filename)
-    print 'Read %.1f MiB in %.1f sec' % (read_nbytes/1048576,time.time()-t0)
+    print('Read %.1f MiB in %.1f sec' % (read_nbytes/1048576,time.time()-t0))
     ImageSequence.src_bpp = 8*read_nbytes/float(np.product(ImageSequence.arr.shape))
     return

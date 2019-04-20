@@ -4,10 +4,10 @@
     Python wrapper for the DC1394 Bayer Decoding library
     
     @author Daniel Duke <daniel.duke@monash.edu>
-    @copyright (c) 2017 LTRAC
+    @copyright (c) 2019 LTRAC
     @license GPL-3.0+
-    @version 0.2.2
-    @date 13/11/2018
+    @version 0.3.0
+    @date 21/04/2019
     
     Please see help(pySciCam) for more information.
         __   ____________    ___    ______
@@ -23,9 +23,9 @@
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.2.2"
+__version__="0.3.0"
 __license__="GPL-3.0+"
-__copyright__="Copyright (c) 2018 LTRAC"
+__copyright__="Copyright (c) 2019 LTRAC"
 
 import site, itertools, glob
 import numpy as np
@@ -124,7 +124,7 @@ def fbayerDecode(arr, interpolation_method='DC1394_BAYER_METHOD_NEAREST',\
     else:
         enum_tile = c_uint(dc1394color_filters.index(camera_filter.upper()) + 512)
 
-    print 'Bayer settings:',interpolation_method,',', camera_filter
+    print('Bayer settings:',interpolation_method,',', camera_filter)
 
     # Check numpy array provided
     try:
@@ -169,7 +169,7 @@ def fbayerDecode(arr, interpolation_method='DC1394_BAYER_METHOD_NEAREST',\
             else: raise IndexError("output from joblib in libbayer_wrapper has wrong number of dimensions")
             del frame_list
         except ImportError:
-            print 'Unable to load joblib module for parallel processing. Falling back to serial'
+            print('Unable to load joblib module for parallel processing. Falling back to serial')
             ncpus=1
 
     # Run serially

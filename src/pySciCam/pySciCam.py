@@ -1,13 +1,13 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 """
 Class to read images from high speed and scientific cameras in Python
 
     @author Daniel Duke <daniel.duke@monash.edu>
-    @copyright (c) 2018 LTRAC
+    @copyright (c) 2019 LTRAC
     @license GPL-3.0+
-    @version 0.2.2
-    @date 09/10/2018
+    @version 0.3.0
+    @date 21/04/2019
         __   ____________    ___    ______
        / /  /_  ____ __  \  /   |  / ____/
       / /    / /   / /_/ / / /| | / /
@@ -127,9 +127,9 @@ Class to read images from high speed and scientific cameras in Python
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.2.2"
+__version__="0.3.0"
 __license__="GPL-3.0+"
-__copyright__="Copyright (c) 2018 LTRAC"
+__copyright__="Copyright (c) 2019 LTRAC"
 
 import os, glob, sys, time
 from natsort import natsorted
@@ -181,7 +181,7 @@ class ImageSequence:
                        start_offset=0,use_magick=True):
         
         # Wildcard search
-        print "Reading %s" % path
+        print("Reading %s" % path)
         if os.path.isdir(path):
             path+='/'
             all_images = glob.glob(path+'*')
@@ -195,7 +195,7 @@ class ImageSequence:
                 self.ext=os.path.splitext(f)[-1].lower()
                 break
         if self.ext is None:
-            print "** Error, no recognized file extensions found"
+            print("** Error, no recognized file extensions found")
             return
         
         # Natural sort and all matching extension
@@ -203,10 +203,10 @@ class ImageSequence:
         
         # Number of images found
         if len(all_images)<1:
-            print "** Error, no images found in path"
+            print("** Error, no images found in path")
             return
         elif len(all_images)>1:
-            print "\tFound %i images with extension %s" % (len(all_images),self.ext)
+            print("\tFound %i images with extension %s" % (len(all_images),self.ext))
 
         # Call appropriate loading subroutine
         if self.ext in movie_handler.movie_formats:
@@ -234,10 +234,10 @@ class ImageSequence:
         self.dtype = self.arr.dtype
         self.N = self.arr.shape[0]
 
-        print "\tData in memory:\t",self.shape()
-        print "\tIntensity range:\t",self.arr.min(),"to",self.arr.max(),'\t',self.dtype
+        print("\tData in memory:\t",self.shape())
+        print("\tIntensity range:\t",self.arr.min(),"to",self.arr.max(),'\t',self.dtype)
         self.stored_bits_per_pixel()
-        print "\tArray size:\t%.1f MB" % (np.product(self.arr.shape)*self.bpp/1024./1024.)
+        print("\tArray size:\t%.1f MB" % (np.product(self.arr.shape)*self.bpp/1024./1024.))
         return
 
     # Calculate stored bits per pixel based on self.dtype.
@@ -258,7 +258,7 @@ class ImageSequence:
         elif self.dtype==np.uint16: self.dtype=np.uint32
         elif self.dtype==np.uint32: self.dtype=np.uint64
         if quiet==0:
-            print "\tIncreasing stored bit depth from %s to %s" % (current_dtype,self.dtype)
+            print("\tIncreasing stored bit depth from %s to %s" % (current_dtype,self.dtype))
         if 'arr' in dir(self):
             if self.arr is not None:
                 if self.dtype != self.arr.dtype:
@@ -282,7 +282,7 @@ class ImageSequence:
         #kwargs['JobLib_Verbosity']=self.Joblib_Verbosity
         
         from bayer_decode import fbayerDecode
-        print 'Bayer decoding array of size %s...' % str(self.shape())
+        print('Bayer decoding array of size %s...' % str(self.shape()))
         self.arr = fbayerDecode(self.arr, **kwargs)
-        #print 'RGB array is now of size %s' % str(self.shape())
+        #print('RGB array is now of size %s' % str(self.shape()))
         return

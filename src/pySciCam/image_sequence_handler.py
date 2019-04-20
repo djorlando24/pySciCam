@@ -4,10 +4,10 @@
     Image sequence handling routines for pySciCam module
     
     @author Daniel Duke <daniel.duke@monash.edu>
-    @copyright (c) 2018 LTRAC
+    @copyright (c) 2019 LTRAC
     @license GPL-3.0+
-    @version 0.2.2
-    @date 09/10/2018
+    @version 0.3.0
+    @date 21/04/2019
         __   ____________    ___    ______
        / /  /_  ____ __  \  /   |  / ____/
       / /    / /   / /_/ / / /| | / /
@@ -21,9 +21,9 @@
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.2.2"
+__version__="0.3.0"
 __license__="GPL-3.0+"
-__copyright__="Copyright (c) 2018 LTRAC"
+__copyright__="Copyright (c) 2019 LTRAC"
 
 
 # Known tested still frame file extensions
@@ -69,7 +69,7 @@ def __magick_load_wrapper__(fseq,width,height,dtype_dest,dtype_src,monochrome):
             imageObj.read(fn)
         except RuntimeError as e:
             # Read and report errors due to unknown TIFF fields, etc, but try and continue anyway.
-            print e
+            print(e)
         
         # Specify any necessary conversions to make the data readable.
         if dtype_src == 'uint12':
@@ -86,7 +86,7 @@ def __magick_load_wrapper__(fseq,width,height,dtype_dest,dtype_src,monochrome):
             except ValueError:
                 # Error will be thrown if string size is not multiple of element size, i.e
                 # we guessed incorrectly.
-                print "Error! The dtype of the images was not consistent and this has caused an error."
+                print("Error! The dtype of the images was not consistent and this has caused an error.")
                 exit()
         else:
             raise ValueError("Pixel format %s not currently supported!"\
@@ -123,7 +123,7 @@ def __make_monochromatic__(im,dtype):
     mono = np.sum(im_newtype,axis=2)
     if np.any( mono == np.iinfo(dtype).max ) \
     and not np.any( im_newtype == np.iinfo(dtype).max ):
-        print "WARNING: Possible overflow/clipping detected when summing RGB channels."
+        print("WARNING: Possible overflow/clipping detected when summing RGB channels.")
     return mono
 
 ####################################################################################
@@ -139,7 +139,7 @@ def load_image_sequence(ImageSequence,all_images,frames=None,monochrome=False,\
         try:
             from joblib import Parallel, delayed
         except ImportError:
-            print "Error, joblib is not installed. Multithreaded file I/O will be disabled."
+            print("Error, joblib is not installed. Multithreaded file I/O will be disabled.")
             ImageSequence.IO_threads=1
 
     # Attempt to import PythonMagick if requested
@@ -148,8 +148,8 @@ def load_image_sequence(ImageSequence,all_images,frames=None,monochrome=False,\
             from PythonMagick import Image
             imageHandler=__magick_load_wrapper__
         except ImportError:
-            print "PythonMagick library is not installed."
-            print "Falling back to Pillow (fewer file formats supported)"
+            print("PythonMagick library is not installed.")
+            print("Falling back to Pillow (fewer file formats supported)")
             use_magick = False
     
     # Attempt to import Pillow if requested
@@ -172,24 +172,24 @@ def load_image_sequence(ImageSequence,all_images,frames=None,monochrome=False,\
         try:
             I0 = Image.open(all_images[0])
             ImageSequence.mode = I0.mode
-            #print '\t',I0  # Debugging, check PIL mode
+            #print('\t',I0)  # Debugging, check PIL mode
             I0_dtype = np.array(I0).dtype
             if dtype is None: ImageSequence.dtype = I0_dtype
             else: ImageSequence.dtype=dtype
-            print "\tPIL thinks the bit depth is %s" % I0_dtype
+            print("\tPIL thinks the bit depth is %s" % I0_dtype)
             bits_per_pixel = np.dtype(I0_dtype).itemsize*8
             ImageSequence.width = I0.width
             ImageSequence.height = I0.height
         except IOError as e:
             if os.path.isfile(all_images[0]) and not use_magick:
                 # Format unrecognized.
-                print "\tThe image format was not recognized by PIL! Trying ImageMagick"
+                print("\tThe image format was not recognized by PIL! Trying ImageMagick")
                 use_magick=True
                 try:
                     from PythonMagick import Image
                     imageHandler=__magick_load_wrapper__
                 except ImportError:
-                    print "PythonMagick library is not installed. Cannot load image sequence."
+                    print("PythonMagick library is not installed. Cannot load image sequence.")
                     return
             else:
                 # Possible filesystem error
@@ -211,7 +211,7 @@ def load_image_sequence(ImageSequence,all_images,frames=None,monochrome=False,\
             elif bits_per_pixel==32: I0_dtype=np.uint32
             elif bits_per_pixel==64: I0_dtype=np.uint64
             else: raise ValueError
-            print "\tPythonMagick thinks the bit depth is %s" % I0_dtype
+            print("\tPythonMagick thinks the bit depth is %s" % I0_dtype)
             # Determine minimum acceptable destination bit depth
             # (unless overridden by user kwargs)
             if dtype is None:
@@ -252,11 +252,11 @@ def load_image_sequence(ImageSequence,all_images,frames=None,monochrome=False,\
     # Ensure b>=1!
     if b<1: b=1
     
-    print "\tReading files into memory..."
+    print("\tReading files into memory...")
     t0=time.time()
     if n_jobs > 1:
         # Read image sequence in parallel
-        if ImageSequence.Joblib_Verbosity >= 1: print "%i tasks on %i processors" % (len(all_images)/b,n_jobs)
+        if ImageSequence.Joblib_Verbosity >= 1: print("%i tasks on %i processors" % (len(all_images)/b,n_jobs))
         L = Parallel(n_jobs=n_jobs,verbose=ImageSequence.Joblib_Verbosity)(delayed(imageHandler)(all_images[a:a+b],ImageSequence.width,ImageSequence.height,ImageSequence.dtype,I0_dtype,monochrome) for a in range(0,len(all_images),b))
     else:
         # Plain list. might have to rearrange this if it consumes too much RAM.
@@ -275,6 +275,6 @@ def load_image_sequence(ImageSequence,all_images,frames=None,monochrome=False,\
 
     ImageSequence.src_bpp = bits_per_pixel
     read_nbytes = bits_per_pixel * np.product(ImageSequence.arr.shape) / 8
-    print 'Read %.1f MiB in %.1f sec' % (read_nbytes/1048576,time.time()-t0)
+    print('Read %.1f MiB in %.1f sec' % (read_nbytes/1048576,time.time()-t0))
 
     return

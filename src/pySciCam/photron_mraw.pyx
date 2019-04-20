@@ -3,10 +3,10 @@
     Read 8, 12 and 16-bit MRAW files from Photron FastCam Viewer software.
 
     @author Daniel Duke <daniel.duke@monash.edu>
-    @copyright (c) 2018 LTRAC
+    @copyright (c) 2019 LTRAC
     @license GPL-3.0+
-    @version 0.2.2
-    @date 09/10/2018
+    @version 0.3.0
+    @date 21/04/2019
 
     Please see help(pySciCam) for more information.
         __   ____________    ___    ______
@@ -19,9 +19,9 @@
 from __future__ import division
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.2.2"
+__version__="0.3.0"
 __license__="GPL-3.0+"
-__copyright__="Copyright (c) 2018 LTRAC"
+__copyright__="Copyright (c) 2019 LTRAC"
 
 import numpy as np
 import os
@@ -80,12 +80,12 @@ def read_mraw(filename, int width, int height, int rgbmode = 0, tuple frames=Non
     elif start_offset > nbytes:
         raise ValueError("start_offset is beyond end of file")
     if (quiet == 0) and (start_offset > 0):
-        print 'Offset by %i bytes' % start_offset
+        print('Offset by %i bytes' % start_offset)
 
-    if quiet == 0: print "File contains %i frames (%i x %i)" % (nframes,width,height)
+    if quiet == 0: print("File contains %i frames (%i x %i)" % (nframes,width,height))
     cdef int remainder_bytes = np.mod(nbytes,bytes_per_pixel*width*height)
     if remainder_bytes > 0:
-        print "Incomplete file truncated - %i bytes at end of file ignored" % remainder_bytes
+        print("Incomplete file truncated - %i bytes at end of file ignored" % remainder_bytes)
 
 
 
@@ -99,9 +99,9 @@ def read_mraw(filename, int width, int height, int rgbmode = 0, tuple frames=Non
         if start > nbytes:
             raise ValueError("frame range: Cannot start reading beyond end of file!")
         if end > nbytes:
-            print "Warning: requested read past EOF, truncating"
+            print("Warning: requested read past EOF, truncating")
             end = nbytes
-        if quiet == 0: print "Reading frames %i to %i" % frames
+        if quiet == 0: print("Reading frames %i to %i" % frames)
         nframes = frames[1]-frames[0]
 
     # make new image array (flattened)
@@ -153,7 +153,7 @@ def read_mraw(filename, int width, int height, int rgbmode = 0, tuple frames=Non
 
     fclose(cfile)
 
-    if quiet == 0: print 'Read %.1f MiB in %.1f sec' % ((end-start)/1048576,time.time()-t0)
+    if quiet == 0: print('Read %.1f MiB in %.1f sec' % ((end-start)/1048576,time.time()-t0))
 
     # Return 3D array (un-flatten the output)
     if rgbmode==1:

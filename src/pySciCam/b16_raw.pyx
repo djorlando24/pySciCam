@@ -3,10 +3,10 @@
     Read monochrome 16-bit raw data from PCO scientific cameras into NumPy arrays.
 
     @author Daniel Duke <daniel.duke@monash.edu>
-    @copyright (c) 2018 LTRAC
+    @copyright (c) 2019 LTRAC
     @license GPL-3.0+
-    @version 0.2.2
-    @date 09/10/2018
+    @version 0.3.0
+    @date 21/04/2019
 
     support single & double exposed B16 (single image pair) and B16dat (multiple pairs).
 
@@ -21,9 +21,9 @@
 from __future__ import division
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.2.2"
+__version__="0.3.0"
 __license__="GPL-3.0+"
-__copyright__="Copyright (c) 2018 LTRAC"
+__copyright__="Copyright (c) 2019 LTRAC"
 
 import numpy as np
 import os
@@ -108,16 +108,16 @@ def b16_reader(filename,doubleExposure=True,quiet=0):
 
 
     if (skipext==1) and (quiet==0):
-        print "\nSkipping extended header"
+        print("\nSkipping extended header")
 
     # div by 2 for double exposure!
     if doubleExposure:
         height /= 2
         if (quiet == 0) and not is_b16dat:
-            print "Reading double exposure of %i x %i pixels" % (width,height)
+            print("Reading double exposure of %i x %i pixels" % (width,height))
     else:
         if (quiet == 0) and not is_b16dat:
-            print "Reading single exposure of %i x %i pixels" % (width,height)
+            print("Reading single exposure of %i x %i pixels" % (width,height))
 
     cfile = fopen(fname, "rb")
     if cfile:
@@ -135,10 +135,10 @@ def b16_reader(filename,doubleExposure=True,quiet=0):
 
             if quiet == 0:
                 if doubleExposure:
-                    print "Reading %i double exposed image pairs of %i x %i pixels"\
-                            % (nframes/2,width,height)
+                    print("Reading %i double exposed image pairs of %i x %i pixels"\
+                            % (nframes/2,width,height))
                 else:
-                    print "Reading %i images of %i x %i pixels" % (nframes,width,height)
+                    print("Reading %i images of %i x %i pixels" % (nframes,width,height))
 
         # Skip to end of (first) header
         fseek (cfile, 1024, SEEK_SET)
@@ -167,7 +167,7 @@ def b16_reader(filename,doubleExposure=True,quiet=0):
 
     fclose(cfile)
 
-    if quiet == 0: print 'Read %.1f MiB in %.1f sec' % (nbytes/1048576,time.time()-t0)
+    if quiet == 0: print('Read %.1f MiB in %.1f sec' % (nbytes/1048576,time.time()-t0))
 
     # Return 3D array (un-flatten the output)
     if is_b16dat and doubleExposure:

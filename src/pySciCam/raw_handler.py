@@ -4,10 +4,10 @@
     RAW format handling routines for pySciCam module
     
     @author Daniel Duke <daniel.duke@monash.edu>
-    @copyright (c) 2018 LTRAC
+    @copyright (c) 2019 LTRAC
     @license GPL-3.0+
-    @version 0.2.2
-    @date 09/10/2018
+    @version 0.3.0
+    @date 21/04/2019
     
     Please see help(pySciCam) for more information.
         __   ____________    ___    ______
@@ -22,9 +22,9 @@
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.2.2"
+__version__="0.3.0"
 __license__="GPL-3.0+"
-__copyright__="Copyright (c) 2018 LTRAC"
+__copyright__="Copyright (c) 2019 LTRAC"
 
 # Known RAW file extensions supported
 raw_formats=['.raw','.mraw','.b16','.b16dat']
@@ -77,7 +77,7 @@ def load_raw(ImageSequence,all_images,rawtype=None,width=None,height=None,\
     
     # Chronos camera formats - firmware <= 0.3 12-bit packed
     if rawtype == 'chronos14_mono_old12bit' or rawtype == 'chronos14_color_old12bit':
-        print 'Chronos 12-bit RAW (Deprecated firmware <=0.3.0 packing order)'
+        print('Chronos 12-bit RAW (Deprecated firmware <=0.3.0 packing order)')
         import chronos14_raw as ch
         if (width is None) or (height is None):
             raise ValueError("Specify height and width") # no header data
@@ -92,7 +92,7 @@ def load_raw(ImageSequence,all_images,rawtype=None,width=None,height=None,\
 
     # Chronos camera formats - firmware >= 0.3.1 12-bit packed
     elif rawtype == 'chronos14_mono_12bit' or rawtype == 'chronos14_color_12bit':
-        print 'Chronos 12-bit RAW'
+        print('Chronos 12-bit RAW')
         import chronos14_raw as ch
         if (width is None) or (height is None):
             raise ValueError("Specify height and width") # no header data
@@ -106,7 +106,7 @@ def load_raw(ImageSequence,all_images,rawtype=None,width=None,height=None,\
 
     # Chronos camera formats - 16-bit padded formats
     elif rawtype == 'chronos14_mono_16bit' or rawtype == 'chronos14_color_16bit':
-        print 'Chronos 16-bit RAW'
+        print('Chronos 16-bit RAW')
         import chronos14_raw as ch
         if (width is None) or (height is None):
             raise ValueError("Specify height and width") # no header data
@@ -123,13 +123,13 @@ def load_raw(ImageSequence,all_images,rawtype=None,width=None,height=None,\
         import photron_mraw
         
         if '8bit' in rawtype:
-            print 'PFV 8-bit MRAW'
+            print('PFV 8-bit MRAW')
             ImageSequence.src_bpp = 8
         elif '12bit' in rawtype:
-            print 'PFV 12-bit MRAW'
+            print('PFV 12-bit MRAW')
             ImageSequence.src_bpp = 12
         elif '16bit' in rawtype:
-            print 'PFV 16-bit MRAW'
+            print('PFV 16-bit MRAW')
             ImageSequence.src_bpp = 16
 
         if 'color' in rawtype.lower() and not 'bayer' in rawtype.lower(): rgbmode=1
@@ -148,19 +148,19 @@ def load_raw(ImageSequence,all_images,rawtype=None,width=None,height=None,\
         import b16_raw
         
         if len(all_images) == 1:
-            print 'b16 / b16dat format (single file)'
+            print('b16 / b16dat format (single file)')
             ImageSequence.arr = b16_raw.b16_reader(all_images[0],b16_doubleExposure)
         
         else:
-            print 'b16 / b16dat format (multiple files)'
+            print('b16 / b16dat format (multiple files)')
             if frames is None: image_subset=all_images
             else:
                 try:
                     image_subset = all_images[frames[0]:frames[1]]
                 except IndexError:
-                    print "Error specifying frame range for b16 sequence."
-                    print "There are only %i frames available." % len(all_images)
-                    print "Frames are numbered starting from zero regardless of filename!"
+                    print("Error specifying frame range for b16 sequence.")
+                    print("There are only %i frames available." % len(all_images))
+                    print("Frames are numbered starting from zero regardless of filename!")
                     raise IndexError
         
             from joblib import Parallel, delayed
