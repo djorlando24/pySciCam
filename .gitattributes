@@ -1,0 +1,6 @@
+*.raw filter=lfs diff=lfs merge=lfs -text
+*.mraw filter=lfs diff=lfs merge=lfs -text
+*.tif filter=lfs diff=lfs merge=lfs -text
+*.tiff filter=lfs diff=lfs merge=lfs -text
+*.b16 filter=lfs diff=lfs merge=lfs -text
+*.b16dat filter=lfs diff=lfs merge=lfs -text
