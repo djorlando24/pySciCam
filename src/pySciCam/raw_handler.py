@@ -6,8 +6,8 @@
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2019 LTRAC
     @license GPL-3.0+
-    @version 0.3.0
-    @date 21/04/2019
+    @version 0.4.0
+    @date 08/05/2020
     
     Please see help(pySciCam) for more information.
         __   ____________    ___    ______
@@ -22,9 +22,9 @@
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.3.0"
+__version__="0.4.0"
 __license__="GPL-3.0+"
-__copyright__="Copyright (c) 2019 LTRAC"
+__copyright__="Copyright (c) 2020 LTRAC"
 
 # Known RAW file extensions supported
 raw_formats=['.raw','.mraw','.b16','.b16dat']
@@ -78,7 +78,7 @@ def load_raw(ImageSequence,all_images,rawtype=None,width=None,height=None,\
     # Chronos camera formats - firmware <= 0.3 12-bit packed
     if rawtype == 'chronos14_mono_old12bit' or rawtype == 'chronos14_color_old12bit':
         print('Chronos 12-bit RAW (Deprecated firmware <=0.3.0 packing order)')
-        import chronos14_raw as ch
+        from . import chronos14_raw as ch
         if (width is None) or (height is None):
             raise ValueError("Specify height and width") # no header data
         ImageSequence.arr = ch.read_chronos_raw(all_images[0],width,height,\
@@ -93,7 +93,7 @@ def load_raw(ImageSequence,all_images,rawtype=None,width=None,height=None,\
     # Chronos camera formats - firmware >= 0.3.1 12-bit packed
     elif rawtype == 'chronos14_mono_12bit' or rawtype == 'chronos14_color_12bit':
         print('Chronos 12-bit RAW')
-        import chronos14_raw as ch
+        from . import chronos14_raw as ch
         if (width is None) or (height is None):
             raise ValueError("Specify height and width") # no header data
         ImageSequence.arr = ch.read_chronos_raw(all_images[0],width,height,\
@@ -107,7 +107,7 @@ def load_raw(ImageSequence,all_images,rawtype=None,width=None,height=None,\
     # Chronos camera formats - 16-bit padded formats
     elif rawtype == 'chronos14_mono_16bit' or rawtype == 'chronos14_color_16bit':
         print('Chronos 16-bit RAW')
-        import chronos14_raw as ch
+        from . import chronos14_raw as ch
         if (width is None) or (height is None):
             raise ValueError("Specify height and width") # no header data
         ImageSequence.arr = ch.read_chronos_raw(all_images[0],width,height,
@@ -120,7 +120,7 @@ def load_raw(ImageSequence,all_images,rawtype=None,width=None,height=None,\
 
     # Photron camera MRAW formats
     elif 'photron_mraw' in rawtype:
-        import photron_mraw
+        from . import photron_mraw
         
         if '8bit' in rawtype:
             print('PFV 8-bit MRAW')
@@ -145,7 +145,7 @@ def load_raw(ImageSequence,all_images,rawtype=None,width=None,height=None,\
 
     # PCO B16 formats
     elif rawtype == 'b16' or rawtype == 'b16dat':
-        import b16_raw
+        from . import b16_raw
         
         if len(all_images) == 1:
             print('b16 / b16dat format (single file)')

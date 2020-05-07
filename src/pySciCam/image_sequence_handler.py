@@ -6,8 +6,8 @@
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2019 LTRAC
     @license GPL-3.0+
-    @version 0.3.0
-    @date 21/04/2019
+    @version 0.4.0
+    @date 08/05/2020
         __   ____________    ___    ______
        / /  /_  ____ __  \  /   |  / ____/
       / /    / /   / /_/ / / /| | / /
@@ -21,9 +21,9 @@
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.3.0"
+__version__="0.4.0"
 __license__="GPL-3.0+"
-__copyright__="Copyright (c) 2019 LTRAC"
+__copyright__="Copyright (c) 2020 LTRAC"
 
 
 # Known tested still frame file extensions
@@ -260,8 +260,13 @@ def load_image_sequence(ImageSequence,all_images,frames=None,monochrome=False,\
         L = Parallel(n_jobs=n_jobs,verbose=ImageSequence.Joblib_Verbosity)(delayed(imageHandler)(all_images[a:a+b],ImageSequence.width,ImageSequence.height,ImageSequence.dtype,I0_dtype,monochrome) for a in range(0,len(all_images),b))
     else:
         # Plain list. might have to rearrange this if it consumes too much RAM.
-        L = [imageHandler(all_images[a:a+b],ImageSequence.width,ImageSequence.height,ImageSequence.dtype,\
-             I0_dtype,monochrome) for a in range(0,len(all_images),b)]
+        if len(all_images)>1:
+            L = [imageHandler(all_images[a:a+b],ImageSequence.width,ImageSequence.height,ImageSequence.dtype,\
+                 I0_dtype,monochrome) for a in range(0,len(all_images),int(b))]
+        else:
+            # Single image. List comprehension above will break with only 1 image in the list.
+            L = [imageHandler([all_images[0]],ImageSequence.width,ImageSequence.height,ImageSequence.dtype,\
+                 I0_dtype,monochrome)]
     
     # Repack list of results into a single numpy array.
     if len(L[0].shape) == 3:

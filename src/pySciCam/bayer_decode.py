@@ -6,8 +6,8 @@
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2019 LTRAC
     @license GPL-3.0+
-    @version 0.3.0
-    @date 21/04/2019
+    @version 0.4.0
+    @date 08/05/2020
     
     Please see help(pySciCam) for more information.
         __   ____________    ___    ______
@@ -23,9 +23,9 @@
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.3.0"
+__version__="0.4.0"
 __license__="GPL-3.0+"
-__copyright__="Copyright (c) 2019 LTRAC"
+__copyright__="Copyright (c) 2020 LTRAC"
 
 import site, itertools, glob
 import numpy as np

@@ -4,8 +4,8 @@ Class to read images from high speed and scientific cameras in Python
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2018 LTRAC
     @license GPL-3.0+
-    @version 0.3.0
-    @date 21/04/2019
+    @version 0.4.0
+    @date 08/05/2020
         __   ____________    ___    ______    
        / /  /_  ____ __  \  /   |  / ____/    
       / /    / /   / /_/ / / /| | / /         
@@ -53,11 +53,10 @@ Class to read images from high speed and scientific cameras in Python
     used, which is easier to install. However, Pillow only supports 8-bit RGB, and
     8,16,32 bit greyscale.
 
-    V0.3.0 RELEASE NOTES
+    V0.4.0 RELEASE NOTES
 
-    pySciCam has finally been updated to work with Python 3.x - changes to code are
-    mainly cosmetic. However, pythonMagick does not seem to be working on MacOS under
-    python 3.x for me.
+    - pySciCam python3 support improved and tested working on MacOS.
+    - fixed a bug with importing a single TIFF image.
     
     EXAMPLE USAGE:
     

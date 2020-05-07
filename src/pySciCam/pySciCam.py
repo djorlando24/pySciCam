@@ -6,8 +6,9 @@ Class to read images from high speed and scientific cameras in Python
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2019 LTRAC
     @license GPL-3.0+
-    @version 0.3.0
-    @date 21/04/2019
+    @version 0.4.0
+    @date 08/05/2020
+    
         __   ____________    ___    ______
        / /  /_  ____ __  \  /   |  / ____/
       / /    / /   / /_/ / / /| | / /
@@ -127,17 +128,18 @@ Class to read images from high speed and scientific cameras in Python
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.3.0"
+__version__="0.4.0"
 __license__="GPL-3.0+"
-__copyright__="Copyright (c) 2019 LTRAC"
+__copyright__="Copyright (c) 2020 LTRAC"
 
 import os, glob, sys, time
 from natsort import natsorted
 import numpy as np
 
-import raw_handler
-import movie_handler
-import image_sequence_handler
+# Python3 compatible relative imports
+from . import raw_handler
+from . import movie_handler
+from . import image_sequence_handler
 
 ##########################################################################################
 class ImageSequence:
@@ -157,7 +159,7 @@ class ImageSequence:
             del kwargs['IO_threads']
         
         if not 'Joblib_Verbosity' in kwargs.keys():
-            self.Joblib_Verbosity=20
+            self.Joblib_Verbosity=5
         else:
             self.Joblib_Verbosity=int(kwargs['Joblib_Verbosity'])
             del kwargs['Joblib_Verbosity']
