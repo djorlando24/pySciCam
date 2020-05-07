@@ -238,8 +238,9 @@ def load_image_sequence(ImageSequence,all_images,frames=None,monochrome=False,\
         ImageSequence.increase_dtype()
 
     # Number of parallel workers.
-    n_jobs = ImageSequence.IO_threads
+    n_jobs = int(ImageSequence.IO_threads)
     if n_jobs > len(all_images): n_jobs = len(all_images)
+    if n_jobs <= 1: n_jobs = 1
     
     # Chunk size for parallel I/O.
     # To get a single task run on each processor we would set the chunk size
@@ -257,16 +258,11 @@ def load_image_sequence(ImageSequence,all_images,frames=None,monochrome=False,\
     if n_jobs > 1:
         # Read image sequence in parallel
         if ImageSequence.Joblib_Verbosity >= 1: print("%i tasks on %i processors" % (len(all_images)/b,n_jobs))
-        L = Parallel(n_jobs=n_jobs,verbose=ImageSequence.Joblib_Verbosity)(delayed(imageHandler)(all_images[a:a+b],ImageSequence.width,ImageSequence.height,ImageSequence.dtype,I0_dtype,monochrome) for a in range(0,len(all_images),b))
+        L = Parallel(n_jobs=n_jobs,verbose=ImageSequence.Joblib_Verbosity)(delayed(imageHandler)(all_images[a:a+int(b)],ImageSequence.width,ImageSequence.height,ImageSequence.dtype,I0_dtype,monochrome) for a in range(0,len(all_images),int(b)))
     else:
         # Plain list. might have to rearrange this if it consumes too much RAM.
-        if len(all_images)>1:
-            L = [imageHandler(all_images[a:a+b],ImageSequence.width,ImageSequence.height,ImageSequence.dtype,\
+        L = [imageHandler(all_images[a:a+int(b)],ImageSequence.width,ImageSequence.height,ImageSequence.dtype,\
                  I0_dtype,monochrome) for a in range(0,len(all_images),int(b))]
-        else:
-            # Single image. List comprehension above will break with only 1 image in the list.
-            L = [imageHandler([all_images[0]],ImageSequence.width,ImageSequence.height,ImageSequence.dtype,\
-                 I0_dtype,monochrome)]
     
     # Repack list of results into a single numpy array.
     if len(L[0].shape) == 3:

@@ -119,6 +119,33 @@ Class to read images from high speed and scientific cameras in Python
         old_packing_order: (chronos formats only)
             unpack 12-bit RAW data from Chronos firmware 0.2
     
+    BUILT-IN FUNCTIONS
+    
+        open(self,[path,frames,monochrome,dtype,width,height,rawtype,
+             b16_doubleExposure,start_offset,use_magick):
+             function called by class constructor to open images.
+    
+        shape():
+            returns tuple of shape of array, typically [frame,rgb,y,x]
+            
+        crop(y1,y2,x1,x2):
+            resizes images to x1:x2,y1:y2
+            
+        mask_radius(y,x,r,fillValue=NaN):
+            mask a circular region in every frame
+            
+        mask_box(y1,y2,x1,x2,fillValue=NaN):
+            mask a rectangular region in every frame
+            
+        increase_dtype():
+            bump up the dtype of the array by one level ie 8 to 16 bit
+            to avoid loss of precision when making images monochrome,
+            for example.
+            
+        bayerDecode(kwargs):
+            run Bayer decoding filter on raw images from colour camera.
+        
+    
     Future support planned for:
     - Header scanline in Chronos RAW, when firmware supports it.
     - Shimadzu HPV custom format
@@ -274,6 +301,24 @@ class ImageSequence:
         else:
             return None
 
+    # Crop array to y1:y2, x1:x2
+    def crop(self,y1,y2,x1,x2):
+        self.arr = self.arr[...,y1:y2+1,x1:x2+1]
+        self.width = self.arr.shape[-1]
+        self.height = self.arr.shape[-2]
+        return
+        
+    # Mask circle
+    def mask_radius(self,y,x,r,fillValue=0):
+        yy, xx = np.meshgrid(range(self.width), range(self.height))
+        mask = np.sqrt((xx-x)**2 + (yy-y)**2)<=r
+        self.arr[...,mask] = fillValue
+        return
+        
+    # Mask rectangle
+    def mask_box(self,y1,y2,x1,x2,fillValue=0):
+        self.arr[...,y1:y2+1,x1:x2+1] = fillValue
+        
     # Perform Bayer decoding on colour data loaded from RAW format.
     #
     def bayerDecode(self, **kwargs):
