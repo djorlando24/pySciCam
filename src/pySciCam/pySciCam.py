@@ -144,6 +144,12 @@ Class to read images from high speed and scientific cameras in Python
             
         bayerDecode(kwargs):
             run Bayer decoding filter on raw images from colour camera.
+            
+        fliph():
+            flip images left to right.
+        
+        flipv():
+            flip images top to bottom.
         
     
     Future support planned for:
@@ -318,6 +324,15 @@ class ImageSequence:
     # Mask rectangle
     def mask_box(self,y1,y2,x1,x2,fillValue=0):
         self.arr[...,y1:y2+1,x1:x2+1] = fillValue
+        
+    # Flip images
+    def flipv(self):
+        self.arr = np.flip(self.arr, axis=-2)
+        return
+        
+    def fliph(self):
+        self.arr = np.flip(self.arr, axis=-1)
+        return
         
     # Perform Bayer decoding on colour data loaded from RAW format.
     #
