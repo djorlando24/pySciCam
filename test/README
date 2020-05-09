@@ -2,4 +2,4 @@ The script run_rests.py will attempt to load some sample data using the differen
 
 Invoke with:
 
-python2.7 run_tests.py
+python3 run_tests.py
