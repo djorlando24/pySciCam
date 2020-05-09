@@ -9,7 +9,7 @@
     @copyright (c) 2017 LTRAC
     @license GPL-3.0+
     @version 0.4.0
-    @date 08/05/2020
+    @date 09/05/2020
         __   ____________    ___    ______
        / /  /_  ____ __  \  /   |  / ____/
       / /    / /   / /_/ / / /| | / /
@@ -179,6 +179,7 @@ def movie_tests():
     
         except:
             plt.text(0.1,0.5,"Test failed")
+            #raise # debugging only
 
         i+=1
     
@@ -192,8 +193,8 @@ def image_sequence_tests(IO_threads=1):
         Pass each directory to the handler and see what happens.
     """
 
-    fig=plt.figure()
-    plt.subplots_adjust(wspace=0.2,hspace=0.5)
+    fig=plt.figure(figsize=(10,8))
+    plt.subplots_adjust(wspace=0.5,hspace=0.1)
     plt.suptitle("still image sequences - %i I/O threads" % IO_threads)
     i=1
     passed=0
@@ -230,12 +231,19 @@ def image_sequence_tests(IO_threads=1):
                 # For colour images > 8 bits, we must reduce the bit depth as imshow likes only 8 bit image previews.
                 if np.nanmax(oneFrame) > 255:
                     oneFrame -= np.nanmin(oneFrame)
-                    oneFrame /= int(np.nanmax(oneFrame)/256)
+                    rescaleIntensity = 256.0/float(np.nanmax(oneFrame))
+                    print(oneFrame.min(),oneFrame.max(),rescaleIntensity)
+                    oneFrame = oneFrame.astype(np.float32)*rescaleIntensity
+                    oneFrame = oneFrame.astype(np.uint8)
                     oneFrame = np.roll(oneFrame,1,2)    # get RGB in right order for matplotlib
                 
             
-            plotHandle=ax.imshow(oneFrame)
-            if monochrome: plt.colorbar(plotHandle)
+            
+            if monochrome:
+                plotHandle=ax.imshow(oneFrame, cmap=plt.cm.gray)
+                plt.colorbar(plotHandle)
+            else:
+                ax.imshow(oneFrame)
             passed +=1
         
         except IOError as e:
@@ -274,7 +282,7 @@ if __name__=='__main__':
     if os.path.basename(os.getcwd()) != 'test': raise IOError("Tests must be run from pySciCam or pySciCam/test")
     
     # Run tests.
-    p1,n1 = image_sequence_tests();plt.show();exit()
+    p1,n1 = image_sequence_tests()
     p2,n2 = movie_tests()
     p3,n3 = raw_tests()
     

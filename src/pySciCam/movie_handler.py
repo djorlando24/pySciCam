@@ -7,7 +7,7 @@
     @copyright (c) 2019 LTRAC
     @license GPL-3.0+
     @version 0.4.0
-    @date 08/05/2020
+    @date 09/05/2020
     
     Please see help(pySciCam) for more information.
         __   ____________    ___    ______
@@ -59,11 +59,13 @@ def load_movie(ImageSequence,filename,frames=None,monochrome=False,dtype=None):
         print('\t%s: %s' % (k,vid.get_meta_data()[k]))
 
     start = 0
-    end = vid.get_length()
+    #end = vid.get_length() # removed in python3 implementation, was returning infinity
+    end = vid.count_frames()
     # Reduce range of frames?
     if frames is not None:
         start=frames[0]
         end=frames[1]
+    
     
     # Initialize array with first frame
     frame = vid.get_data(start)
@@ -75,7 +77,7 @@ def load_movie(ImageSequence,filename,frames=None,monochrome=False,dtype=None):
     if len(frame.shape)<3: monochrome=True # Force mono mode if no colour channels
     elif monochrome:
         if dtype is None: ImageSequence.increase_dtype()
-        ImageSequence.arr = np.zeros((end-start,ImageSequence.height,ImageSequence.width),dtype=ImageSequence.dtype)
+        ImageSequence.arr = np.zeros((int(end-start),int(ImageSequence.height),int(ImageSequence.width)),dtype=ImageSequence.dtype)
     else:
         ImageSequence.arr = np.zeros((end-start,height,width,3),dtype=ImageSequence.dtype)
     

@@ -25,11 +25,12 @@ and the right python3 interpreter.
 	cython, numpy, tqdm, natsort, joblib, itertools
 
 ### - Install optional python modules to provide further compatibility/enhancement
-        imageio (movie formats)
+        imageio and imageio-ffmpeg (movie formats)
         pillow (conventional image file formats)
 
 ### - If installing movie support via imageio, also need ffmpeg
-       use package manager (apt, yum) in Linux or homebrew in macos
+      use package manager (apt, yum) in Linux or homebrew in macos
+      i.e. 'apt-get install ffmpeg' or 'brew install ffmpeg' 
 
 ### - Install ImageMagick
       Use package manager (apt, yum) in Linux or use homebrew on MacOS

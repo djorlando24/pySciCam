@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding: UTF-8 -*-
+# -*- coding: ISO-8859-1 -*-
 """
     Image sequence handling routines for pySciCam module
     
@@ -7,7 +7,7 @@
     @copyright (c) 2019 LTRAC
     @license GPL-3.0+
     @version 0.4.0
-    @date 08/05/2020
+    @date 09/05/2020
         __   ____________    ___    ______
        / /  /_  ____ __  \  /   |  / ____/
       / /    / /   / /_/ / / /| | / /
@@ -82,11 +82,16 @@ def __magick_load_wrapper__(fseq,width,height,dtype_dest,dtype_src,monochrome):
         # Transfer buffer into to numpy array
         if type(dtype_src_MagickBlob) is type:
             try:
-                frame = np.fromstring(buffer.data, dtype_src_MagickBlob)
-            except ValueError:
+                #frame = np.fromstring(buffer.data, dtype_src_MagickBlob) # deprecated in python3
+                frame = np.frombuffer(buffer.data, dtype=dtype_src_MagickBlob)
+            except UnicodeDecodeError as e:
+                # Solution to UnicodeDecodeError from http://www.imagemagick.org/discourse-server/viewtopic.php?t=34437
+                frame = np.frombuffer(e.object, dtype=dtype_src_MagickBlob)
+            except ValueError as e:
                 # Error will be thrown if string size is not multiple of element size, i.e
                 # we guessed incorrectly.
-                print("Error! The dtype of the images was not consistent and this has caused an error.")
+                print(errmsg)
+                print("\nError! The dtype of the images was not consistent and this has caused an error.")
                 exit()
         else:
             raise ValueError("Pixel format %s not currently supported!"\

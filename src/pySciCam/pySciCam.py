@@ -7,7 +7,7 @@ Class to read images from high speed and scientific cameras in Python
     @copyright (c) 2019 LTRAC
     @license GPL-3.0+
     @version 0.4.0
-    @date 08/05/2020
+    @date 09/05/2020
     
         __   ____________    ___    ______
        / /  /_  ____ __  \  /   |  / ____/
@@ -343,7 +343,7 @@ class ImageSequence:
             kwargs['ncpus']=self.IO_threads
         #kwargs['JobLib_Verbosity']=self.Joblib_Verbosity
         
-        from bayer_decode import fbayerDecode
+        from .bayer_decode import fbayerDecode
         print('Bayer decoding array of size %s...' % str(self.shape()))
         self.arr = fbayerDecode(self.arr, **kwargs)
         #print('RGB array is now of size %s' % str(self.shape()))
