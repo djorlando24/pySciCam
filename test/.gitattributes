@@ -1,0 +1,9 @@
+h264-video2.mp4 filter=lfs diff=lfs merge=lfs -text
+h264-video.mp4 filter=lfs diff=lfs merge=lfs -text
+*.mp4 filter=lfs diff=lfs merge=lfs -text
+chronos14_mono_old12bit.raw filter=lfs diff=lfs merge=lfs -text
+chronos14_color_12bit.raw filter=lfs diff=lfs merge=lfs -text
+chronos14_color_16bit.raw filter=lfs diff=lfs merge=lfs -text
+chronos14_color_old12bit.raw filter=lfs diff=lfs merge=lfs -text
+chronos14_color_old16bit.raw filter=lfs diff=lfs merge=lfs -text
+chronos14_mono_16bit.raw filter=lfs diff=lfs merge=lfs -text
