@@ -5,7 +5,7 @@ Class to read images from high speed and scientific cameras in Python
     @copyright (c) 2018 LTRAC
     @license GPL-3.0+
     @version 0.4.0
-    @date 08/05/2020
+    @date 09/05/2020
         __   ____________    ___    ______    
        / /  /_  ____ __  \  /   |  / ____/    
       / /    / /   / /_/ / / /| | / /         
@@ -55,8 +55,9 @@ Class to read images from high speed and scientific cameras in Python
 
     V0.4.0 RELEASE NOTES
 
-    - pySciCam python3 support improved and tested working on MacOS.
+    - pySciCam python3.7 support improved and tested working on MacOS.
     - fixed a bug with importing a single TIFF image.
+    - works with current stable ffmpeg, boost-python, etc.
     
     EXAMPLE USAGE:
     
