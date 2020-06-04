@@ -78,7 +78,7 @@ typedef enum {
 } dc1394bool_t;
 
 
-
+void PyInit_libbayer() {};
 
 dc1394error_t
 dc1394_bayer_decoding_8bit(const uint8_t * bayer, uint8_t * rgb, uint32_t sx, uint32_t sy, dc1394color_filter_t tile, dc1394bayer_method_t method);
