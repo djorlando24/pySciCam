@@ -49,7 +49,11 @@ cython_modules = [
 ]
 
 c_libraries = [
-    Extension("libbayer", sources = ["src/bayer/bayer.c"])
+    Extension(
+        "libbayer",
+        sources = ["src/bayer/bayer.c"],
+        export_symbols = ["dc1394_bayer_decoding_8bit", "dc1394_bayer_decoding_16bit"]
+    )
 ]
 
 setup(name="pySciCam",
