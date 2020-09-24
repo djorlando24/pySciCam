@@ -79,7 +79,7 @@ def b16_read_header(char* fname):
 def b16_reader(filename,doubleExposure=True,quiet=0):
     """ Read B16 or B16dat file specified by filename """
 
-    cdef long t0 = time.time()
+    cdef double t0 = time.time()
     cdef int width=1, height=1
     cdef np.ndarray[DTYPE_t, ndim=1] images
     cdef long nbytes = 0, nbytes_from_header = 0
