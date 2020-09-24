@@ -4,9 +4,9 @@
     Python wrapper for the DC1394 Bayer Decoding library
     
     @author Daniel Duke <daniel.duke@monash.edu>
-    @copyright (c) 2019 LTRAC
+    @copyright (c) 2019-20 LTRAC
     @license GPL-3.0+
-    @version 0.4.0
+    @version 0.4.1
     @date 08/05/2020
     
     Please see help(pySciCam) for more information.
@@ -23,7 +23,7 @@
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.4.0"
+__version__="0.4.1"
 __license__="GPL-3.0+"
 __copyright__="Copyright (c) 2020 LTRAC"
 
