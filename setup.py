@@ -1,4 +1,4 @@
-#/usr/bin/env python
+#/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 """
     Read images from high speed and scientific cameras in Python
@@ -62,6 +62,6 @@ setup(name="pySciCam",
       packages=['pySciCam','bayer'],
       package_dir={'': 'src'},
       url='daniel-duke.net',
-      ext_modules=cythonize(cython_modules) + c_libraries,
+      ext_modules=cythonize(cython_modules, language_level = "3") + c_libraries,
       include_dirs=[numpy.get_include()]
 )
