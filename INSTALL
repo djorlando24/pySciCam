@@ -43,11 +43,9 @@ and the right python3 interpreter.
       On Ubuntu Linux you also need to install 'libmagickcore-dev' and 'libmagick++-dev'.
       On MacOS you also need to install 'pkg-config'.
 
-      MacOS is more difficult right now - 'brew install boost-python3' doesn't work as of May 2020
-      The reason is that python3.8 is not stable yet brew's boost-python3 wants to use it, while
-      everything else still uses python3.7. So I had to custom-install boost-python3 and build for python3.7.7.
-      MacOS' built in c++ compiler version also has issues with OpenMP, so I had to 'brew install llvm' and use that version instead.
-   
+      As of September 2020, homebrew installation on macOS works: brew install python3 boost boost-python3 imagemagick
+      If you need to build your own boost-python3 see below section. Otherwise skip to installing llvm
+ 
 ###  How to build boost-python3 on MacOS if the provided version is not compatible:
           Following advice from https://gist.github.com/melvincabatuan/a5a4a10b15ef31a5a481
           (i) Downloaded boost_1_73_0, modified the user_config.jam and copy into tools/build/src
@@ -64,10 +62,13 @@ and the right python3 interpreter.
     On Linux, try './configure' then check all is ok, if so 'make -j8' and 'sudo make install'.
     
     On MacOS:
-        ./configure CC=/usr/local/opt/llvm/bin/clang CXX=/usr/local/opt/llvm/bin/clang++ PYTHON=python3.7 INCLUDE=/usr/local/Cellar/boost/1.72.0_2/include
-        (This will use the llvm compilers we just installed previously, your boost version might vary, check it)
-        make -j8 CXXFLAGS="-I/usr/local/Cellar/boost/1.72.0_2/include -I/usr/local/Cellar/python/3.7.7/Frameworks/Python.framework/Versions/3.7/include/python3.7m" 
-        make install  (no root permission needed under homebrew!)  
+           (i)   export BOOST_ROOT=/usr/local/Cellar/boost/1.73.0   [ your version may vary ]
+           (ii)  Edit line 17046 and 17458 of configure script to be :
+                      ax_python_lib=boost_python38
+                 We need to point configure to libboost_python38.dylib instead of the generic libboost_python.so, which is fine under Linux but will cause "library missing" errors during configure under MacOS.
+           (iii) ./configure CC=/usr/local/opt/llvm/bin/clang CXX=/usr/local/opt/llvm/bin/clang++ PYTHON=python3.8 CPPFLAGS="-I/usr/local/Cellar/boost/1.73.0/include" LDFLAGS="-L/usr/local/lib"   [ check python version and boost version ]
+           (iv)  make -j8 
+           (v)   make install  (no root permission needed under homebrew!)  
 
 ### - Check that the above modules load without errors
         cd; python3 -c 'import PythonMagick'
