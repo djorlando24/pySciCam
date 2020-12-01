@@ -1,4 +1,4 @@
-#/usr/bin/env python
+#/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 """
     Read images from high speed and scientific cameras in Python
@@ -6,7 +6,7 @@
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2018 LTRAC
     @license GPL-3.0+
-    @version 0.4.0
+    @version 0.4.1
     @date 08/05/2020
         __   ____________    ___    ______
        / /  /_  ____ __  \  /   |  / ____/
@@ -21,7 +21,7 @@
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.4.0"
+__version__="0.4.1"
 __license__="GPL-3.0+"
 __copyright__="Copyright (c) 2020 LTRAC"
 
@@ -49,7 +49,11 @@ cython_modules = [
 ]
 
 c_libraries = [
-    Extension("libbayer", sources = ["src/bayer/bayer.c"])
+    Extension(
+        "libbayer",
+        sources = ["src/bayer/bayer.c"],
+        export_symbols = ["dc1394_bayer_decoding_8bit", "dc1394_bayer_decoding_16bit"]
+    )
 ]
 
 setup(name="pySciCam",
@@ -62,6 +66,6 @@ setup(name="pySciCam",
       packages=['pySciCam','bayer'],
       package_dir={'': 'src'},
       url='daniel-duke.net',
-      ext_modules=cythonize(cython_modules) + c_libraries,
+      ext_modules=cythonize(cython_modules, language_level = "3") + c_libraries,
       include_dirs=[numpy.get_include()]
 )

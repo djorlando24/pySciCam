@@ -3,10 +3,10 @@
     Read 12-bit and 16-bit RAW files from Chronos 1.4 cameras.
 
     @author Daniel Duke <daniel.duke@monash.edu>
-    @copyright (c) 2019 LTRAC
+    @copyright (c) 2019-20 LTRAC
     @license GPL-3.0+
-    @version 0.3.0
-    @date 21/04/2019
+    @version 0.4.1
+    @date 25/09/2020
 
     Currently, Chronos firmware up to 0.3.1 is supported (ie little-endian, no header frame).
     Firmware <= 0.3.0 writes a different 12 bit packing order to >=0.3.1. Those older files
@@ -28,9 +28,9 @@
 from __future__ import division
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.3.0"
+__version__="0.4.1"
 __license__="GPL-3.0+"
-__copyright__="Copyright (c) 2019 LTRAC"
+__copyright__="Copyright (c) 2020 LTRAC"
 
 import numpy as np
 import os
@@ -52,10 +52,10 @@ ctypedef np.uint16_t DTYPE_t
 @cython.wraparound(False)
 @cython.nonecheck(False)
 def read_chronos_raw(filename, int width, int height, tuple frames=None,\
-                     int bits_per_pixel=12, long start_offset = 0, int quiet = 0,\
+                     int bits_per_pixel=12, long long start_offset = 0, int quiet = 0,\
                      int old_packing_order = 0):
 
-    cdef long t0 = time.time()
+    cdef double t0 = time.time()
     cdef double bytes_per_pixel = bits_per_pixel/8.0
 
     # width and height MUST be specified.
@@ -64,7 +64,7 @@ def read_chronos_raw(filename, int width, int height, tuple frames=None,\
 
     # Get size of binary file before we start reading
     # (it might be smaller than we think)
-    cdef long nbytes = os.path.getsize(filename)
+    cdef long long nbytes = os.path.getsize(filename)
 
     # Scanlines are padded to nearest 16 bytes
     cdef unsigned int scanline_pad = 0 #int((width*1.5)%16)  # disabled for debugging
@@ -99,8 +99,8 @@ def read_chronos_raw(filename, int width, int height, tuple frames=None,\
 
 
     # Limit number of frames loaded from file (good for testing)
-    cdef long start = start_offset # bytes
-    cdef long end = nbytes
+    cdef long long start = start_offset # bytes
+    cdef long long end = nbytes
     if frames is not None:
         if frames[1] > 0:
             start = start_offset + int(bytes_per_frame*frames[0])

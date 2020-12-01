@@ -4,9 +4,9 @@
     Python wrapper for the DC1394 Bayer Decoding library
     
     @author Daniel Duke <daniel.duke@monash.edu>
-    @copyright (c) 2019 LTRAC
+    @copyright (c) 2019-20 LTRAC
     @license GPL-3.0+
-    @version 0.4.0
+    @version 0.4.1
     @date 08/05/2020
     
     Please see help(pySciCam) for more information.
@@ -17,18 +17,19 @@
     /_____//_/   /_/ |__\/_/  |_|\__________/
     
 
-    Updated 13/11/18 for local site support for libbayer.so
+    Updated 13/11/18 for local site support for libbayer
     (ie. setup.py install --user will work)
 
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.4.0"
+__version__="0.4.1"
 __license__="GPL-3.0+"
 __copyright__="Copyright (c) 2020 LTRAC"
 
 import site, itertools, glob
 import numpy as np
+import importlib
 
 dc1394bayer_methods = ['DC1394_BAYER_METHOD_NEAREST', 'DC1394_BAYER_METHOD_SIMPLE',
                        'DC1394_BAYER_METHOD_BILINEAR', 'DC1394_BAYER_METHOD_HQLINEAR',
@@ -106,12 +107,10 @@ def fbayerDecode(arr, interpolation_method='DC1394_BAYER_METHOD_NEAREST',\
                  ncpus=1,JobLib_Verbosity=5,frame_chunk_size=4):
 
     # find libbayer (should be built as extension by setuptools)
-    sites = site.getsitepackages(); sites.append(site.USER_SITE)
-    for libext in ['so','dylib','dll','a']:
-        path_to_libbayer = list(itertools.chain.from_iterable([ glob.glob(p+'/libbayer.'+libext)\
-                                for p in sites ]))
-        if len(path_to_libbayer)>0: break
-    if len(path_to_libbayer)==0: raise IOError("Can't find libbayer.so, bayer decode aborted")
+    try:
+        path_to_libbayer = [importlib.util.find_spec("libbayer").origin]
+    except:
+        raise IOError("Can't find libbayer, bayer decode aborted")
     
     # validate method and tile choices
     if not interpolation_method.upper() in dc1394bayer_methods:
