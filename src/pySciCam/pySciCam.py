@@ -200,10 +200,11 @@ class ImageSequence:
         self.N=0
         self.arr = None
         
-        if os.path.exists(path):
-            self.open(path,**kwargs)
-        else:
-            raise IOError("Specified path invalid: `%s'" % path)
+        if path is not None:
+            if os.path.exists(path):
+                self.open(path,**kwargs)
+            else:
+                raise IOError("Specified path invalid: `%s'" % path)
 
         return
 
