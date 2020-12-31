@@ -6,10 +6,10 @@
     Try reading several sample file formats.
     
     @author Daniel Duke <daniel.duke@monash.edu>
-    @copyright (c) 2017 LTRAC
+    @copyright (c) 2018-21 LTRAC
     @license GPL-3.0+
-    @version 0.4.1
-    @date 09/05/2020
+    @version 0.4.2
+    @date 01/01/2021
         __   ____________    ___    ______
        / /  /_  ____ __  \  /   |  / ____/
       / /    / /   / /_/ / / /| | / /
@@ -26,9 +26,9 @@
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.4.1"
+__version__="0.4.2"
 __license__="GPL-3.0+"
-__copyright__="Copyright (c) 2020 LTRAC"
+__copyright__="Copyright (c) 2018-2021 LTRAC"
 
 import pySciCam
 from pySciCam.pySciCam import ImageSequence

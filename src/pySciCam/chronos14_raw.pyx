@@ -3,10 +3,10 @@
     Read 12-bit and 16-bit RAW files from Chronos 1.4 cameras.
 
     @author Daniel Duke <daniel.duke@monash.edu>
-    @copyright (c) 2019-20 LTRAC
+    @copyright (c) 2018-21 LTRAC
     @license GPL-3.0+
-    @version 0.4.1
-    @date 25/09/2020
+    @version 0.4.2
+    @date 01/01/2021
 
     Currently, Chronos firmware up to 0.3.1 is supported (ie little-endian, no header frame).
     Firmware <= 0.3.0 writes a different 12 bit packing order to >=0.3.1. Those older files
@@ -28,9 +28,9 @@
 from __future__ import division
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.4.1"
+__version__="0.4.2"
 __license__="GPL-3.0+"
-__copyright__="Copyright (c) 2020 LTRAC"
+__copyright__="Copyright (c) 2018-2021 LTRAC"
 
 import numpy as np
 import os

@@ -16,7 +16,7 @@ and the right python3 interpreter.
 ## Overview of installation steps for pySciCam dependencies, in order of installation: 
 
 ### - Ensure you have a working Python setup. 
-      Code currently works on Python 3.7. No longer compatible with Python 2
+      Code currently works on Python 3.x. No longer compatible with Python 2
       You may wish to set up a development environment (I like conda)
 
 ### - Ensure you have a working C compiler (i.e. gcc) to build the extensions.
@@ -45,16 +45,10 @@ and the right python3 interpreter.
 
       As of September 2020, homebrew installation on macOS works: brew install python3 boost boost-python3 imagemagick
       If you need to build your own boost-python3 see below section. Otherwise skip to installing llvm
- 
-###  How to build boost-python3 on MacOS if the provided version is not compatible:
-          Following advice from https://gist.github.com/melvincabatuan/a5a4a10b15ef31a5a481
-          (i) Downloaded boost_1_73_0, modified the user_config.jam and copy into tools/build/src
-          (ii) ./bootstrap.sh --with-python=/usr/local/bin/python3 --with-python-version=3.7 --with-python-root=/usr/local/lib/python3.7
-          (ii) Build and install with ./b2 --enable-unicode=ucs4 install
-          (iii) Now I have libboost_python37.dylib in /usr/local/lib :-)
- 
+  
 ###  How to set up a MacOS compiler that's OpenMP-compatible so we can build PythonMagick:
-          brew install llvm 
+          brew install llvm   
+     (or use other package manager)
 
 ### - Now time to install PythonMagick
           git clone https://github.com/ImageMagick/PythonMagick
@@ -62,19 +56,24 @@ and the right python3 interpreter.
     On Linux, try './configure' then check all is ok, if so 'make -j8' and 'sudo make install'.
     
     On MacOS:
-           (i)   export BOOST_ROOT=/usr/local/Cellar/boost/1.73.0   [ your version may vary ]
+           (i)   export BOOST_ROOT=/usr/local/Cellar/boost/1.75.0   [ your version may vary ]
            (ii)  Edit line 17046 and 17458 of configure script to be :
-                      ax_python_lib=boost_python38
-                 We need to point configure to libboost_python38.dylib instead of the generic libboost_python.so, which is fine under Linux but will cause "library missing" errors during configure under MacOS.
-           (iii) ./configure CC=/usr/local/opt/llvm/bin/clang CXX=/usr/local/opt/llvm/bin/clang++ PYTHON=python3.8 CPPFLAGS="-I/usr/local/Cellar/boost/1.73.0/include" LDFLAGS="-L/usr/local/lib"   [ check python version and boost version ]
-           (iv)  make -j8 
-           (v)   make install  (no root permission needed under homebrew!)  
+                      ax_python_lib=boost_python39
+                 We need to point configure to libboost_python39.dylib instead of the generic libboost_python.so, which is fine under Linux but will cause "library missing" errors during configure under MacOS.
+           (iii) ./configure CC=/usr/local/opt/llvm/bin/clang CXX=/usr/local/opt/llvm/bin/clang++ PYTHON=python3.9 CPPFLAGS="-I/usr/local/Cellar/boost/1.75.0/include" LDFLAGS="-L/usr/local/lib"   
+   		 [ check python version and boost version are suitable for your system ]
+           (iv)  make
+           (v)   make install  (no root permission needed under homebrew since it goes to /usr/local)  
 
 ### - Check that the above modules load without errors
         cd; python3 -c 'import PythonMagick'
+	You should see no error messages.
         If you have trouble, Stack Oveflow is your friend!
 
 ###  - Now go to pySciCam and run 'python setup.py install'
       n.b. if you don't have sudo permission to install the packages for the system, append the --user switch to install locally.
 
-### - Go into 'pySciCam/test' and run 'python3 run_tests.py ' to check all is working ok.
+      The setup.py script should find the numpy cython header files automatically. If this fails you'll get the error "fatal error: 'numpy/arrayobject.h' file not found".
+      On MacOS with homebrew, this is a known issue.  Run homebrew-install.sh to automatically fix it.
+
+### - Go into 'pySciCam/test' and run 'python3 run_tests.py' to check all is working ok.
