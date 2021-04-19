@@ -22,7 +22,7 @@ and the right python3 interpreter.
 ### - Ensure you have a working C compiler (i.e. gcc) to build the extensions.
 
 ### - Install mandatory python modules using either easy_install, pip, or conda
-	cython, numpy, tqdm, natsort, joblib, itertools
+	cython, numpy, tqdm, natsort, joblib
 
 ### - Install optional python modules to provide further compatibility/enhancement
         imageio and imageio-ffmpeg (movie formats)

@@ -9,7 +9,7 @@
     @copyright (c) 2018-21 LTRAC
     @license GPL-3.0+
     @version 0.4.2
-    @date 01/01/2021
+    @date 19/04/2021
         __   ____________    ___    ______
        / /  /_  ____ __  \  /   |  / ____/
       / /    / /   / /_/ / / /| | / /
@@ -266,8 +266,8 @@ def plot_arrangement(n):
 
 # Autogenerate file names from rawtypes
 def generate_test_filename(rawtype):
-    if rawtype is 'b16': filename='sample.b16'
-    elif rawtype is 'b16dat': filename='sample.b16dat'
+    if rawtype == 'b16': filename='sample.b16'
+    elif rawtype == 'b16dat': filename='sample.b16dat'
     elif 'photron_mraw' in rawtype: filename='%s.mraw' % rawtype
     else: filename='%s.raw' % rawtype
     return filename
