@@ -71,3 +71,7 @@ Using the imagej provided by the package manager:
 Now launch ImageJ, open the stack/images to work on, and then go to `Plugins`  -> `Install...` and select the `.java` file for your plugin. It will automatically save into  `$HOME/.imagej/plugins`.  The plugin will attempt to run immediately, if you have images already loaded.
 
 The plugin should appear under the Plugins menu for the next time you want to use it.
+
+If you get an error that a function inside the plugin is not supported by Java SE 6, which can happen on legacy ImageJ builds from apt, you can manually compile by going into $HOME/.imagej/plugins, copying the .java file there, and then running for example:
+
+	javac -source 1.8 -target 1.8 -g -cp /usr/share/java/ij.jar Read_ChronosRaw.java

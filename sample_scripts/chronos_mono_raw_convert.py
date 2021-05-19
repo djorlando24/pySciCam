@@ -31,19 +31,19 @@ try:
     import sys, os
     from libtiff import TIFF
 except ImportError as e:
-    print "Missing module:",e
+    print( "Missing module:",e )
     exit()
 
 if len(sys.argv)<2:
-    print "Specify RAW file"
+    print( "Specify RAW file" )
     exit()
 
-print '-'*79
+print( '-'*79 )
 
 dest = os.path.splitext(sys.argv[1])[0]
 prefix = os.path.basename(dest)
 if not os.path.isdir(dest):
-    print "Create directory",dest
+    print( "Create directory",dest)
     os.mkdir(dest)
 
 if len(sys.argv)==3:
@@ -53,8 +53,8 @@ elif len(sys.argv)>3:
 else:
     fr=None
 
-I = ImageSequence(sys.argv[1],rawtype='chronos14_mono_12bit',width=1280,height=1024,frames=fr)
-print '-'*79
+I = ImageSequence(sys.argv[1],rawtype='chronos14_mono_12bit',width=1184,height=472)#width=1280,height=1024,frames=fr)
+print('-'*79)
 
 overwrite=False
 for i in range(I.N):
@@ -63,10 +63,10 @@ for i in range(I.N):
         s=raw_input( "File exists! Overwrite all? ")
         if s.lower().strip() != 'y': break
         overwrite=True
-    print '\t',fn
+    print( '\t',fn)
     tiff = TIFF.open(fn, mode='w')
     tiff.write_image(I.arr[i,...])
     tiff.close()
 
 size = sum(os.path.getsize(dest+'/'+f) for f in os.listdir(dest+'/'))/(1024.**2)
-print '\nDone. Destination directory size %.1f MB' % size
+print( '\nDone. Destination directory size %.1f MB' % size )
