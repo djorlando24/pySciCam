@@ -255,10 +255,10 @@ class ImageSequence:
                     approxNoFrames=int(I0.fileSize()/I0.size().width()/I0.size().height()/I0.depth()*8) # includes header, so > true N frames.
                     if approxNoFrames>=2:
                         if frames is None:
-                            print("Treating as multipage TIFF - estimated %i frames from file size" % approxNoFrames)
+                            print("\tTreating as multipage TIFF - estimated %i frames from file size" % approxNoFrames)
                             all_images=["%s[%i]" % (all_images[0],n) for n in range(approxNoFrames)]
                         else:
-                            print("Treating as multipage TIFF - frames specified explicitly")
+                            print("\tTreating as multipage TIFF - frames specified explicitly")
                             all_images=["%s[%i]" % (all_images[0],n) for n in range(frames[0],frames[1])]
             except ImportError:
                 print("PythonMagick library is not installed.")
