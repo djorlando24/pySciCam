@@ -6,8 +6,8 @@ Class to read images from high speed and scientific cameras in Python
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2018-21 LTRAC
     @license GPL-3.0+
-    @version 0.4.2
-    @date 01/01/2021
+    @version 0.4.3
+    @date 16/07/2021
     
         __   ____________    ___    ______
        / /  /_  ____ __  \  /   |  / ____/
@@ -55,6 +55,8 @@ Class to read images from high speed and scientific cameras in Python
     bindings to ImageMagick. If this is not available on the system, Pillow can be
     used, which is easier to install. However, Pillow only supports 8-bit RGB, and
     8,16,32 bit greyscale.
+    
+    Experimental multipage TIFF support added in v0.4.3
     
     EXAMPLE USAGE:
     
@@ -161,7 +163,7 @@ Class to read images from high speed and scientific cameras in Python
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.4.2"
+__version__="0.4.3"
 __license__="GPL-3.0+"
 __copyright__="Copyright (c) 2018-2021 LTRAC"
 
@@ -243,6 +245,26 @@ class ImageSequence:
             return
         elif len(all_images)>1:
             print("\tFound %i images with extension %s" % (len(all_images),self.ext))
+
+        # Check for multipage TIFF
+        if use_magick and (len(all_images)==1) and ('tif' in self.ext):
+            try:
+                from PythonMagick import Image
+                I0 = Image(all_images[0])
+                if (I0.magick()=='TIFF'):
+                    approxNoFrames=int(I0.fileSize()/I0.size().width()/I0.size().height()/I0.depth()*8) # includes header, so > true N frames.
+                    if approxNoFrames>=2:
+                        if frames is None:
+                            print("Treating as multipage TIFF - estimated %i frames from file size" % approxNoFrames)
+                            all_images=["%s[%i]" % (all_images[0],n) for n in range(approxNoFrames)]
+                        else:
+                            print("Treating as multipage TIFF - frames specified explicitly")
+                            all_images=["%s[%i]" % (all_images[0],n) for n in range(frames[0],frames[1])]
+            except ImportError:
+                print("PythonMagick library is not installed.")
+                print("Falling back to Pillow (fewer file formats supported)")
+                use_magick = False
+            
 
         # Call appropriate loading subroutine
         if self.ext in movie_handler.movie_formats:

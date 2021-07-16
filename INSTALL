@@ -55,15 +55,7 @@ and the right python3 interpreter.
     
     On Linux, try './configure' then check all is ok, if so 'make -j8' and 'sudo make install'.
     
-    On MacOS:
-           (i)   export BOOST_ROOT=/usr/local/Cellar/boost/1.75.0   [ your version may vary ]
-           (ii)  Edit line 17046 and 17458 of configure script to be :
-                      ax_python_lib=boost_python39
-                 We need to point configure to libboost_python39.dylib instead of the generic libboost_python.so, which is fine under Linux but will cause "library missing" errors during configure under MacOS.
-           (iii) ./configure CC=/usr/local/opt/llvm/bin/clang CXX=/usr/local/opt/llvm/bin/clang++ PYTHON=python3.9 CPPFLAGS="-I/usr/local/Cellar/boost/1.75.0/include" LDFLAGS="-L/usr/local/lib"   
-   		 [ check python version and boost version are suitable for your system ]
-           (iv)  make
-           (v)   make install  (no root permission needed under homebrew since it goes to /usr/local)  
+    On MacOS: See the PythonMagick_MacOS.md file for details - there are a few extra steps here.
 
 ### - Check that the above modules load without errors
         cd; python3 -c 'import PythonMagick'
