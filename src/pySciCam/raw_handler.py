@@ -4,10 +4,10 @@
     RAW format handling routines for pySciCam module
     
     @author Daniel Duke <daniel.duke@monash.edu>
-    @copyright (c) 2018-21 LTRAC
+    @copyright (c) 2018-2022 LTRAC
     @license GPL-3.0+
-    @version 0.4.3
-    @date 06/07/2021
+    @version 0.4.4
+    @date 11/08/2022
     
     Please see help(pySciCam) for more information.
         __   ____________    ___    ______
@@ -22,9 +22,9 @@
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.4.3"
+__version__="0.4.4"
 __license__="GPL-3.0+"
-__copyright__="Copyright (c) 2018-2021 LTRAC"
+__copyright__="Copyright (c) 2018-2022 LTRAC"
 
 # Known RAW file extensions supported
 raw_formats=['.raw','.mraw','.b16','.b16dat']

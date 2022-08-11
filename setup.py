@@ -4,10 +4,10 @@
     Read images from high speed and scientific cameras in Python
     
     @author Daniel Duke <daniel.duke@monash.edu>
-    @copyright (c) 2018-21 LTRAC
+    @copyright (c) 2018-2022 LTRAC
     @license GPL-3.0+
-    @version 0.4.3
-    @date 16/07/2021
+    @version 0.4.4
+    @date 11/08/2022
         __   ____________    ___    ______
        / /  /_  ____ __  \  /   |  / ____/
       / /    / /   / /_/ / / /| | / /
@@ -21,9 +21,9 @@
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.4.3"
+__version__="0.4.4"
 __license__="GPL-3.0+"
-__copyright__="Copyright (c) 2018-2021 LTRAC"
+__copyright__="Copyright (c) 2018-2022 LTRAC"
 
 
 from distutils.core import setup
@@ -66,6 +66,12 @@ setup(name="pySciCam",
       packages=['pySciCam','bayer'],
       package_dir={'': 'src'},
       url='daniel-duke.net',
+      install_requires=[
+          'tqdm>=1',
+          'joblib>=0.1',
+          'natsort>=1',
+          'numpy>=1'
+      ],
       ext_modules=cythonize(cython_modules, language_level = "3") + c_libraries,
       include_dirs=[numpy.get_include()]
 )

@@ -6,8 +6,8 @@ Class to read images from high speed and scientific cameras in Python
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2018-21 LTRAC
     @license GPL-3.0+
-    @version 0.4.3
-    @date 16/07/2021
+    @version 0.4.4
+    @date 11/08/2022
     
         __   ____________    ___    ______
        / /  /_  ____ __  \  /   |  / ____/
@@ -163,9 +163,9 @@ Class to read images from high speed and scientific cameras in Python
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.4.3"
+__version__="0.4.4"
 __license__="GPL-3.0+"
-__copyright__="Copyright (c) 2018-2021 LTRAC"
+__copyright__="Copyright (c) 2018-2022 LTRAC"
 
 import os, glob, sys, time
 from natsort import natsorted

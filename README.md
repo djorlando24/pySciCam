@@ -2,10 +2,10 @@
 Class to read images from high speed and scientific cameras in Python
     
     @author Daniel Duke <daniel.duke@monash.edu>
-    @copyright (c) 2018-2021 LTRAC
+    @copyright (c) 2018-2022 LTRAC
     @license GPL-3.0+
-    @version 0.4.3
-    @date 16/07/2021
+    @version 0.4.4
+    @date 16/07/2022
         __   ____________    ___    ______    
        / /  /_  ____ __  \  /   |  / ____/    
       / /    / /   / /_/ / / /| | / /         
@@ -52,6 +52,9 @@ Class to read images from high speed and scientific cameras in Python
     bindings to ImageMagick. If this is not available on the system, Pillow can be
     used, which is easier to install. However, Pillow only supports 8-bit RGB, and
     8,16,32 bit greyscale.
+    
+    V0.4.4 RELEASE NOTES
+    - Added dependencies to setup.py
 
     V0.4.3 RELEASE NOTES
     - Experimental multipage TIFF support using PythonMagick

@@ -4,9 +4,9 @@
     Movie file decoding routines for pySciCam module
     
     @author Daniel Duke <daniel.duke@monash.edu>
-    @copyright (c) 2018-21 LTRAC
+    @copyright (c) 2018-2022 LTRAC
     @license GPL-3.0+
-    @version 0.4.3
+    @version 0.4.4
     @date 06/07/2021
     
     Please see help(pySciCam) for more information.
@@ -21,9 +21,9 @@
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.4.3"
+__version__="0.4.4"
 __license__="GPL-3.0+"
-__copyright__="Copyright (c) 2018-2021 LTRAC"
+__copyright__="Copyright (c) 2018-2022 LTRAC"
 
 # Known movie file extensions supported & tested.
 movie_formats=['.mp4','.avi']

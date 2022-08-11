@@ -4,10 +4,10 @@
     Sample script to read Chronos 1.4 RAW file and spit out 16-bit TIFFs quickly using libtiff.
     
     @author Daniel Duke <daniel.duke@monash.edu>
-    @copyright (c) 2017 LTRAC
+    @copyright (c) 2017-2022 LTRAC
     @license GPL-3.0+
-    @version 0.4.1
-    @date 08/05/2020
+    @version 0.4.4
+    @date 11/08/2022
         __   ____________    ___    ______
        / /  /_  ____ __  \  /   |  / ____/
       / /    / /   / /_/ / / /| | / /
@@ -21,9 +21,9 @@
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.4.1"
+__version__="0.4.4"
 __license__="GPL-3.0+"
-__copyright__="Copyright (c) 2020 LTRAC"
+__copyright__="Copyright (c) 2017-2022 LTRAC"
 
 
 try:
