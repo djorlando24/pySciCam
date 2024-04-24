@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 """
     Movie file decoding routines for pySciCam module
@@ -6,24 +6,19 @@
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2018-2022 LTRAC
     @license GPL-3.0+
-    @version 0.4.4
-    @date 06/07/2021
+    @version 0.5
+    @date 24/04/2024
     
     Please see help(pySciCam) for more information.
-        __   ____________    ___    ______
-       / /  /_  ____ __  \  /   |  / ____/
-      / /    / /   / /_/ / / /| | / /
-     / /___ / /   / _, _/ / ___ |/ /_________
-    /_____//_/   /_/ |__\/_/  |_|\__________/
     
-    Laboratory for Turbulence Research in Aerospace & Combustion (LTRAC)
+    Department of Mechanical & Aerospace Engineering
     Monash University, Australia
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.4.4"
+__version__="0.5"
 __license__="GPL-3.0+"
-__copyright__="Copyright (c) 2018-2022 LTRAC"
+__copyright__="Copyright (c) 2018-2024 D.Duke"
 
 # Known movie file extensions supported & tested.
 movie_formats=['.mp4','.avi']
@@ -58,9 +53,16 @@ def load_movie(ImageSequence,filename,frames=None,monochrome=False,dtype=None):
         ImageSequence.__dict__[k] = vid.get_meta_data()[k]
         print('\t%s: %s' % (k,vid.get_meta_data()[k]))
 
+    # Default start frame is zero
     start = 0
-    #end = vid.get_length() # removed in python3 implementation, was returning infinity
-    end = vid.count_frames()
+    
+    # Default end frame is number of frames
+    #end = vid.get_length() # returns infinity?
+    #end = vid.count_frames() # causes a RuntimeError?
+    
+    # If the frame rate is constant this should work ...
+    end = int(vid.get_meta_data()['duration']*vid.get_meta_data()['fps'])
+    
     # Reduce range of frames?
     if frames is not None:
         start=frames[0]

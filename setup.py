@@ -6,24 +6,19 @@
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2018-2022 LTRAC
     @license GPL-3.0+
-    @version 0.4.4
-    @date 11/08/2022
-        __   ____________    ___    ______
-       / /  /_  ____ __  \  /   |  / ____/
-      / /    / /   / /_/ / / /| | / /
-     / /___ / /   / _, _/ / ___ |/ /_________
-    /_____//_/   /_/ |__\/_/  |_|\__________/
-    
-    Laboratory for Turbulence Research in Aerospace & Combustion (LTRAC)
+    @version 0.5
+    @date 24/04/2024
+   
+    Department of Mechanical & Aerospace Engineering
     Monash University, Australia
     
     Please see help(pySciCam) for more information.
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.4.4"
+__version__="0.5"
 __license__="GPL-3.0+"
-__copyright__="Copyright (c) 2018-2022 LTRAC"
+__copyright__="Copyright (c) 2018-2024 D.Duke"
 
 
 from distutils.core import setup

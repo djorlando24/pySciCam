@@ -1,31 +1,28 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
-"""
+'''
     Python wrapper for the DC1394 Bayer Decoding library
     
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2018-2022 LTRAC
     @license GPL-3.0+
-    @version 0.4.4
-    @date 11/08/2022
+    @version 0.5
+    @date 24/04/2024
     
     Please see help(pySciCam) for more information.
-        __   ____________    ___    ______
-       / /  /_  ____ __  \  /   |  / ____/
-      / /    / /   / /_/ / / /| | / /
-     / /___ / /   / _, _/ / ___ |/ /_________
-    /_____//_/   /_/ |__\/_/  |_|\__________/
     
+    Department of Mechanical & Aerospace Engineering
+    Monash University, Australia
 
     Updated 13/11/18 for local site support for libbayer
     (ie. setup.py install --user will work)
 
-"""
+'''
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.4.4"
+__version__="0.5"
 __license__="GPL-3.0+"
-__copyright__="Copyright (c) 2018-2022 LTRAC"
+__copyright__="Copyright (c) 2018-2024 D.Duke"
 
 import site, itertools, glob
 import numpy as np

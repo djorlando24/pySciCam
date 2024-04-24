@@ -5,8 +5,11 @@
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2018-21 LTRAC
     @license GPL-3.0+
-    @version 0.4.2
-    @date 01/01/2021
+        @version 0.5
+    @date 24/04/2024
+
+    Department of Mechanical & Aerospace Engineering
+    Monash University, Australia
 
     Currently, Chronos firmware up to 0.3.1 is supported (ie little-endian, no header frame).
     Firmware <= 0.3.0 writes a different 12 bit packing order to >=0.3.1. Those older files
@@ -18,19 +21,14 @@
     This scheme has changed with various firmware updates!
 
     Please see help(pySciCam) for more information.
-        __   ____________    ___    ______
-       / /  /_  ____ __  \  /   |  / ____/
-      / /    / /   / /_/ / / /| | / /
-     / /___ / /   / _, _/ / ___ |/ /_________
-    /_____//_/   /_/ |__\/_/  |_|\__________/
 
 """
 from __future__ import division
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.4.2"
+__version__="0.5"
 __license__="GPL-3.0+"
-__copyright__="Copyright (c) 2018-2021 LTRAC"
+__copyright__="Copyright (c) 2018-2024 D.Duke"
 
 import numpy as np
 import os

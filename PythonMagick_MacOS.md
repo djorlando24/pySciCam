@@ -3,7 +3,7 @@
     author Daniel Duke <daniel.duke@monash.edu>
     copyright (c) 2021 LTRAC
     license GPL-3.0+
-    version 0.4.4
+    version 0.5
     date 24/04/2024
         __   ____________    ___    ______
        / /  /_  ____ __  \  /   |  / ____/

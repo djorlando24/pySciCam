@@ -4,16 +4,12 @@ Class to read images from high speed and scientific cameras in Python
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2018-2022 LTRAC
     @license GPL-3.0+
-    @version 0.4.4
-    @date 16/07/2022
-        __   ____________    ___    ______    
-       / /  /_  ____ __  \  /   |  / ____/    
-      / /    / /   / /_/ / / /| | / /         
-     / /___ / /   / _, _/ / ___ |/ /_________ 
-    /_____//_/   /_/ |__\/_/  |_|\__________/ 
-
-    Laboratory for Turbulence Research in Aerospace & Combustion (LTRAC)
+    @version 0.5
+    @date 24/04/2024
+    
+    Department of Mechanical & Aerospace Engineering
     Monash University, Australia
+
 
     Many scientific cameras have 10 or 12 bit sensors. Most camera APIs/software require
     the user to choose between 8 or 16 bit depth when saving to an easily-readable format
@@ -74,6 +70,11 @@ Class to read images from high speed and scientific cameras in Python
     - pySciCam python3.7 support improved and tested working on MacOS.
     - fixed a bug with importing a single TIFF image.
     - works with current stable ffmpeg, boost-python, etc.
+    
+    V0.5.0 RELEASE NOTES
+    
+    - Now support macOS Sonoma and Python3.12 
+    - Installation method needs to still be updated to comply with new standards.
     
     EXAMPLE USAGE:
     
