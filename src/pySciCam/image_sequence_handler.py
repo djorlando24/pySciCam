@@ -6,8 +6,8 @@
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2018-21 LTRAC
     @license GPL-3.0+
-    @version 0.5
-    @date 24/04/2024
+    @version 0.5.1
+    @date 31/08/2024
     
     Department of Mechanical & Aerospace Engineering
     Monash University, Australia
@@ -16,7 +16,7 @@
 """
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.5"
+__version__="0.5.1"
 __license__="GPL-3.0+"
 __copyright__="Copyright (c) 2018-2024 D.Duke"
 
@@ -275,7 +275,7 @@ def load_image_sequence(ImageSequence,all_images,frames=None,monochrome=False,\
         ImageSequence.arr = np.rollaxis(np.rollaxis(ImageSequence.arr,3,0),3,1)
 
     ImageSequence.src_bpp = bits_per_pixel
-    read_nbytes = bits_per_pixel * np.product(ImageSequence.arr.shape) / 8
+    read_nbytes = bits_per_pixel * np.prod(ImageSequence.arr.shape) / 8
     print('Read %.1f MiB in %.1f sec' % (read_nbytes/1048576,time.time()-t0))
 
     return

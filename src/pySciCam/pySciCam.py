@@ -6,8 +6,8 @@ Class to read images from high speed and scientific cameras in Python
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2018-21 LTRAC
     @license GPL-3.0+
-    @version 0.5
-    @date 24/04/2024
+    @version 0.5.1
+    @date 31/08/2024
     
     Department of Mechanical & Aerospace Engineering
     Monash University, Australia
@@ -157,7 +157,7 @@ Class to read images from high speed and scientific cameras in Python
 '''
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.5"
+__version__="0.5.1"
 __license__="GPL-3.0+"
 __copyright__="Copyright (c) 2018-2024 D.Duke"
 
@@ -289,7 +289,7 @@ class ImageSequence:
         print("\tData in memory:\t",self.shape())
         print("\tIntensity range:\t",self.arr.min(),"to",self.arr.max(),'\t',self.dtype)
         self.stored_bits_per_pixel()
-        print("\tArray size:\t%.1f MB" % (np.product(self.arr.shape)*self.bpp/1024./1024.))
+        print("\tArray size:\t%.1f MB" % (np.prod(self.arr.shape)*self.bpp/1024./1024.))
         return
 
     # Calculate stored bits per pixel based on self.dtype.

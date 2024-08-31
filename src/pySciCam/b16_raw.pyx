@@ -5,9 +5,9 @@
     @author Daniel Duke <daniel.duke@monash.edu>
     @copyright (c) 2018-21 LTRAC
     @license GPL-3.0+
-    @version 0.5
-    @date 24/04/2024
-
+    @version 0.5.1
+    @date 31/08/2024
+    
     Department of Mechanical & Aerospace Engineering
     Monash University, Australia
 
@@ -20,7 +20,7 @@
 from __future__ import division
 
 __author__="Daniel Duke <daniel.duke@monash.edu>"
-__version__="0.5"
+__version__="0.5.1"
 __license__="GPL-3.0+"
 __copyright__="Copyright (c) 2018-2024 D.Duke"
 

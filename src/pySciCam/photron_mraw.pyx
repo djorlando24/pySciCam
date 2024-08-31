@@ -3,10 +3,10 @@
     Read 8, 12 and 16-bit MRAW files from Photron FastCam Viewer software.
 
     @author Daniel Duke <daniel.duke@monash.edu>
-    @copyright (c) 2018-21 LTRAC
+    @copyright (c) 2018-2024 LTRAC
     @license GPL-3.0+
-    @version 0.5
-    @date 24/04/2024
+    @version 0.5.1
+    @date 31/08/2024
 
     Department of Mechanical & Aerospace Engineering
     Monash University, Australia
