@@ -245,7 +245,10 @@ def image_sequence_tests(IO_threads=1):
         except IOError as e:
             print(e)
             plt.text(0.1,0.5,"Test failed - I/O error")
-    
+        except RuntimeError as e:
+            print(e)
+            plt.text(0.1,0.5,"Test failed - Runtime error") # This can happen if the source file is corrupt/missing.
+
         # Disable generic exceptions to capture bugs.
         #except:
         #    plt.text(0.1,0.5,"Test failed")
